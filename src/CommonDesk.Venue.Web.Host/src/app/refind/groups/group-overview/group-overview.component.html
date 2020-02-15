@@ -1,0 +1,103 @@
+<div id="HostDashboard">
+  <div class="m-content">
+    <div *ngIf="piechart.account" class="container customchartheaderContainer">
+      <ul class="nav nav-tabs">
+        <li class="nav-link m-tabs__link underlineCustom">Categories</li>
+        <li class="nav-link m-tabs__link subunderlineCustom active" [class.active]="piechart.viewMode == 'messages'"
+          rel="messages" (click)="piechart.ByMessage()">By messages</li>
+        <li class="nav-link m-tabs__link subunderlineCustom" [class.active]="piechart.viewMode == 'person'" rel="person"
+          (click)="piechart.ByPerson()">By person</li>
+      </ul>
+      <div class="tab-content" [ngSwitch]="piechart.viewMode">
+        <div id="tab1" class="tab-slider--body" *ngSwitchCase="'messages'">
+          <div class="container customPadding">
+            <ul class="nav nav-tabs paddingCustomforsubheader">
+              <li class="nav-link m-tabs__link subsubunderlineCustom active"
+                [class.active]="piechart.SubviewMode == 'Summary'" rel="Summary" (click)="piechart.getSummary()">Summary
+              </li>
+              <li class="nav-link m-tabs__link subsubunderlineCustom" [class.active]="piechart.SubviewMode == 'Details'"
+                rel="Details" (click)="piechart.getDetails()">Details</li>
+            </ul>
+            <div class="tab-content" [ngSwitch]="piechart.SubviewMode">
+              <div id="tab1" class="tab-slider--body" *ngSwitchCase="'Summary'">
+                <!-- COMMONDESK Need to enable this line to fix the pie chart -->
+                <!-- <plotly-plot *ngIf="piechart.plotly_data" [data]="piechart.plotly_data"
+                  [layout]="piechart.plotly_layout" [config]="piechart.plot_options"></plotly-plot> -->
+              </div>
+              <div id="tab2" class="tab-slider--body" *ngSwitchCase="'Details'">
+                <div class="table-scrollable table-scrollable-borderless">
+                  <table class="table table-hover table-light table-responsive-sm">
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Total Messages</th>
+                        <th>%</th>
+                      </tr>
+                    </thead>
+                    <tr (click)="piechart.gofromMessageDetails(group)" class="dashboard-stat-row"
+                      title="Go to {{group.label}}" *ngFor="let group of piechart.categoriesData">
+                      <td>{{ group.label }}</td>
+                      <td>{{ group.message_count }}</td>
+                      <td>{{ piechart.get_percentFromMessage(group) }}</td>
+                    </tr>
+                    <tr>
+                      <th>Total</th>
+                      <th>{{ piechart.get_total_messages() }}</th>
+                      <th>100%</th>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="tab2" class="tab-slider--body" *ngSwitchCase="'person'">
+          <div class="container customPadding">
+            <ul class="nav nav-tabs paddingCustomforsubheader">
+              <li class="nav-link m-tabs__link subsubunderlineCustom active"
+                [class.active]="piechart.SubviewMode == 'Summary'" rel="Summary" (click)="piechart.getSummary()">Summary
+              </li>
+              <li class="nav-link m-tabs__link subsubunderlineCustom" [class.active]="piechart.SubviewMode == 'Details'"
+                rel="Details" (click)="piechart.getDetails()">Details</li>
+            </ul>
+            <div class="tab-content" [ngSwitch]="piechart.SubviewMode">
+              <div id="tab1" class="tab-slider--body" *ngSwitchCase="'Summary'">
+                <!-- COMMONDESK Need to enable this line to fix the pie chart -->
+                <!-- <plotly-plot *ngIf="piechart.plotly_data" [data]="piechart.plotly_data"
+                  [layout]="piechart.plotly_layout" [config]="piechart.plot_options"></plotly-plot> -->
+              </div>
+              <div id="tab2" class="tab-slider--body" *ngSwitchCase="'Details'">
+                <div class="table-scrollable table-scrollable-borderless">
+                  <table class="table table-hover table-light  table-responsive-sm">
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>People</th>
+                        <th>%</th>
+                      </tr>
+                    </thead>
+                    <tr (click)="piechart.gofromPeopleDetails(group)" class="dashboard-stat-row"
+                      title="Go to {{group.label}}" *ngFor="let group of piechart.categoriesData">
+                      <td>{{ group.label }}</td>
+                      <td>{{ group.value }}</td>
+                      <td>{{ piechart.get_percentFromPeople(group) }}</td>
+                    </tr>
+                    <tr>
+                      <th>Total</th>
+                      <th>{{ piechart.get_total_people() }}</th>
+                      <th>100%</th>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--<hr/>
+<div class="analysis-button">
+<button class="btn btn-primary" (click)="toggle_analysis()">Analysis</button>
+</div>-->
+    </div>
+  </div>
+</div>

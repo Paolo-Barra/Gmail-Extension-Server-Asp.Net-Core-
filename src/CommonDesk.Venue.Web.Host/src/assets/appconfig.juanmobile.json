@@ -1,0 +1,19 @@
+{
+  "remoteServiceBaseUrl": "http://192.168.0.107:22742",
+  "appBaseUrl": "http://192.168.0.107:4300",
+  "refindBackendUrl": "http://192.168.0.107:5172/venue",
+  "localeMappings": [
+    {
+      "from": "pt-BR",
+      "to": "pt"
+    },
+    {
+      "from": "zh-CN",
+      "to": "zh"
+    },
+    {
+      "from": "he-IL",
+      "to": "he"
+    }
+  ]
+}

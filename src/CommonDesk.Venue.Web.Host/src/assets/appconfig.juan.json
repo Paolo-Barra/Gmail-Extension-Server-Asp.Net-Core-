@@ -1,0 +1,19 @@
+{
+  "remoteServiceBaseUrl": "https://juandevbe.commondesk.info",
+  "appBaseUrl": "https://juandev.commondesk.info",
+  "refindBackendUrl": "http://localhost:5172/venue",
+  "localeMappings": [
+    {
+      "from": "pt-BR",
+      "to": "pt"
+    },
+    {
+      "from": "zh-CN",
+      "to": "zh"
+    },
+    {
+      "from": "he-IL",
+      "to": "he"
+    }
+  ]
+}

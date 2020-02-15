@@ -1,0 +1,1333 @@
+﻿<div [@routerTransition]>
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-xs-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    {{logic.DisplaySectionTitle}}
+                </h3>
+            </div>
+
+            
+            <div class="col-xs-6 text-right" *ngIf="!logic.CookbookMode">
+                <button *ngIf="logic.EditMode" class="btn btn-primary" (click)="logic.deleteRecipe()">Delete</button>
+            </div>
+            <div class="col-xs-6 text-right" *ngIf="logic.CookbookMode">
+                <button *ngIf="logic.EditMode" class="btn btn-primary" (click)="logic.deleteCookbook()">Delete</button>
+            </div>
+        </div>
+
+        <div *ngIf="logic.Template!=undefined || logic.Template!=null" class="d-flex align-items-center">
+            <div class="small-header">
+                {{logic.SummaryPageTitle}} {{logic.type}} &bull;
+                <label *ngIf="logic.CookbookMode && currentPage !== 'Summary'">{{currentRecipe}} &bull; </label>
+                <label *ngIf="!logic.ShowrecipeCurrentPage">{{currentPage}}</label>
+                <label *ngIf="logic.ShowrecipeCurrentPage">{{logic.CurrentRecipePage}}</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+
+            <!-- Debugging only.  Prints out headers -->
+            <span style="white-space: nowrap;">PageName=[{{logic.CurrentPage}}], ComparePage=[{{logic.ComparePage}}],
+                    CurrentTemplatePage=[{{logic.CurrentTemplatePage}}], , CookbookMode=[{{logic.CookbookMode}}], </span>
+
+            <div class="m-portlet__body">
+                <h3 *ngIf="logic.CurrentPage !== 'Summary' && logic.CurrentPage == logic.ComparePage && logic.CurrentTemplatePage !=undefined"
+                    class="m-subheader__title m-subheader__title--separator">
+                    {{logic.CurrentTemplatePage.Title}}
+                </h3>
+                <div *ngIf="logic.CurrentPage == 'Summary'  && !logic.CookbookMode"
+                    class="summary-explanation ng-binding">Please review your choices and press SAVE if they are correct. </div>
+                <div *ngIf="logic.CurrentPage == 'Summary'  &&  logic.CookbookMode"
+                    class="summary-explanation ng-binding">When you press save, Venue will save the following {{logic.ReciepeCnt}} recipes as part of this cookbook. </div>
+                <hr *ngIf="logic.CurrentPage == 'Summary'" />
+
+                <h3 *ngIf="logic.CurrentPage == 'Summary' && !logic.CookbookMode"
+                    class="m-subheader__title m-subheader__title--separator">{{logic.DataValues.Name}}</h3>
+                <h3 *ngIf="logic.CurrentPage == 'Summary' && logic.CookbookMode"
+                    class="m-subheader__title m-subheader__title--separator">{{logic.Template.Name}}</h3>
+                <hr />
+
+                <div class="form-group"
+                    *ngIf="logic.CurrentPage != 'Summary' &&  logic.CurrentPage == logic.ComparePage &&  logic.CurrentTemplatePage !=undefined">
+
+                    <div *ngFor="let aComponent of logic.CurrentTemplatePage.Components">
+                        <span style="white-space: nowrap;">[{{aComponent.Name}}]=[{{aComponent.Value}}]</span>
+                        <br>
+                    </div>
+                    <HR>
+                    <!--for non Cookbook DisplayRecipeWizardFields-->
+                    <div *ngFor="let aComponent of logic.CurrentTemplatePage.Components;">
+                            <recipe-wizard-fields></recipe-wizard-fields>   
+
+                        <div *ngIf="aComponent.Widget=='Text'">{{aComponent.Value}}
+                            <hr />`
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Recipe Name'">
+                            <h6 for="RecipeName">{{aComponent.Name}}</h6>
+                            <input class="form-control" id="RecipeName" name="first" (keyup)="logic.checkLength()"
+                                [(ngModel)]="logic.DataValues.Name" />
+                            <label *ngIf="logic.ShowRequiredText==true" style="color:orangered">Name is Required</label>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Value To Match'">
+                            <h6 for="Value_To_Match">Value To Match</h6>
+                            <input class="form-control" id="Value_To_Match" name="first"
+                                [(ngModel)]="logic.DataValues.ValueToMatch" />
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Email Domains'">
+                            <h6 for="Email_Domains">Email Domains</h6>
+                            <input class="form-control" id="Email_Domains" name="first"
+                                [(ngModel)]="logic.DataValues.EmailDomains" />
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='SingleSelect_Enum' && aComponent.Name=='TimeFrame Style'">
+                            <h6 for="TimeframeStyle">Timeframe Style</h6>
+                            <select id="TimeframeStyle" name="TimeframeStyle" class="form-control"
+                                [(ngModel)]="logic.timeFrame">
+                                <option *ngFor="let field of logic.Options.VenueTreeByTime" [value]="field.Value">
+                                    {{ field.DisplayName }}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='SingleSelect_Enum' && aComponent.Name=='Field To Match'">
+                            <h6 for="Field_To_Match">Field To Match</h6>
+                            <select id="Field_To_Match" class="form-control"
+                                [(ngModel)]="logic.DataValues.FieldToMatch">
+                                <option *ngFor="let field of logic.Options.logic.FieldToSearch" [value]="field.Value">
+                                    {{ field.DisplayName }}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='SingleSelect_RemoteOptions' && aComponent.Name=='Categories'">
+                            <h6 for="Categories">Categories</h6>
+                            <select id="Categories" name="Categories" class="form-control"
+                                [(ngModel)]="logic.DataValues.VenueTreeByTime">
+                                <option value="DateRangeByWeek">Exclusive,Co-Broker,Closing,Complete-</option>
+                                <option value="DateRangeByMonth">Active,Closing,Complete-</option>
+                                <option value="DateRangeByMonth">No Categories-</option>
+                            </select>
+                            <label>Pick from a list of built-in categories to use.</label>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Display Sent Folders'">
+                            <label for="Display_Sent_folders" class="m-checkbox">
+                                <input id="Display_Sent_folders" class="m-check" type="checkbox"
+                                    name="Display_Sent_folders" [(ngModel)]="logic.DataValues.FPC_DisplaySent">
+                                <h6>Display Sent folders</h6>
+                                <span></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Use All Categories'">
+                            <label for="Use_All_Categories" class="m-checkbox">
+                                <input id="Use_All_Categories" class="m-check" type="checkbox" name="Use_All_Categories"
+                                    [(ngModel)]="logic.DataValues.FPC_UseAllCategories">
+                                <h6>Use All Categories</h6>
+                                <span></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Use Full Names'">
+                            <label for="Use_Full_Names" class="m-checkbox">
+                                <input id="Use_Full_Names" class="m-check" type="checkbox" name="Use_Full_Names"
+                                    [(ngModel)]="logic.DataValues.FPC_UseFullNames">
+                                <h6>Use Full Names</h6>
+                                <span></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Group by Category'">
+                            <label for="Group_by_Category" class="m-checkbox">
+                                <input id="Group_by_Category" class="m-check" type="checkbox" name="Group_by_Category"
+                                    [(ngModel)]="logic.DataValues.FPC_GroupByCategory">
+                                <h6> Group by Category</h6>
+                                <span></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Messages by Industry in one venue'">
+                            <label for="Messages_by_Industry_in_one_venue" class="m-checkbox">
+                                <input id="Messages_by_Industry_in_one_venue" class="m-check" type="checkbox"
+                                    name="Messages_by_Industry_in_one_venue"
+                                    [(ngModel)]="logic.DataValues.FPC_GroupByCategory">
+                                <h6>Messages by Industry in one venue</h6>
+                                <span></span>
+                            </label>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='SingleSelect_RemoteOptions' && aComponent.Name=='Accounts'">
+                            <h6 for="mail-account">gvyuhijohugyfhjk</h6>
+                            <select class="form-control" [(ngModel)]="logic.CollectionData.MailAccounts"
+                                (change)="logic.change_filter()" name="mail-account">
+                                <option *ngFor="let account of logic.Accounts" value="{{ account.MailAccountId }}">
+                                    {{ account.Email }}</option>
+                            </select>
+                            <label>Please Select Mail accounts to search for messages in.</label>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='SingleSelect_Enum' && aComponent.Name=='Folders To Search'">
+                            <h6 for="Folders_To_Search">Folders To Search</h6>
+                            <select id="Folders_To_Search" name="Folders_To_Search" class="form-control"
+                                [(ngModel)]="logic.DataValues.MailFoldersBasic">
+                                <option *ngFor="let field of logic.Options.FolderSearch" [value]="field.Value">
+                                    {{ field.DisplayName }}</option>
+                            </select>
+                            <label>Select which folders to search in.</label>
+                        </div>
+
+                        <!--<div *ngIf="component.Widget=='Switch'&&component.Name=='Included'">{{component.Value}}</div>-->
+
+                        <div class="container"
+                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Included User Categories'">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-link m-tabs__link underlineCustom active"
+                                    [class.active]="logic.ViewMode == 'Included'" rel="Included"
+                                    (click)="logic.Included()">Included</li>
+                                <li class="nav-link m-tabs__link underlineCustom"
+                                    [class.active]="logic.ViewMode == 'Excluded'" rel="Excluded"
+                                    (click)="logic.Excluded()">Excluded</li>
+                            </ul>
+                            <div class="tab-content" [ngSwitch]="logic.ViewMode">
+                                <div id="tab1" class="tab-slider--body" *ngSwitchCase="'Included'">
+                                    <div *ngFor="let cat of logic.CategoriesData">
+                                        <label for="IncludedCheck{{cat.Category}}" class="m-checkbox">
+                                            <input id="IncludedCheck{{cat.Category}}" class="m-check" type="checkbox"
+                                                [(ngModel)]="cat.IsInlcudedChecked" name="IncludedCheck"
+                                                (change)="logic.onCategoryChange(cat.Category,$event.target.checked,'Included')">
+                                            <p>{{cat.Category}}-User Category</p>
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div id="tab2" class="tab-slider--body" *ngSwitchCase="'Excluded'">
+                                    <div *ngFor="let cat of logic.CategoriesData">
+                                        <label for="ExcludedCheck{{cat.Category}}" class="m-checkbox">
+                                            <input id="ExcludedCheck{{cat.Category}}" class="m-check" type="checkbox"
+                                                [(ngModel)]="cat.IsExcludedChecked" name="ExcludedCheck"
+                                                (change)="logic.onCategoryChange(cat.Category,$event.target.checked,'Excluded')">
+                                            <p>{{cat.Category}}-User Category</p>
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Custom Domain List'">
+                            <h6>Custom Domain List</h6>
+                            <div class="CustomBorder">
+                                <div *ngFor="let cat of logic.CategoriesData">
+                                    <label for="CustomDomList{{cat.Category}}" class="m-checkbox">
+                                        <input id="CustomDomList{{cat.Category}}" class="m-check" type="checkbox"
+                                            checked="{{cat.IsCustomListChecked}}" name="CustomDomListCheck"
+                                            (change)="logic.onCustomListChange(cat.Category,$event.target.checked)">
+                                        <p>{{cat.Category}}-User Category</p>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Contact Groups'">
+                            <h6>Contact Groups</h6>
+                            <div class="CustomBorder">
+                                <div *ngFor="let cat of logic.CategoriesData">
+                                    <label for="Contact_groups{{cat.Category}}" class="m-checkbox">
+                                        <input id="Contact_groups{{cat.Category}}" class="m-check" type="checkbox"
+                                            checked="{{cat.IsCustomListChecked}}" name="Contact_groupsCheck"
+                                            (change)="logic.onContactGroupChange(cat.Category,$event.target.checked)">
+                                        <p>{{cat.Category}}-User Category</p>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Mailing Lists'">
+                            <h6>Mailing Lists</h6>
+                            <div class="CustomBorder">
+                                <div *ngFor="let cat of logic.CategoriesData">
+                                    <label for="Mailing_List{{cat.Category}}" class="m-checkbox">
+                                        <input id="Mailing_List{{cat.Category}}" class="m-check" type="checkbox"
+                                            checked="{{cat.IsCustomListChecked}}" name="Mailing_ListCheck"
+                                            (change)="logic.onMailingListChange(cat.Category,$event.target.checked)">
+                                        <p>{{cat.Category}}-User Category</p>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Industry Group'">
+                            <h6>Industry Group</h6>
+                            <div class="CustomBorder">
+                                <div *ngFor="let cat of logic.CategoriesData">
+                                    <label for="Industry_Group{{cat.Category}}" class="m-checkbox">
+                                        <input id="Industry_Group{{cat.Category}}" class="m-check" type="checkbox"
+                                            checked="{{cat.IsCustomListChecked}}" name="Industry_GroupCheck"
+                                            (change)="logic.onIndustryGroupChange(cat.Category,$event.target.checked)">
+                                        <p>{{cat.Category}}-User Category</p>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Category'&&logic.SummaryPageTitle!='Organize By Category'">
+                            <h6>Category</h6>
+                            <div class="CustomBorder">
+                                <div *ngFor="let cat of logic.CategoriesData">
+                                    <label for="Category{{cat.Category}}" class="m-checkbox">
+                                        <input id="Category{{cat.Category}}" class="m-check" type="checkbox"
+                                            checked="{{cat.IsCustomListChecked}}" name="CategoryCheck"
+                                            (change)="logic.onCategoryChange(cat.Category,$event.target.checked)">
+                                        <p>{{cat.Category}}-User Category</p>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='User List'">
+                            <h6>User List</h6>
+                            <div class="CustomBorder">
+                                <div *ngFor="let cat of logic.CategoriesData">
+                                    <label for="User_List{{cat.Category}}" class="m-checkbox">
+                                        <input id="User_List{{cat.Category}}" class="m-check" type="checkbox"
+                                            checked="{{cat.IsCustomListChecked}}" name="User_ListCheck"
+                                            (change)="logic.onUserListChange(cat.Category,$event.target.checked)">
+                                        <p>{{cat.Category}}-User Category</p>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='User Groups'">
+                            <h6>User Groups</h6>
+                            <div class="CustomBorder">
+                                <div *ngFor="let cat of logic.CategoriesData">
+                                    <label for="User_Groups{{cat.Category}}" class="m-checkbox">
+                                        <input id="User_Groups{{cat.Category}}" class="m-check" type="checkbox"
+                                            checked="{{cat.IsCustomListChecked}}" name="User_GroupsCheck"
+                                            (change)="logic.onUserGroupsChange(cat.Category,$event.target.checked)">
+                                        <p>{{cat.Category}}-User Category</p>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Meetup Groups'">
+                            <h6>Meetup Groups</h6>
+                            <div class="CustomBorder">
+                                <div *ngFor="let cat of logic.CategoriesData">
+                                    <label for="Meetup_Groups{{cat.Category}}" class="m-checkbox">
+                                        <input id="Meetup_Groups{{cat.Category}}" class="m-check" type="checkbox"
+                                            checked="{{cat.IsCustomListChecked}}" name="Meetup_GroupsCheck"
+                                            (change)="logic.onMeetupGroupsChange(cat.Category,$event.target.checked)">
+                                        <p>{{cat.Category}}-User Category</p>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Facebook Groups'">
+                            <h6>Facebook Groups</h6>
+                            <div class="CustomBorder">
+                                <div *ngFor="let cat of logic.CategoriesData">
+                                    <label for="Facebook_Groups{{cat.Category}}" class="m-checkbox">
+                                        <input id="Facebook_Groups{{cat.Category}}" class="m-check" type="checkbox"
+                                            checked="{{cat.IsCustomListChecked}}" name="Facebook_GroupsCheck"
+                                            (change)="logic.onFacebookGroupsChange(cat.Category,$event.target.checked)">
+                                        <p>{{cat.Category}}-User Category</p>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group"
+                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Google Alerts'">
+                            <h6>Google Alerts</h6>
+                            <div class="CustomBorder">
+                                <div *ngFor="let cat of logic.CategoriesData">
+                                    <label for="Google_Alerts{{cat.Category}}" class="m-checkbox">
+                                        <input id="Google_Alerts{{cat.Category}}" class="m-check" type="checkbox"
+                                            checked="{{cat.IsCustomListChecked}}" name="Google_AlertsCheck"
+                                            (change)="logic.onGoogleAlertsChange(cat.Category,$event.target.checked)">
+                                        <p>{{cat.Category}}-User Category</p>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="logic.CurrentPage == 'Summary'">
+                     
+                    <!--for non Cookbook logic.Template at create-->
+                    <div *ngIf="!logic.CookbookMode">
+                        <div *ngFor="let aPage of logic.Template.Pages" style="border:1px solid lightgray;padding:10px">
+                            <div class="customFont"><b>{{aPage.Title}}</b></div>
+                            <div *ngFor="let aComponent of aPage.Components">
+                                <div class="m-container">
+                                    <div *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Recipe Name'">
+                                        <b>Recipe Name : </b>{{logic.DataValues.Name}}</div>
+                                    <div
+                                        *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Custom Domain List'&&logic.CustomDomainList.length>0">
+                                        <b style="float:left">Custom Domain List : </b>
+                                        <p style="float:left" *ngFor="let data of logic.CustomDomainList">{{data}},</p>
+                                    </div>
+                                    <div
+                                        *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Custom Domain List'&&(logic.CustomDomainList.length==0||logic.CustomDomainList.length==undefined)">
+                                        <b style="float:left">Custom Domain List : </b>
+                                        <p style="float:left">Not Set</p>
+                                    </div>
+
+                                    <div *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Value To Match'">
+                                        <b>Value To Match : </b>{{logic.DataValues.ValueToMatch}}
+                                    </div>
+                                    <div *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Field To Match'">
+                                        <b>Field To Match : </b>{{logic.DataValues.FieldToMatch}}
+                                    </div>
+                                    <div
+                                        *ngIf="aComponent.Widget=='SingleSelect_Enum' && aComponent.Name=='TimeFrame Style'">
+                                        <b>TimeFrameStyle : </b>{{logic.DataValues.VenueTreeByTime}}
+                                    </div>
+                                    <div *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Display Sent Folders'">
+                                        <b>Display Sent Folders : </b>{{logic.DataValues.FPC_DisplaySent}}
+                                    </div>
+                                    <div
+                                        *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Messages by Industry in one venue'">
+                                        <b>Messages by Industry By One Venue :
+                                        </b>{{logic.DataValues.FPC_GroupByCategory}}</div>
+                                    <div *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Group by Category'">
+                                        <b>Group By Category : </b>{{logic.DataValues.FPC_GroupByCategory}}</div>
+                                    <div *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Use Full Names'">
+                                        <b>Use Full Names : </b>{{logic.DataValues.FPC_UseFullNames}}</div>
+                                    <!-- <div *ngIf="component.Widget=='Switch'&&component.Name=='Use All Categories'"><b>Use All Categories : </b>{{logic.DataValues.FPC_UseAllCategories}}</div>-->
+
+                                    <div
+                                        *ngIf="aComponent.Widget=='SingleSelect_RemoteOptions' && aComponent.Name=='Accounts'">
+                                        <div>Matches all messages</div>
+                                        <br />
+                                        <div style="padding-left:20px">
+                                            <div> &#x25cf; <b>In the folders : </b> Inbox</div>
+                                            <div> &#x25cf; <b>From the accounts : </b>
+                                                {{logic.CollectionData.MailAccounts}}</div>
+                                        </div>
+                                        <br />
+                                    </div>
+
+
+                                    <div
+                                        *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Included User Categories'">
+                                        <div *ngIf="logic.IsIncluded">
+                                            <div
+                                                *ngIf="logic.CategoriesIncluded.length>0&&logic.CategoriesIncluded.length!=0">
+                                                <div>Include only messages from the following groups : </div><br />
+                                                <div style="padding-left:20px">
+                                                    <p style="float:left"> &#x25cf; </p>
+                                                    <p style="float:left;padding-left:5px"
+                                                        *ngFor="let data of logic.CategoriesIncluded"> {{data}},</p>
+                                                </div>
+                                                <br />
+                                            </div>
+                                            <div
+                                                *ngIf="logic.CategoriesIncluded.length==0 || logic.CategoriesIncluded.length < 0">
+                                                <div>Include only messages from the following groups:</div><br />
+                                                <div style="padding-left:20px">
+                                                    <p style="float:left"> &#x25cf; </p>
+                                                    <p style="float:left;padding-left:5px">No filter set (all messages
+                                                        included)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div
+                                        *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Excluded User Categories'">
+                                        <div *ngIf="logic.IsExcluded">
+                                            <div *ngIf="CategoriesExcluded.length>0&&CategoriesExcluded.length!=0">
+                                                <div>Exclude only messages from the following groups : </div><br />
+                                                <div style="padding-left:20px">
+                                                    <p style="float:left"> &#x25cf; </p>
+                                                    <p style="float:left;padding-left:5px"
+                                                        *ngFor="let data of CategoriesExcluded"> {{data}},</p>
+                                                </div>
+                                                <br />
+                                            </div>
+                                            <div *ngIf="CategoriesExcluded.length==0 || CategoriesExcluded.length < 0">
+                                                <div>Include only messages from the following groups:</div><br />
+                                                <div style="padding-left:20px">
+                                                    <p style="float:left"> &#x25cf; </p>
+                                                    <p style="float:left;padding-left:5px">No filter set (all messages
+                                                        included)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--for cookbook logic.Template at create-->
+                    <div *ngIf="logic.CookbookMode">
+
+                        <div *ngIf="logic.EditMode==false">
+
+                            <div *ngFor="let aPage of logic.Template.Meta.Pages"
+                                style="border:1px solid lightgray;padding:10px">
+                                <div class="customFont"><b>{{aPage.Title}}</b></div>
+                                <div>{{logic.Template.Description}}</div>
+                                <div *ngFor="let aComponent of aPage.Components">
+                                    <div class="m-container">
+                                        <div *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Recipe Name'">
+                                            <b>Recipe Name : </b>{{logic.DataValues.Name}}</div>
+                                        <div
+                                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Custom Domain List'&&logic.CustomDomainList.length>0">
+                                            <b style="float:left">Custom Domain List : </b>
+                                            <p style="float:left" *ngFor="let data of logic.CustomDomainList">{{data}},
+                                            </p>
+                                        </div>
+                                        <div
+                                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Custom Domain List'&&(logic.CustomDomainList.length==0||logic.CustomDomainList.length==undefined)">
+                                            <b style="float:left">Custom Domain List : </b>
+                                            <p style="float:left">Not Set</p>
+                                        </div>
+
+                                        <div
+                                            *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Value To Match'">
+                                            <b>Value To Match : </b>{{logic.DataValues.ValueToMatch}}</div>
+                                        <div
+                                            *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Field To Match'">
+                                            <b>Field To Match : </b>{{logic.DataValues.FieldToMatch}}</div>
+                                        <div
+                                            *ngIf="aComponent.Widget=='SingleSelect_Enum' && aComponent.Name=='TimeFrame Style'">
+                                            <b>TimeFrameStyle : </b>{{logic.DataValues.VenueTreeByTime}}</div>
+                                        <div
+                                            *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Display Sent Folders'">
+                                            <b>Display Sent Folders : </b>{{logic.DataValues.FPC_DisplaySent}}</div>
+                                        <div
+                                            *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Messages by Industry in one venue'">
+                                            <b>Messages by Industry By One Venue :
+                                            </b>{{logic.DataValues.FPC_GroupByCategory}}</div>
+                                        <div
+                                            *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Group by Category'">
+                                            <b>Group By Category : </b>{{logic.DataValues.FPC_GroupByCategory}}</div>
+                                        <div *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Use Full Names'">
+                                            <b>Use Full Names : </b>{{logic.DataValues.FPC_UseFullNames}}</div>
+                                        <!-- <div *ngIf="component.Widget=='Switch'&&component.Name=='Use All Categories'"><b>Use All Categories : </b>{{logic.DataValues.FPC_UseAllCategories}}</div>-->
+
+                                        <div
+                                            *ngIf="aComponent.Widget=='SingleSelect_RemoteOptions' && aComponent.Name=='Accounts'">
+                                            <div>Matches all messages</div>
+                                            <br />
+                                            <div style="padding-left:20px">
+                                                <div> &#x25cf; <b>In the folders : </b> Inbox</div>
+                                                <div> &#x25cf; <b>From the accounts : </b>
+                                                    {{logic.CollectionData.MailAccounts}}</div>
+                                            </div>
+                                            <br />
+                                        </div>
+
+
+                                        <div
+                                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Included User Categories'">
+                                            <div *ngIf="logic.IsIncluded">
+                                                <div
+                                                    *ngIf="logic.CategoriesIncluded.length > 0 && logic.CategoriesIncluded.length!=0">
+                                                    <div>Include only messages from the following groups : </div><br />
+                                                    <div style="padding-left:20px">
+                                                        <p style="float:left"> &#x25cf; </p>
+                                                        <p style="float:left;padding-left:5px"
+                                                            *ngFor="let data of logic.CategoriesIncluded"> {{data}},</p>
+                                                    </div>
+                                                    <br />
+                                                </div>
+                                                <div
+                                                    *ngIf="logic.CategoriesIncluded.length==0 || logic.CategoriesIncluded.length<0">
+                                                    <div>Include only messages from the following groups:</div><br />
+                                                    <div style="padding-left:20px">
+                                                        <p style="float:left"> &#x25cf; </p>
+                                                        <p style="float:left;padding-left:5px">No filter set (all
+                                                            messages included)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div
+                                            *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Excluded User Categories'">
+                                            <div *ngIf="logic.IsExcluded">
+                                                <div *ngIf="CategoriesExcluded.length>0&&CategoriesExcluded.length!=0">
+                                                    <div>Exclude only messages from the following groups : </div><br />
+                                                    <div style="padding-left:20px">
+                                                        <p style="float:left"> &#x25cf; </p>
+                                                        <p style="float:left;padding-left:5px"
+                                                            *ngFor="let data of CategoriesExcluded"> {{data}},</p>
+                                                    </div>
+                                                    <br />
+                                                </div>
+                                                <div
+                                                    *ngIf="CategoriesExcluded.length==0 || CategoriesExcluded.length<0">
+                                                    <div>Include only messages from the following groups:</div><br />
+                                                    <div style="padding-left:20px">
+                                                        <p style="float:left"> &#x25cf; </p>
+                                                        <p style="float:left;padding-left:5px">No filter set (all
+                                                            messages included)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!--for recipes inside cookbooks DisplayRecipeInsideCookbook-->
+                            <hr />
+                            <div *ngIf="logic.CombinedRecipeModels.length>0">
+
+                                <div *ngFor="let temp of logic.Template.Templates;let i = index" style="padding:10px">
+                                    <h4>{{logic.CombinedRecipeModels[i].Values.Name}}</h4>
+                                    <div *ngFor="let aPage of temp.Pages"
+                                        style="border:1px solid lightgray;padding:10px">
+                                        <div class="customFont"><b>{{aPage.Title}}</b></div>
+                                        <div *ngFor="let aComponent of aPage.Components">
+
+                                            <div class="m-container">
+                                                <div
+                                                    *ngIf="aComponent.Widget=='TextInput'                      && aComponent.Name=='Recipe Name'">
+                                                    <b>Recipe Name : </b>{{logic.CombinedRecipeModels[i].Values.Name}}
+                                                </div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='ListEditor_RemoteOptions'       && aComponent.Name=='Custom Domain List'&&logic.CustomDomainList.length>0">
+                                                    <b style="float:left">Custom Domain List : </b>
+                                                    <p style="float:left"
+                                                        *ngFor="let data of logic.CombinedRecipeModels[i].Collections.FPC_CustomDomain">
+                                                        {{data}},</p>
+                                                </div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='ListEditor_RemoteOptions'       && aComponent.Name=='Custom Domain List'&&(logic.CustomDomainList.length==0||logic.CustomDomainList.length==undefined)">
+                                                    <b style="float:left">Custom Domain List : </b>
+                                                    <p style="float:left">Not Set</p>
+                                                </div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='TextInput'                      && aComponent.Name=='Value To Match'">
+                                                    <b>Value To Match :
+                                                    </b>{{logic.CombinedRecipeModels[i].Values.ValueToMatch}}</div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='TextInput'                      && aComponent.Name=='Field To Match'">
+                                                    <b>Field To Match :
+                                                    </b>{{logic.CombinedRecipeModels[i].Values.FieldToMatch}}</div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='SingleSelect_Enum'              && aComponent.Name=='TimeFrame Style'">
+                                                    <b>TimeFrameStyle :
+                                                    </b>{{logic.CombinedRecipeModels[i].Values.VenueTreeByTime}}</div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='Switch'                         && aComponent.Name=='Display Sent Folders'">
+                                                    <b>Display Sent Folders :
+                                                    </b>{{logic.CombinedRecipeModels[i].Values.FPC_DisplaySent}}</div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='Switch'                         && aComponent.Name=='Messages by Industry in one venue'">
+                                                    <b>Messages by Industry By One Venue :
+                                                    </b>{{logic.CombinedRecipeModels[i].Values.FPC_GroupByCategory}}
+                                                </div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='Switch'                         && aComponent.Name=='Group by Category'">
+                                                    <b>Group By Category :
+                                                    </b>{{logic.CombinedRecipeModels[i].Values.FPC_GroupByCategory}}
+                                                </div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='Switch'                         && aComponent.Name=='Use Full Names'">
+                                                    <b>Use Full Names :
+                                                    </b>{{logic.CombinedRecipeModels[i].Values.FPC_UseFullNames}}</div>
+
+                                                <div
+                                                    *ngIf="aComponent.Widget=='SingleSelect_RemoteOptions' && aComponent.Name=='Accounts'">
+                                                    <div>Matches all messages</div>
+                                                    <br />
+                                                    <div style="padding-left:20px">
+                                                        <div> &#x25cf; <b>In the folders : </b> Inbox</div>
+                                                        <div> &#x25cf; <b>From the accounts : </b>
+                                                            {{logic.CombinedRecipeModels[i].Collections.MailAccounts}}
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                </div>
+
+
+                                                <div
+                                                    *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Included User Categories'">
+                                                    <div *ngIf="logic.IsIncluded">
+                                                        <div
+                                                            *ngIf="logic.CategoriesIncluded.length>0&&logic.CategoriesIncluded.length!=0">
+                                                            <div>Include only messages from the following groups :
+                                                            </div><br />
+                                                            <div style="padding-left:20px">
+                                                                <p style="float:left"> &#x25cf; </p>
+                                                                <p style="float:left;padding-left:5px"
+                                                                    *ngFor="let data of logic.CombinedRecipeModels[i].Collections.Categories_Included">
+                                                                    {{data}},</p>
+                                                            </div>
+                                                            <br />
+                                                        </div>
+                                                        <div
+                                                            *ngIf="logic.CategoriesIncluded.length==0 || logic.CategoriesIncluded.length<0">
+                                                            <div>Include only messages from the following groups:</div>
+                                                            <br />
+                                                            <div style="padding-left:20px">
+                                                                <p style="float:left"> &#x25cf; </p>
+                                                                <p style="float:left;padding-left:5px">No filter set
+                                                                    (all messages included)</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div
+                                                    *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Excluded User Categories'">
+                                                    <div *ngIf="logic.IsExcluded">
+                                                        <div
+                                                            *ngIf="CategoriesExcluded.length>0&&CategoriesExcluded.length!=0">
+                                                            <div>Exclude only messages from the following groups :
+                                                            </div><br />
+                                                            <div style="padding-left:20px">
+                                                                <p style="float:left"> &#x25cf; </p>
+                                                                <p style="float:left;padding-left:5px"
+                                                                    *ngFor="let data of logic.CombinedRecipeModels[i].Collections.Categories_Excluded">
+                                                                    {{data}},</p>
+                                                            </div>
+                                                            <br />
+                                                        </div>
+                                                        <div
+                                                            *ngIf="CategoriesExcluded.length==0 || CategoriesExcluded.length<0">
+                                                            <div>Include only messages from the following groups:</div>
+                                                            <br />
+                                                            <div style="padding-left:20px">
+                                                                <p style="float:left"> &#x25cf; </p>
+                                                                <p style="float:left;padding-left:5px">No filter set
+                                                                    (all messages included)</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div *ngIf="logic.CombinedRecipeModels.length==0">
+                                <div *ngFor="let temp of logic.Template.Templates" style="padding:10px">
+                                    <h4>{{temp.Name}}</h4>
+                                    <div *ngFor="let aPage of temp.Pages"
+                                        style="border:1px solid lightgray;padding:10px">
+                                        <div class="customFont"><b>{{aPage.Title}}</b></div>
+                                        <div *ngFor="let aComponent of aPage.Components">
+                                            <div class="m-container">
+                                                <div
+                                                    *ngIf="aComponent.Widget=='TextInput'                   && aComponent.Name=='Recipe Name'">
+                                                    <b>Recipe Name : </b>{{aComponent.Value}}</div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='ListEditor_RemoteOptions'    && aComponent.Name=='Custom Domain List'&&logic.CustomDomainList.length>0">
+                                                    <b style="float:left">Custom Domain List : </b>
+                                                    <p style="float:left" *ngFor="let data of logic.CustomDomainList">
+                                                        {{data}},</p>
+                                                </div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='ListEditor_RemoteOptions'    && aComponent.Name=='Custom Domain List'&&(logic.CustomDomainList.length==0||logic.CustomDomainList.length==undefined)">
+                                                    <b style="float:left">Custom Domain List : </b>
+                                                    <p style="float:left">Not Set</p>
+                                                </div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='TextInput'                   && aComponent.Name=='Value To Match'">
+                                                    <b>Value To Match : </b>{{logic.DataValues.ValueToMatch}}</div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='TextInput'                   && aComponent.Name=='Field To Match'">
+                                                    <b>Field To Match : </b>{{logic.DataValues.FieldToMatch}}</div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='SingleSelect_Enum'           && aComponent.Name=='TimeFrame Style'">
+                                                    <b>TimeFrameStyle : </b>{{logic.DataValues.VenueTreeByTime}}</div>
+
+                                                <div
+                                                    *ngIf="aComponent.Widget=='Switch'                      && aComponent.Name=='Display Sent Folders'">
+                                                    <b>Display Sent Folders : </b>{{logic.DataValues.FPC_DisplaySent}}
+                                                </div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='Switch'                      && aComponent.Name=='Messages by Industry in one venue'">
+                                                    <b>Messages by Industry By One Venue :
+                                                    </b>{{logic.DataValues.FPC_GroupByCategory}}</div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='Switch'                      && aComponent.Name=='Group by Category'">
+                                                    <b>Group By Category : </b>{{logic.DataValues.FPC_GroupByCategory}}
+                                                </div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='Switch'                      && aComponent.Name=='Use Full Names'">
+                                                    <b>Use Full Names : </b>{{logic.DataValues.FPC_UseFullNames}}</div>
+                                                <!-- <div *ngIf="component.Widget=='Switch'&&component.Name=='Use All Categories'"><b>Use All Categories : </b>{{logic.DataValues.FPC_UseAllCategories}}</div>-->
+
+                                                <div
+                                                    *ngIf="aComponent.Widget=='SingleSelect_RemoteOptions'  && aComponent.Name=='Accounts'">
+                                                    <div>Matches all messages</div>
+                                                    <br />
+                                                    <div style="padding-left:20px">
+                                                        <div> &#x25cf; <b>In the folders : </b> Inbox</div>
+                                                        <div> &#x25cf; <b>From the accounts : </b>
+                                                            {{logic.CollectionData.MailAccounts}}</div>
+                                                    </div>
+                                                    <br />
+                                                </div>
+                                                <div
+                                                    *ngIf="aComponent.Widget=='ListEditor_RemoteOptions'   && aComponent.Name=='Included User Categories'">
+                                                    <div *ngIf="logic.IsIncluded">
+                                                        <div
+                                                            *ngIf="logic.CategoriesIncluded.length>0       && logic.CategoriesIncluded.length!=0">
+                                                            <div>Include only messages from the following groups :
+                                                            </div><br />
+                                                            <div style="padding-left:20px">
+                                                                <p style="float:left"> &#x25cf; </p>
+                                                                <p style="float:left;padding-left:5px"
+                                                                    *ngFor="let data of logic.CategoriesIncluded">
+                                                                    {{data}},</p>
+                                                            </div>
+                                                            <br />
+                                                        </div>
+                                                        <div
+                                                            *ngIf="logic.CategoriesIncluded.length==0 || logic.CategoriesIncluded.length<0">
+                                                            <div>Include only messages from the following groups:</div>
+                                                            <br />
+                                                            <div style="padding-left:20px">
+                                                                <p style="float:left"> &#x25cf; </p>
+                                                                <p style="float:left;padding-left:5px">No filter set
+                                                                    (all messages included)</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div
+                                                    *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Excluded User Categories'">
+                                                    <div *ngIf="logic.IsExcluded">
+                                                        <div
+                                                            *ngIf="CategoriesExcluded.length>0&&CategoriesExcluded.length!=0">
+                                                            <div>Exclude only messages from the following groups :
+                                                            </div><br />
+                                                            <div style="padding-left:20px">
+                                                                <p style="float:left"> &#x25cf; </p>
+                                                                <p style="float:left;padding-left:5px"
+                                                                    *ngFor="let data of CategoriesExcluded"> {{data}},
+                                                                </p>
+                                                            </div>
+                                                            <br />
+                                                        </div>
+                                                        <div
+                                                            *ngIf="CategoriesExcluded.length==0 || CategoriesExcluded.length<0">
+                                                            <div>Include only messages from the following groups:</div>
+                                                            <br />
+                                                            <div style="padding-left:20px">
+                                                                <p style="float:left"> &#x25cf; </p>
+                                                                <p style="float:left;padding-left:5px">No filter set
+                                                                    (all messages included)</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                        </div>
+
+                        <!--for cookbook template at edit-->
+                        <div *ngIf="logic.EditMode==true">
+                            <div *ngIf="logic.Template!=undefined || logic.Template!=null">
+                                <div *ngFor="let aPage of logic.Template.Meta.Pages;let i=index"
+                                    style="border:1px solid lightgray;padding:10px">
+                                    <div class="customFont"><b>{{aPage.Title}}</b></div>
+                                    <div *ngIf="i=='0'">{{logic.Template.Description}}</div>
+                                    <div *ngFor="let aComponent of aPage.Components">
+                                        <div class="m-container">
+                                            <div
+                                                *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Recipe Name'">
+                                                <b>Recipe Name :
+                                                </b>{{logic.logic.CookbookRecipetemplatevalues.Metadata.Name}}</div>
+                                            <div
+                                                *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Custom Domain List'&&logic.logic.CookbookRecipetemplatevalues.Metadata.Collections.FPC_CustomDomain.length>0">
+                                                <b style="float:left">Custom Domain List : </b>
+                                                <p style="float:left"
+                                                    *ngFor="let data of logic.logic.CookbookRecipetemplatevalues.Metadata.Collections.FPC_CustomDomain">
+                                                    {{data}},</p>
+                                            </div>
+                                            <div
+                                                *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Custom Domain List'&&(logic.logic.CookbookRecipetemplatevalues.Metadata.Collections.FPC_CustomDomain.length==0||logic.logic.CookbookRecipetemplatevalues.Metadata.Collections.FPC_CustomDomain.length==undefined)">
+                                                <b style="float:left">Custom Domain List : </b>
+                                                <p style="float:left">Not Set</p>
+                                            </div>
+
+                                            <div
+                                                *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Value To Match'">
+                                                <b>Value To Match :
+                                                </b>{{logic.logic.CookbookRecipetemplatevalues.Metadata.Values.ValueToMatch}}
+                                            </div>
+                                            <div
+                                                *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Field To Match'">
+                                                <b>Field To Match :
+                                                </b>{{logic.logic.CookbookRecipetemplatevalues.Metadata.Values.FieldToMatch}}
+                                            </div>
+                                            <div
+                                                *ngIf="aComponent.Widget=='SingleSelect_Enum' && aComponent.Name=='TimeFrame Style'">
+                                                <b>TimeFrameStyle :
+                                                </b>{{logic.logic.CookbookRecipetemplatevalues.Metadata.Values.VenueTreeByTime}}
+                                            </div>
+                                            <div
+                                                *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Display Sent Folders'">
+                                                <b>Display Sent Folders :
+                                                </b>{{logic.logic.CookbookRecipetemplatevalues.Metadata.Values.FPC_DisplaySent}}
+                                            </div>
+                                            <div
+                                                *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Messages by Industry in one venue'">
+                                                <b>Messages by Industry By One Venue :
+                                                </b>{{logic.logic.CookbookRecipetemplatevalues.Metadata.Values.FPC_GroupByCategory}}
+                                            </div>
+                                            <div
+                                                *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Group by Category'">
+                                                <b>Group By Category :
+                                                </b>{{logic.logic.CookbookRecipetemplatevalues.Metadata.Values.FPC_GroupByCategory}}
+                                            </div>
+                                            <div
+                                                *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Use Full Names'">
+                                                <b>Use Full Names :
+                                                </b>{{logic.logic.CookbookRecipetemplatevalues.Metadata.Values.FPC_UseFullNames}}
+                                            </div>
+                                            <!-- <div *ngIf="component.Widget=='Switch'&&component.Name=='Use All Categories'"><b>Use All Categories : </b>{{logic.logic.CookbookRecipetemplatevalues.Metadata.Values.FPC_UseAllCategories}}</div>-->
+
+                                            <div
+                                                *ngIf="aComponent.Widget=='SingleSelect_RemoteOptions' && aComponent.Name=='Accounts'">
+                                                <div>Matches all messages</div>
+                                                <br />
+                                                <div style="padding-left:20px">
+                                                    <div> &#x25cf; <b>In the folders : </b> Inbox</div>
+                                                    <div> &#x25cf; <b>From the accounts : </b>
+                                                        {{logic.logic.CookbookRecipetemplatevalues.Metadata.Collections.MailAccounts}}
+                                                    </div>
+                                                </div>
+                                                <br />
+                                            </div>
+
+
+                                            <div
+                                                *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Included User Categories'">
+                                                <div *ngIf="logic.IsIncluded">
+                                                    <div
+                                                        *ngIf="logic.CookbookRecipetemplatevalues.Metadata.Collections.Categories_Included.length>0&&logic.CookbookRecipetemplatevalues.Metadata.Collections.Categories_Included.length!=0">
+                                                        <div>Include only messages from the following groups : </div>
+                                                        <br />
+                                                        <div style="padding-left:20px">
+                                                            <p style="float:left"> &#x25cf; </p>
+                                                            <p style="float:left;padding-left:5px"
+                                                                *ngFor="let data of logic.CookbookRecipetemplatevalues.Metadata.Collections.Categories_Included">
+                                                                {{data}},</p>
+                                                        </div>
+                                                        <br />
+                                                    </div>
+                                                    <div
+                                                        *ngIf="logic.CookbookRecipetemplatevalues.Metadata.Collections.Categories_Included.length==0 || logic.CookbookRecipetemplatevalues.Metadata.Collections.Categories_Included.length<0">
+                                                        <div>Include only messages from the following groups:</div>
+                                                        <br />
+                                                        <div style="padding-left:20px">
+                                                            <p style="float:left"> &#x25cf; </p>
+                                                            <p style="float:left;padding-left:5px">No filter set (all
+                                                                messages included)</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div
+                                                *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Excluded User Categories'">
+                                                <div *ngIf="logic.IsExcluded">
+                                                    <div
+                                                        *ngIf="logic.CookbookRecipetemplatevalues.Metadata.Collections.Categories_Excluded.length>0&&logic.CookbookRecipetemplatevalues.Metadata.Collections.Categories_Excluded.length!=0">
+                                                        <div>Exclude only messages from the following groups : </div>
+                                                        <br />
+                                                        <div style="padding-left:20px">
+                                                            <p style="float:left"> &#x25cf; </p>
+                                                            <p style="float:left;padding-left:5px"
+                                                                *ngFor="let data of logic.CookbookRecipetemplatevalues.Metadata.Collections.Categories_Excluded">
+                                                                {{data}},</p>
+                                                        </div>
+                                                        <br />
+                                                    </div>
+                                                    <div
+                                                        *ngIf="logic.CookbookRecipetemplatevalues.Metadata.Collections.Categories_Excluded.length==0 || logic.CookbookRecipetemplatevalues.Metadata.Collections.Categories_Excluded.length<0">
+                                                        <div>Include only messages from the following groups:</div>
+                                                        <br />
+                                                        <div style="padding-left:20px">
+                                                            <p style="float:left"> &#x25cf; </p>
+                                                            <p style="float:left;padding-left:5px">No filter set (all
+                                                                messages included)</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                                <div *ngIf="logic.CombinedRecipeModels.length>0">
+
+                                    <div *ngFor="let temp of logic.Template.Templates;let i = index"
+                                        style="padding:10px">
+                                        <h4>{{logic.CombinedRecipeModels[i].Values.Name}}</h4>
+                                        <div *ngFor="let aPage of temp.Pages"
+                                            style="border:1px solid lightgray;padding:10px">
+                                            <div class="customFont"><b>{{aPage.Title}}</b></div>
+                                            <div *ngFor="let aComponent of aPage.Components">
+
+                                                <div class="m-container">
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Recipe Name'">
+                                                        <b>Recipe Name :
+                                                        </b>{{logic.CombinedRecipeModels[i].Values.Name}}</div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Custom Domain List'&&logic.CustomDomainList.length>0">
+                                                        <b style="float:left">Custom Domain List : </b>
+                                                        <p style="float:left"
+                                                            *ngFor="let data of logic.CombinedRecipeModels[i].Collections.FPC_CustomDomain">
+                                                            {{data}},</p>
+                                                    </div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Custom Domain List'&&(logic.CustomDomainList.length==0||logic.CustomDomainList.length==undefined)">
+                                                        <b style="float:left">Custom Domain List : </b>
+                                                        <p style="float:left">Not Set</p>
+                                                    </div>
+
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Value To Match'">
+                                                        <b>Value To Match :
+                                                        </b>{{logic.CombinedRecipeModels[i].Values.ValueToMatch}}</div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Field To Match'">
+                                                        <b>Field To Match :
+                                                        </b>{{logic.CombinedRecipeModels[i].Values.FieldToMatch}}</div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='SingleSelect_Enum' && aComponent.Name=='TimeFrame Style'">
+                                                        <b>TimeFrameStyle :
+                                                        </b>{{logic.CombinedRecipeModels[i].Values.VenueTreeByTime}}
+                                                    </div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Display Sent Folders'">
+                                                        <b>Display Sent Folders :
+                                                        </b>{{logic.CombinedRecipeModels[i].Values.FPC_DisplaySent}}
+                                                    </div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Messages by Industry in one venue'">
+                                                        <b>Messages by Industry By One Venue :
+                                                        </b>{{logic.CombinedRecipeModels[i].Values.FPC_GroupByCategory}}
+                                                    </div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Group by Category'">
+                                                        <b>Group By Category :
+                                                        </b>{{logic.CombinedRecipeModels[i].Values.FPC_GroupByCategory}}
+                                                    </div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Use Full Names'">
+                                                        <b>Use Full Names :
+                                                        </b>{{logic.CombinedRecipeModels[i].Values.FPC_UseFullNames}}
+                                                    </div>
+
+
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='SingleSelect_RemoteOptions' && aComponent.Name=='Accounts'">
+                                                        <div>Matches all messages</div>
+                                                        <br />
+                                                        <div style="padding-left:20px">
+                                                            <div> &#x25cf; <b>In the folders : </b> Inbox</div>
+                                                            <div> &#x25cf; <b>From the accounts : </b>
+                                                                {{logic.CombinedRecipeModels[i].Collections.MailAccounts}}
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                    </div>
+
+
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Included User Categories'">
+                                                        <div *ngIf="logic.IsIncluded">
+                                                            <div
+                                                                *ngIf="logic.CategoriesIncluded.length>0&&logic.CategoriesIncluded.length!=0">
+                                                                <div>Include only messages from the following groups :
+                                                                </div><br />
+                                                                <div style="padding-left:20px">
+                                                                    <p style="float:left"> &#x25cf; </p>
+                                                                    <p style="float:left;padding-left:5px"
+                                                                        *ngFor="let data of logic.CombinedRecipeModels[i].Collections.Categories_Included">
+                                                                        {{data}},</p>
+                                                                </div>
+                                                                <br />
+                                                            </div>
+                                                            <div
+                                                                *ngIf="logic.CategoriesIncluded.length==0 || logic.CategoriesIncluded.length<0">
+                                                                <div>Include only messages from the following groups:
+                                                                </div><br />
+                                                                <div style="padding-left:20px">
+                                                                    <p style="float:left"> &#x25cf; </p>
+                                                                    <p style="float:left;padding-left:5px">No filter set
+                                                                        (all messages included)</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Excluded User Categories'">
+                                                        <div *ngIf="logic.IsExcluded">
+                                                            <div
+                                                                *ngIf="logic.CategoriesExcluded.length>0&&logic.CategoriesExcluded.length!=0">
+                                                                <div>Exclude only messages from the following groups :
+                                                                </div><br />
+                                                                <div style="padding-left:20px">
+                                                                    <p style="float:left"> &#x25cf; </p>
+                                                                    <p style="float:left;padding-left:5px"
+                                                                        *ngFor="let data of logic.CombinedRecipeModels[i].Collections.Categories_Excluded">
+                                                                        {{data}},</p>
+                                                                </div>
+                                                                <br />
+                                                            </div>
+                                                            <div
+                                                                *ngIf="logic.CategoriesExcluded.length==0 || logic.CategoriesExcluded.length<0">
+                                                                <div>Include only messages from the following groups:
+                                                                </div><br />
+                                                                <div style="padding-left:20px">
+                                                                    <p style="float:left"> &#x25cf; </p>
+                                                                    <p style="float:left;padding-left:5px">No filter set
+                                                                        (all messages included)</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+
+                                <div *ngIf="logic.CombinedRecipeModels.length==0">
+                                    <div *ngFor="let temp of logic.Template.Templates;let i = index"
+                                        style="padding:10px">
+                                        <h4>{{logic.CookbookRecipetemplatevalues.Recipes[i].Values.Name}}</h4>
+                                        <div *ngFor="let aPage of temp.Pages"
+                                            style="border:1px solid lightgray;padding:10px">
+                                            <div class="customFont"><b>{{aPage.Title}}</b></div>
+                                            <div *ngFor="let aComponent of aPage.Components">
+
+                                                <div class="m-container">
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Recipe Name'">
+                                                        <b>Recipe Name :
+                                                        </b>{{logic.CookbookRecipetemplatevalues.Recipes[i].Values.Name}}
+                                                    </div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Custom Domain List'&&logic.CookbookRecipetemplatevalues.Recipes[i].Collections.FPC_CustomDomain.length>0">
+                                                        <b style="float:left">Custom Domain List : </b>
+                                                        <p style="float:left"
+                                                            *ngFor="let data of logic.CookbookRecipetemplatevalues.Recipes[i].Collections.FPC_CustomDomain">
+                                                            {{data}},</p>
+                                                    </div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Custom Domain List'&&(logic.CookbookRecipetemplatevalues.Recipes[i].Collections.FPC_CustomDomain.length==0||logic.CookbookRecipetemplatevalues.Recipes[i].Collections.FPC_CustomDomain.length==undefined)">
+                                                        <b style="float:left">Custom Domain List : </b>
+                                                        <p style="float:left">Not Set</p>
+                                                    </div>
+
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Value To Match'">
+                                                        <b>Value To Match :
+                                                        </b>{{logic.CookbookRecipetemplatevalues.Recipes[i].Values.ValueToMatch}}
+                                                    </div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='TextInput' && aComponent.Name=='Field To Match'">
+                                                        <b>Field To Match :
+                                                        </b>{{logic.CookbookRecipetemplatevalues.Recipes[i].Values.FieldToMatch}}
+                                                    </div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='SingleSelect_Enum' && aComponent.Name=='TimeFrame Style'">
+                                                        <b>TimeFrameStyle :
+                                                        </b>{{logic.CookbookRecipetemplatevalues.Recipes[i].Values.VenueTreeByTime}}
+                                                    </div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Display Sent Folders'">
+                                                        <b>Display Sent Folders :
+                                                        </b>{{logic.CookbookRecipetemplatevalues.Recipes[i].Values.FPC_DisplaySent}}
+                                                    </div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Messages by Industry in one venue'">
+                                                        <b>Messages by Industry By One Venue :
+                                                        </b>{{logic.CookbookRecipetemplatevalues.Recipes[i].Values.FPC_GroupByCategory}}
+                                                    </div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Group by Category'">
+                                                        <b>Group By Category :
+                                                        </b>{{logic.CookbookRecipetemplatevalues.Recipes[i].Values.FPC_GroupByCategory}}
+                                                    </div>
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Use Full Names'">
+                                                        <b>Use Full Names :
+                                                        </b>{{logic.CookbookRecipetemplatevalues.Recipes[i].Values.FPC_UseFullNames}}
+                                                    </div>
+
+
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='SingleSelect_RemoteOptions' && aComponent.Name=='Accounts'">
+                                                        <div>Matches all messages</div>
+                                                        <br />
+                                                        <div style="padding-left:20px">
+                                                            <div> &#x25cf; <b>In the folders : </b> Inbox</div>
+                                                            <div> &#x25cf; <b>From the accounts : </b>
+                                                                {{logic.CookbookRecipetemplatevalues.Recipes[i].Collections.MailAccounts}}
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                    </div>
+
+
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Included User Categories'">
+                                                        <div *ngIf="logic.IsIncluded">
+                                                            <div
+                                                                *ngIf="logic.CookbookRecipetemplatevalues.Recipes[i].Collections.Categories_Included.length>0&&logic.CookbookRecipetemplatevalues.Recipes[i].Collections.Categories_Included.length!=0">
+                                                                <div>Include only messages from the following groups :
+                                                                </div><br />
+                                                                <div style="padding-left:20px">
+                                                                    <p style="float:left"> &#x25cf; </p>
+                                                                    <p style="float:left;padding-left:5px"
+                                                                        *ngFor="let data of logic.CookbookRecipetemplatevalues.Recipes[i].Collections.Categories_Included">
+                                                                        {{data}},</p>
+                                                                </div>
+                                                                <br />
+                                                            </div>
+                                                            <div
+                                                                *ngIf="logic.CookbookRecipetemplatevalues.Recipes[i].Collections.Categories_Included.length==0 || logic.CookbookRecipetemplatevalues.Recipes[i].Collections.Categories_Included.length<0">
+                                                                <div>Include only messages from the following groups:
+                                                                </div><br />
+                                                                <div style="padding-left:20px">
+                                                                    <p style="float:left"> &#x25cf; </p>
+                                                                    <p style="float:left;padding-left:5px">No filter set
+                                                                        (all messages included)</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div
+                                                        *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Excluded User Categories'">
+                                                        <div *ngIf="logic.IsExcluded">
+                                                            <div
+                                                                *ngIf="logic.CookbookRecipetemplatevalues.Recipes[i].Collections.Categories_Excluded.length>0&&logic.CookbookRecipetemplatevalues.Recipes[i].Collections.Categories_Excluded.length!=0">
+                                                                <div>Exclude only messages from the following groups :
+                                                                </div><br />
+                                                                <div style="padding-left:20px">
+                                                                    <p style="float:left"> &#x25cf; </p>
+                                                                    <p style="float:left;padding-left:5px"
+                                                                        *ngFor="let data of logic.CookbookRecipetemplatevalues.Recipes[i].Collections.Categories_Excluded">
+                                                                        {{data}},</p>
+                                                                </div>
+                                                                <br />
+                                                            </div>
+                                                            <div
+                                                                *ngIf="logic.CookbookRecipetemplatevalues.Recipes[i].Collections.Categories_Excluded.length==0 || logic.CookbookRecipetemplatevalues.Recipes[i].Collections.Categories_Excluded.length<0">
+                                                                <div>Include only messages from the following groups:
+                                                                </div><br />
+                                                                <div style="padding-left:20px">
+                                                                    <p style="float:left"> &#x25cf; </p>
+                                                                    <p style="float:left;padding-left:5px">No filter set
+                                                                        (all messages included)</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <br />
+
+                <!-- Display buttons on bottom of wizard -->
+                <div class="form-group m-form__group" *ngIf="logic.CurrentPage!='Summary'">
+                    <button class="btn btn-primary"
+                        (click)="logic.backtoPage(logic.CurrentPage,logic.CurrentRecipe)">8Back</button>
+                    <button class="btn btn-primary"
+                        (click)="logic.nextPage(logic.CurrentPage,logic.CurrentRecipe,logic.CurrentRecipePage)">Next</button>
+                </div>
+                <div class="form-group m-form__group" *ngIf="logic.CurrentPage=='Summary'">
+                    <button class="btn btn-primary"
+                        (click)="logic.backtoPage(logic.CurrentPage,logic.CurrentRecipe)">9Back</button>
+                    <button class="btn btn-primary"
+                        (click)="logic.editPage(logic.CurrentPage,logic.CurrentRecipe,logic.CurrentRecipePage)">Edit</button>
+                    <button class="btn btn-primary" *ngIf="!logic.CookbookMode"
+                        (click)="logic.saveRecipe()">Save</button>
+                    <button class="btn btn-primary" *ngIf="logic.CookbookMode"
+                        (click)="logic.saveCookbookData()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>

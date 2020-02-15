@@ -1,0 +1,441 @@
+<!-- Documenation on styling 
+    -- https://getbootstrap.com/docs/4.1/components/forms/ 
+    -- https://material.angular.io/components/input/overview
+-->
+
+<div *ngIf="aComponent.Widget == RecipeTypeEnum.Switch">
+
+    <!-- 
+        Checkbox Field that displays a Display Sent Folder??? 
+        R/W: logic.DataValues.FieldToMatch
+    -->
+    <div *ngIf="aComponent.Key=='Values.FPC_DisplaySent'">
+        <div class="form-group m-form__group">
+            <label for="Display_Sent_folders" class="m-checkbox">
+                <input id="Display_Sent_folders" class="m-check" type="checkbox" name="Display_Sent_folders"
+                    [checked]="logic.WizardData.DataValues.FPC_DisplaySent ==='true'"
+                    [(ngModel)]="logic.WizardData.DataValues.FPC_DisplaySent">
+                <h6>{{aComponent.Name}}</h6>
+                <span></span>
+            </label>
+        </div>
+    </div>
+
+
+    <!-- 
+        Checkbox Field that displays a Group by Category messages 
+        R/W: logic.DataValues.FieldToMatch
+    -->
+    <div *ngIf="aComponent.Key=='Values.FPC_GroupByCategory'">
+        <div class="form-group m-form__group">
+            <label for="group_by_category" class="m-checkbox">
+                <input id="group_by_category" class="m-check" type="checkbox" name="group_by_category"
+                    [checked]="logic.WizardData.DataValues.FPC_GroupByCategory ==='true'"
+                    [(ngModel)]="logic.WizardData.DataValues.FPC_GroupByCategory">
+                <h6>{{aComponent.Name}}</h6>
+                <span></span>
+            </label>
+        </div>
+    </div>
+
+    <!-- 
+        Checkbox Field that displays a Use Full Names
+        R/W: logic.DataValues.FieldToMatch
+    -->
+    <div *ngIf="aComponent.Key=='Values.FPC_UseFullNames'">
+        <div class="form-group m-form__group">
+            <label for="use_full_name" class="m-checkbox">
+                <input id="use_full_name" class="m-check" type="checkbox" name="use_full_name"
+                    [checked]="logic.WizardData.DataValues.FPC_UseFullNames ==='true'"
+                    [(ngModel)]="logic.WizardData.DataValues.FPC_UseFullNames">
+                <h6>{{aComponent.Name}}</h6>
+                <span></span>
+            </label>
+        </div>
+    </div>
+
+
+</div>
+
+
+<!-- 
+    Dropdown that displays a list of email account
+    R/W: logic.DataValues.MailAccounts
+-->
+<div *ngIf="aComponent.Widget== RecipeTypeEnum.SingleSelect_RemoteOptions && aComponent.Name=='Accounts'">
+    <div class="form-group m-form__group w-25">
+        <h5 for="logic.Accounts">Accounts</h5>
+        <select class="form-control autofocus" [(ngModel)]="logic.WizardData.DataValues.MailAccounts"
+            (change)="logic.change_filter()">
+            <option *ngFor="let row of logic.Accounts" [ngValue]="row.MailAccountId">
+                {{row.Email}}
+            </option>
+        </select>
+        <small id="emailHelp" class="form-text text-muted">Please select a mail account</small>
+    </div>
+</div>
+
+
+<!-- 
+    Dispalys a simple text field 
+    Contains the components Name 
+     && aComponent?.Key?.length > 0
+-->
+<div *ngIf="aComponent.Widget== RecipeTypeEnum.Text && aComponent.Key && aComponent.Key.length > 0">
+    <div class="form-group m-form__group">
+        <h6>{{aComponent.Value}}</h6>
+    </div>
+</div>
+
+
+<div *ngIf="aComponent.Widget == RecipeTypeEnum.TextInput">
+    <!-- 
+        Input Field that displays recipe name 
+        R/W: logic.DataValues.Name
+    -->
+    <div *ngIf="aComponent.Name=='Recipe Name'">
+        <div class="form-group w-25">
+            <h5 for="RecipeName">{{aComponent.Name}}</h5>
+            <input #recipeName autofocus maxlength="32" class="form-control" id="RecipeName" name="recipeNameField"
+                placeholder="The recipes name" (keyup)="logic.checkLength(logic.WizardData.DataValues.Name,7)"
+                [(ngModel)]="logic.WizardData.DataValues.Name" />
+            <label *ngIf="logic.ValidationFailedShowErrorMsg==true" style="color:orangered">
+                Recipe name is required and must be 7 characters or longer
+            </label>
+        </div>
+    </div>
+
+    <!-- 
+        Input Field that displays a list of email domains 
+    -->
+    <div *ngIf="aComponent.Name=='Email Domains'">
+        <div class="form-group m-form__group">
+            <h5 for="Email_Domains">Email Domains</h5>
+            <input class="form-control" id="Email_Domains" name="first"
+                [(ngModel)]="logic.WizardData.DataValues.EmailDomains" />
+        </div>
+    </div>
+
+
+    <!-- 
+        Input Field that displays "Value to Match
+        Used in the Facebook Groups template 
+        R/W: logic.DataValues.FolderSearch
+    -->
+    <div *ngIf="aComponent.Name=='Value To Match'">
+        <div class="form-group m-form__group">
+            <h5 for="Value_To_Match">Value To Match</h5>
+            <input class="form-control" id="Value_To_Match" name="first"
+                [(ngModel)]="logic.WizardData.DataValues.ValueToMatch" />
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="aComponent.Widget==RecipeTypeEnum.SingleSelect_Enum">
+
+    <!-- 
+        Dropdown Field that displays a list of TimeFrame Styles
+        R/W: logic.DataValues.VenueTreeByTime
+    -->
+    <div *ngIf="aComponent.Name=='TimeFrame Style'">
+        <div class="form-group m-form__group w-25">
+            <h5 for="TimeframeStyle">Timeframe Style</h5>
+            <select id="TimeframeStyle" name="TimeframeStyle" class="form-control" type="string"
+                [(ngModel)]="logic.WizardData.DataValues.VenueTreeByTime">
+                <option *ngFor="let row of logic.DataSetObject.GetList(logic.DataSetObjectKeys.VenueTreeByTime)"
+                    [ngValue]="row.Value">
+                    {{row.DisplayName}}
+                </option>
+            </select>
+            <small id="tfHelp" class="form-text text-muted">Select how to group timeframe messages</small>
+        </div>
+    </div>
+
+    <!-- 
+        Dropdown Field that displays a list of fields to match  
+        R/W: logic.DataValues.FieldToMatch
+    -->
+    <div *ngIf="aComponent.Name=='Field To Match'">
+        <div class="form-group m-form__group">
+            <h5 for="Field_To_Match">Field To Match</h5>
+            <select id="Field_To_Match" class="form-control" [(ngModel)]="logic.WizardData.DataValues.FieldToMatch">
+                <option *ngFor="let row of logic.DataSetObject.GetList(logic.DataSetObjectKeys.FieldToSearch)"
+                    [ngValue]="row.Value" [selected]="row.Value == logic.WizardData.DataValues.FieldToMatch">
+                    {{ row.DisplayName }}
+                </option>
+            </select>
+        </div>
+    </div>
+
+
+
+    <!-- 
+        Checkbox Field that displays - Folders To Search 
+        R/W: logic.DataValues.FolderSearch
+    -->
+    <div *ngIf="aComponent.Name=='Folders To Search'">
+        <div class="form-group m-form__group w-25">
+            <h5 for="Folders_To_Search">Folders To Search</h5>
+            <select id="Folders_To_Search" name="Folders_To_Search" class="form-control autofocus"
+                [(ngModel)]="logic.WizardData.DataValues.MailFoldersBasic">
+
+                <option *ngFor="let row of logic.DataSetObject.GetList(logic.DataSetObjectKeys.FolderSearch)"
+                    [ngValue]="row.Value">
+                    {{ row.DisplayName }}
+                </option>
+            </select>
+            <small id="emailHelp" class="form-text text-muted">Select which folders to search in.</small>
+        </div>
+    </div>
+</div>
+
+
+<!-- 
+    Panel that shows - Include or Exclude User Categories
+    Reads: logic.ViewMode
+    R/W: logic.DataValues.FolderSearch
+
+-->
+<div *ngIf="aComponent.Widget==RecipeTypeEnum.ListEditor_RemoteOptions">
+
+    <!-- 
+        Included Excluded tab section 
+        XOr choices between two lists 
+    -->
+    <div *ngIf="aComponent.Name=='Included User Categories'">
+        <h5>Select the Groups to include in this Recipe:</h5><br>
+
+        <div class="recipe-groups-container container">
+                    <!-- Display a list of checkboxes from logic.CheckboxDataSet -->
+                    <div *ngFor="let row of logic.WizardData.CheckboxDataSet">
+                        <label for="{{row.Category}}" class="m-checkbox">
+                            <input type="checkbox" id="{{row.Category}}" class="m-check"
+                                name="IncludedCheck" [checked]="row.IsItemSelected"
+                                (change)="row.IsItemSelected = $event.target.checked">
+                            <div class="cbIncDesc" ><strong>{{row.Category}}</strong> - {{row.Description}} </div>
+                            <span></span>
+                        </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+        older version of above 
+        Included Excluded tab section 
+        XOr choices between two lists 
+    -->
+    <div *ngIf="aComponent.Name=='Included User Categories Many'">
+
+        <ul class="nav nav-tabs">
+            <li class="nav-link m-tabs__link underlineCustom active" rel="Included"
+                [class.active]="logic.IsIncludedTabVisible" (click)="logic.includedCheckBoxTabSelected()">
+                Included</li>
+
+            <li class="nav-link m-tabs__link underlineCustom" rel="Excluded" [class.active]="logic.IsExcludedTabVisible"
+                (click)="logic.excludedCheckBoxTabSelected()">
+                Excluded</li>
+        </ul>
+
+        <!-- Switch Case based on logic.ViewMode variable. -->
+        <div class="tab-content" [ngSwitch]="logic.CheckBoxTabVisible">
+
+            <!-- ngSwitchCase == Included  -->
+            <div id="tab1" class="tab-slider--body" *ngSwitchCase="'Included'">
+                <!-- Display a list of checkboxes from logic.CheckboxDataSet -->
+                <div *ngFor="let row of logic.WizardData.CheckboxDataSet">
+                    <label for="IncludedCheck{{row.Category}}" class="m-checkbox">
+                        <input type="checkbox id=" IncludedCheck{{row.Category}}" class="m-check" name="IncludedCheck"
+                            [checked]="row.IsItemSelected == 'I'"
+                            (change)="logic.onCategoryChange(row.Category,$event.target.checked,'Included')">
+                        <p>{{row.Category}}</p>
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- ngSwitchCase == Excluded  -->
+            <div id="tab2" class="tab-slider--body" *ngSwitchCase="'Excluded'">
+                <!-- Display a list of checkboxes from logic.CheckboxDataSet -->
+                <div *ngFor="let row of logic.WizardData.CheckboxDataSet">
+                    <label for="ExcludedCheck{{row.Category}}" class="m-checkbox">
+                        <input type="checkbox" id="ExcludedCheck{{row.Category}}" class="m-check" name="ExcludedCheck"
+                            [checked]="row.IsItemSelected == 'E'"
+                            (change)="logic.onCategoryChange(row.Category,$event.target.checked,'Excluded')">
+                        <p>{{row.Category}}</p>
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 
+        BAD - Cant load from logic.CheckboxDataSet
+        Checkbox Field that displays - Custom Domain List
+        R/W: logic.DataValues.FolderSearch
+    -->
+    <div *ngIf="aComponent.Name=='Custom Domain List'">
+        <div class="form-group m-form__group">
+            <h5>Custom Domain List</h5>
+            <div class="CustomBorder">
+                <div *ngFor="let row of logic.WizardData.RemoteCollectionData.FPC_CustomDomain">
+                    <!-- Display a list of checkboxes from logic.CheckboxDataSet -->
+                    <label for="CustomDomList{{row.Name}}" class="m-checkbox">
+                        <input id="CustomDomList{{row.Name}}" class="m-check" type="checkbox"
+                            checked="{{row.IsItemSelected}}" name="CustomDomListCheck"
+                            (change)="logic.onListChange('FPC_CustomDomain', row.Key, $event.target.checked)">
+                        <p>{{row.Name}}</p>
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+        Checkbox Field that displays - Contact Groups 
+    -->
+    <div *ngIf="aComponent.Name=='Contact Groups'">
+        <div class="form-group m-form__group">
+            <h5>Contact Groups</h5>
+            <div class="CustomBorder">
+                <div *ngFor="let row of logic.WizardData.RemoteCollectionData.FolderPerContactGroups">
+                    <!-- Display a list of checkboxes from logic.CheckboxDataSet -->
+                    <label for="ContactGroupList{{row.Name}}" class="m-checkbox">
+                        <input id="ContactGroupList{{row.Name}}" class="m-check" type="checkbox"
+                            checked="{{row.IsItemSelected}}" name="ContactGroupListCheck"
+                            (change)="logic.onListChange('FolderPerContactGroups', row.Key, $event.target.checked)">
+                        <p>{{row.Name}}</p>
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+        Checkbox Field that displays a list of mailing lists 
+        https://leovo2708.github.io/ngx-treeview/#/components
+        https://openbase.io/js/ngx-treeview
+
+    -->
+
+    <div *ngIf="aComponent.Name=='Mailing Lists'">
+        <div class="form-group m-form__group">
+            <h5>Mailing Lists</h5>
+                <!-- [config]="logic.newsGrouTreeConfig"  -->
+
+            <ngx-treeview 
+                (filterChange)="logic.onFilterChange($event)"
+                [items]="logic.newsGroupTreeData" 
+                (selectedChange)="logic.newsGroupTreeSelected = $event"
+            >
+            </ngx-treeview>
+            <!-- <div class="scroll"  (scroll)="divScroll($event)">
+
+                <div *ngFor="let row of logic.WizardData.RemoteCollectionData.NewsGroups">
+                    <label for="Mailing_List{{row.Name}}" class="m-checkbox">
+                        <input id="Mailing_List{{row.Name}}" class="m-check" type="checkbox"
+                            checked="{{row.IsItemSelected}}" name="Mailing_ListCheck"
+                            (change)="logic.onListChange('NewsGroups', row.Key, $event.target.checked)">
+                        <p>{{row.Name}}</p>
+                        <span></span>
+                    </label>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+
+    <!-- 
+        Checkbox Field that displays a list of Industry groups 
+    -->
+
+    <div *ngIf="aComponent.Name=='Industry Group'">
+        <div class="form-group m-form__group">
+            <h5>Industry Group</h5>
+            <div class="CustomBorder">
+                <div *ngFor="let row of logic.WizardData.RemoteCollectionData.IndustryGroup">
+                    <!-- Display a list of checkboxes from logic.CheckboxDataSet -->
+                    <label for="Industry_Group{{row.Name}}" class="m-checkbox">
+                        <input id="Industry_Group{{row.Name}}" class="m-check" type="checkbox"
+                            checked="{{row.IsItemSelected}}" name="Industry_GroupCheck"
+                            (change)="logic.onListChange('IndustryGroup', row.Key, $event.target.checked)">
+                        <p>{{row.Name}}</p>
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+        Checkbox Field that displays a list of User
+        Used in the Orgainze by Category template 
+        R/W: logic.DataValues.FolderSearch
+    -->
+    <div *ngIf="aComponent.Name=='User List'">
+        <div class="form-group m-form__group">
+            <h5>User List</h5>
+            <div class="CustomBorder">
+                <div *ngFor="let row of logic.WizardData.CheckboxDataSet">
+                    <label for="User_List{{row.Category}}" class="m-checkbox">
+                        <input id="User_List{{row.Category}}" class="m-check" type="checkbox"
+                            checked="{{row.IsCustomListChecked}}" name="User_ListCheck"
+                            (change)="logic.onListChange(aComponent.Name,row.Category,$event.target.checked)">
+                        <p>{{row.Category}}-User Category</p>
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+        Checkbox Field that displays - User groups 
+        Used in the Orgainze by Category template 
+        R/W: logic.DataValues.FolderSearch
+    -->
+    <div *ngIf="aComponent.Name=='User Groups'">
+        <div class="form-group m-form__group">
+            <h5>User Groups</h5>
+            <div class="CustomBorder">
+                <div *ngFor="let row of logic.WizardData.CheckboxDataSet">
+                    <label for="User_Groups{{row.Category}}" class="m-checkbox">
+                        <input id="User_Groups{{row.Category}}" class="m-check" type="checkbox"
+                            checked="{{row.IsCustomListChecked}}" name="User_GroupsCheck"
+                            (change)="logic.onListChange(aComponent.Name,row.Category,$event.target.checked)">
+                        <p>{{row.Category}}-User Category</p>
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 
+        Checkbox Field that displays a list of Categories 
+        Used in the Orgainze by Category template 
+        R/W: logic.DataValues.FolderSearch
+    -->
+    <div *ngIf="aComponent.Name=='Category' && logic.SummaryPageTitle != 'Organize By Category'">
+        <div class="form-group m-form__group">
+            <h5>Category</h5>
+            <div class="CustomBorder">
+                <!-- Display a list of checkboxes from logic.CheckboxDataSet -->
+                <div *ngFor="let row of logic.WizardData.CheckboxDataSet">
+                    <label for="Category{{row.Category}}" class="m-checkbox">
+                        <input id="Category{{row.Category}}" class="m-check" type="checkbox"
+                            checked="{{row.IsCustomListChecked}}" name="CategoryCheck"
+                            (change)="logic.onCategoryChange(row.Category,$event.target.checked)">
+                        <p>{{row.Category}}-User Category</p>
+                        <span></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

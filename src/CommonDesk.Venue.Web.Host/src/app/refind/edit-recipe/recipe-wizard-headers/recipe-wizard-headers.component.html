@@ -1,0 +1,21 @@
+
+    <div *ngIf="logic.UseProgressGauge">
+        <stepper-progress 
+            [steps]="logic.ProgressGuageSteps" 
+            [activeIndex]="logic.WizardPageNumber"
+            [currentPage]="logic.CurrentPage">
+        </stepper-progress>
+    </div>
+    <div *ngIf="true || logic.EditMode == false">
+            <div class="col">
+                <div class="m-10 row">
+                    <div class="col-10">
+                        <h3>{{logic.Template.Name}}</h3>
+                        {{logic.Template.Description}}
+                    </div>
+                    <div class="col text-right recipe-delete">
+                        <button class="btn btn-primary" (click)="logic.deleteRecipe()">Delete Recipe</button>
+                    </div>
+                </div>
+            </div>
+    </div>

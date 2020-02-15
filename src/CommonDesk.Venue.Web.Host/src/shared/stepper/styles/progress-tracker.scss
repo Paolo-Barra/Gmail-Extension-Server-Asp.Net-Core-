@@ -1,0 +1,13 @@
+@import "progress-tracker/progress-tracker-variables";
+@import "progress-tracker/progress-tracker";
+@import "progress-tracker/progress-tracker-modifiers";
+@import "progress-tracker/progress-tracker-animations";
+// @import "progress-tracker/progress-tracker-rtl";
+
+
+
+.progress-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

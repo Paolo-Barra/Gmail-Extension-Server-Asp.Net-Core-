@@ -1,0 +1,69 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  text-align: center;
+
+  .login-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .form-control-checkbox[disabled] {
+      display: none !important;
+    }
+
+    .m-login__form-sub {
+      display: flex;
+      align-items: baseline;
+    }
+  }
+}
+
+.social-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.refind-logo {
+  height: 100px;
+  width: 120px;
+  background: url("/assets/common/images/reFind-Logo.png");
+  background-repeat: no-repeat;
+}
+
+.wrap {
+  text-align: center;
+  margin: 20px;
+  position: relative;
+}
+.links {
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.wrap:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -200%;
+  border-top: 1px solid #e8f0fe;
+  background: #000000b5;
+  width: 500%;
+  transform: translateY(-50%);
+}
+.dot {
+  width: 28px;
+  height: 20px;
+  background: white;
+
+  p {
+    margin-top: -5px !important;
+  }
+}

@@ -1,0 +1,153 @@
+{
+
+
+    "version": "2.0.0",
+    "configurations": [
+      {
+        "type": "chrome",
+        "request": "launch",
+        "name": "Launch chrome",
+        "url": "http://localhost:4200",
+        "port": 9222,
+        "webRoot": "${workspaceFolder}",
+        "smartStep": true,  // https://stackoverflow.com/questions/41644827/debug-node-js-async-await-with-typescriptvscode
+      },
+      {
+        "name": "linuxdev:mb",
+        "type": "chrome",
+        "request": "launch",
+        "port": 9222,
+        "url": "http://localhost:4200/#",
+        "preLaunchTask": "npm: linuxdev:mb",
+        "webRoot": "${workspaceFolder}",
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "linuxdev"
+        },
+        "smartStep": true,   // https://stackoverflow.com/questions/41644827/debug-node-js-async-await-with-typescriptvscode
+      },
+      {
+        "name": "ng linuxdev:optimized:both",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:4200",
+        "preLaunchTask": "npm: linuxdev:optimized:both",
+        "webRoot": "${workspaceFolder}",
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "linuxdev"
+        }
+      },
+
+      {
+        "name": "ng serve cddevweb1",
+        "type": "chrome",
+        "request": "launch",
+        "preLaunchTask": "npm: cddevweb1",
+        "url": "https://cddevweb1.ngrok.io/",
+        "webRoot": "${workspaceFolder}",
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "cddevweb1"
+        }
+      },
+      {
+        "name": "ng serve cddevweb1:opmimized:",
+        "type": "chrome",
+        "request": "launch",
+        "preLaunchTask": "npm: cddevweb1:opmimized",
+        "url": "https://cddevweb1.ngrok.io/",
+        "webRoot": "${workspaceFolder}",
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "cddevweb1"
+        }
+      },
+      {
+        "name": "ng serve linuxdev",
+        "type": "chrome",
+        "request": "launch",
+        "preLaunchTask": "npm: linuxdev",
+        "url": "http://localhost:4200",
+        "webRoot": "${workspaceFolder}",
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "linuxdev"
+        }
+      },
+      {
+        "name": "ng debug linuxdev",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:4200",
+        "webRoot": "${workspaceFolder}",
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "linuxdev"
+        }
+      },
+
+      
+      {
+        "name": "ng mitchmobile:prod",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:4200",
+        "preLaunchTask": "npm: mitchmobile:prod",
+        "webRoot": "${workspaceFolder}",
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "mitchmobile"
+        }
+      },
+
+      {
+        "name": "ng mitchmobile:both",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:4200",
+        "preLaunchTask": "npm: mitchmobile:both",
+        "webRoot": "${workspaceFolder}",
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "mitchmobile"
+        }
+      },
+      {
+        "name": "ng debug linuxdev-light:optimized",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:4200/account/start",
+        "preLaunchTask": "npm: linuxdev-light:optimized",
+        "webRoot": "${workspaceFolder}",
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "linuxdev"
+        }
+      },
+      {
+        "name": "ng juanlocal",
+        "type": "chrome",
+        "request": "launch",
+        "preLaunchTask": "npm: juanlocal",
+        "url": "http://localhost:4200/account/login",
+        "webRoot": "${workspaceFolder}",
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "juanlocal"
+        }
+      },
+      {
+        "name": "ng juanmobile",
+        "type": "chrome",
+        "request": "launch",
+        "preLaunchTask": "npm: juanmobile",
+        "url": "http://localhost:4200/account/login",
+        "webRoot": "${workspaceFolder}",
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "juanmobile"
+        }
+      },     
+      {
+        "name": "ng juan:light:optimized",
+        "type": "chrome",
+        "request": "launch",
+        "preLaunchTask": "npm: juan:light:optimized",
+        "url": "http://localhost:4200/account/login",
+        "webRoot": "${workspaceFolder}",
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "juanmobile"
+        }
+      },     
+    ]
+  }

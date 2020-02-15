@@ -1,0 +1,27 @@
+<div bsModal #modal="bs-modal">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Select groups to add</h4>
+    <button type="button" class="close" aria-label="Close" (click)="hideModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="select-group-modal">
+      <form [formGroup]="selectGroupForm">
+        <div formArrayName="groups">
+          <div *ngFor="let group of selectGroupFormArray.controls; let i = index;" [formGroupName]="i">
+            <ng-container *ngIf="group.get('name').value.CategoryId !== groupId">
+              <mat-checkbox [formControl]="group.get('selected')">
+                {{group.get('name').value.Category}}
+              </mat-checkbox>
+            </ng-container>
+          </div>
+        </div>
+      </form>
+      <div style="float:right; margin: 20px 0;">
+        <button class="btn btn-primary m-btn m-btn--custom m-btn--air" (click)="onSave()">Save</button>
+        <button class="btn btn-primary m-btn m-btn--custom m-btn--air" (click)="hideModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

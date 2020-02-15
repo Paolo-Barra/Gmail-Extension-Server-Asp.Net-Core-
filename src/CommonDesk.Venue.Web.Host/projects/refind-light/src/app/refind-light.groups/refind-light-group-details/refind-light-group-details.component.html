@@ -1,0 +1,169 @@
+﻿<div>
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-xs-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>{{logic.groupName}}</span>
+                </h3>
+                <span class="m-section__sub">
+                    Manage Your groups Details
+                </span>
+            </div>
+            <div class="col-xs-6 text-right">
+                <button class="btn btn-primary" (click)="logic.back()">Back</button>
+                <button class="btn btn-primary" (click)="logic.delete()">Delete</button>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+
+                <div class="table-scrollable table-filter-section">
+                    <table class="table table-light">
+                        <tbody>
+                            <tr>
+                                <th>Group</th>
+                                <td style="width: 100%;">
+                                    <select class="form-control" [(ngModel)]="logic.groupId"
+                                        (change)="logic.change_filter(logic.groupId,logic.categoryList)">
+                                        <option [value]="logic.groupName" selected="selected">{{logic.groupName}}
+                                        </option>
+                                        <option *ngFor="let row of logic.categoryList" value="{{ row.CategoryId }}">
+                                            {{ row.Category }}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Search</th>
+                                <td>
+                                    <input type="text" [(ngModel)]="logic.searchTerm" class="form-control"
+                                        placeholder="by name or email" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+                <div class="table-scrollable table-scrollable-borderless table-responsive">
+                    <table class="table table-hover table-light table-responsive">
+                        <thead>
+                            <tr class="uppercase">
+                                <th (click)="logic.setOrder('name')" style="width:100%">
+                                    Contact
+                                    <span *ngIf="logic.orderBy == 'name'">
+                                        <span *ngIf="!logic.reverse">
+                                            &darr;
+                                        </span>
+                                        <span *ngIf="logic.reverse">
+                                            &uarr;
+                                        </span>
+                                    </span>
+                                </th>
+                                <th (click)="logic.setOrder('received')">
+                                    Received
+                                    <span *ngIf="logic.orderBy == 'received'">
+                                        <span *ngIf="!logic.reverse">
+                                            &darr;
+                                        </span>
+                                        <span *ngIf="logic.reverse">
+                                            &uarr;
+                                        </span>
+                                    </span>
+                                </th>
+                                <th (click)="logic.setOrder('sent')">
+                                    Sent
+                                    <span *ngIf="logic.orderBy == 'sent'">
+                                        <span *ngIf="!logic.reverse">
+                                            &darr;
+                                        </span>
+                                        <span *ngIf="logic.reverse">
+                                            &uarr;
+                                        </span>
+                                    </span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let groupsdata of logic.getFilteredGroups()">
+                                <td>
+
+                                    <div class="stat-name">
+                                        <strong>{{ groupsdata.emailStat.Name }}</strong>
+                                    </div>
+                                    <div class="stat-name">
+                                        <small>{{ groupsdata.categoryItem.Value }}</small>
+                                    </div>
+                                    <div *ngIf="groupsdata.categoryItem.ArchivedCategory">
+                                        <small><em>Original group: {{ groupsdata.categoryItem.ArchivedCategory}}
+                                            </em></small>
+                                    </div>
+                                </td>
+                                <!-- <td>{{ stat.Source }}</td> -->
+                                <td>{{ groupsdata.emailStat.RecievedCount }}</td>
+                                <!-- <td>{{ stat.opened }}</td> -->
+                                <td>{{ groupsdata.emailStat.SentCount }}</td>
+                                <td>
+                                    <div class="form-inline">
+
+                                        <button class="btn btn-primary"
+                                            (click)="logic.openPopup(groupsdata)">Move</button>
+                                        &nbsp;&nbsp;
+                                        <span *ngIf="groupsdata.categoryItem.ArchivedCategory">
+                                            <button class="btn btn-danger"
+                                                (click)="logic.reset(groupsdata)">Reset</button>
+
+                                            <!--popover-title="Default value" uib-popover="{{ stat.ArchivedCategory }}" popover-trigger="mouseenter"-->
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr *ngIf="logic.getFilteredGroups().length === 0 "
+                                style="text-align: center;font-weight: 600;">
+                                <td> Nothing To display</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Create a drop down to display a list of groups to move things to -->
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':logic.display}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Move To Group</h4>
+                <button type="button" class="close" aria-label="Close" (click)="logic.onCloseHandled()"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="modal-body">
+                <!--
+                    <form class="form-inline" #inputForm="ngForm">
+                    <select class='form-control' [(ngModel)]='stat.new_category' (change)="move(stat)">
+                    <option *ngFor='let option of options' value='{{ option.Category }}'>{{ option.Category }}</option>
+                    </select>
+                -->
+                <select class="form-control" [(ngModel)]="logic.new_category" (change)="logic.move()">
+                    <option *ngFor="let row of logic.categoryList" value="{{ row.Category }}">{{ row.Category }}
+                    </option>
+                </select>
+                <!--</form>-->
+            </div>
+        </div>
+    </div>
+</div>

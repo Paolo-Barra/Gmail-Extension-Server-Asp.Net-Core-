@@ -1,0 +1,15 @@
+/* 
+ different style choices 
+ https://medium.com/@ladyleet/adding-box-shadow-z-depth-to-angular-material-2-components-6bd0de303dcb  
+ */
+ mat-expansion-panel {
+    margin: 10px 20px !important;
+    box-shadow: 0 4px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  }
+  
+  mat-panel-description {
+    /* flex-grow: 0.05 !important; */
+    margin-left: 20%;
+    position: absolute;
+  }
+  

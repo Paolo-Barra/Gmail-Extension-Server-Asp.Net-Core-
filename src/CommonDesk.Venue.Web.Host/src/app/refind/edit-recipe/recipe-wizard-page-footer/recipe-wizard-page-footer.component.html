@@ -1,0 +1,7 @@
+<div class="form-group m-form__group" class="recipe-wizard-page-footer">
+  <button class="btn btn-primary" *ngIf="logic.ShowButtons.includes('c') === true"   (click)="logic.cancelButton()">Cancel</button>
+  <button class="btn btn-primary" *ngIf="logic.ShowButtons.includes('e') === true"   (click)="logic.editButton()">Edit</button>  
+  <button class="btn btn-primary" *ngIf="logic.ShowButtons.includes('b') === true"   (click)="logic.backButton()">Back</button>
+  <button class="btn btn-primary" *ngIf="logic.ShowButtons.includes('n') === true"   (click)="logic.nextButton()">Next</button>
+  <button class="btn btn-primary" *ngIf="logic.ShowButtons.includes('s') === true"   (click)="logic.saveRecipe()">Save</button>
+</div>

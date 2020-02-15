@@ -1,0 +1,19 @@
+{
+  "remoteServiceBaseUrl":  "https://cddevback2.ngrok.io",
+  "appBaseUrl": "https://cddevweb2.ngrok.io",
+  "refindBackendUrl": "http://localhost:5172/venue",
+  "localeMappings": [
+    {
+      "from": "pt-BR",
+      "to": "pt"
+    },
+    {
+      "from": "zh-CN",
+      "to": "zh"
+    },
+	{
+		"from": "he-IL",
+		"to": "he"
+	}
+  ]
+}

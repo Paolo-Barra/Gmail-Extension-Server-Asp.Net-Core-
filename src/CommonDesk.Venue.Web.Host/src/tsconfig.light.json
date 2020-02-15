@@ -1,0 +1,77 @@
+{
+    "compilerOptions": {
+      "declaration": false,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "lib": [
+        "es6",
+        "dom"
+      ],
+      "mapRoot": "./",
+      "module": "esnext",
+      "skipLibCheck": true,
+      "moduleResolution": "node",
+      "outDir": "../dist/out-tsc",
+      "sourceMap": true,
+      "target": "es5",
+      "typeRoots": [
+        "../node_modules/@types"
+      ],
+      "plugins": [
+        {
+          "name": "@angular/language-service"
+        }
+      ],
+      "baseUrl": ".",
+      "paths": {
+        "*": [
+          "types/*"
+        ],
+        "@assets/*": [
+          "./assets/*"
+        ],
+        "@abp/*": [
+          "../node_modules/abp-ng2-module/dist/src/*"
+        ],
+        "@app/*": [
+          "./app/*"
+        ],
+        "@account/*": [
+          "./account/*"
+        ],
+        "@shared/*": [
+          "./shared/*"
+        ],
+        "@rshared/*": [
+          "./app/refind/shared/*"
+        ],
+        "@rshared1/*": [
+          "./shared/*"
+        ],
+        "@node_modules/*": [
+          "../node_modules/*"
+        ],
+        "@angular/*": [
+          "../node_modules/@angular/*"
+        ],
+        "@metronic/*": [
+          "./assets/metronic/*"
+        ],
+        "@refind/*": [
+          "./app/refind/*"
+        ],
+        "@refindRoot/*": [
+          "./refindRoot/*"
+        ]
+      }
+    },
+    "include": [
+      "../projects/refind-light/src/**/*.ts"
+    ],
+    "exclude": [
+      "src/test.ts",
+      "src/**/*.spec.ts",
+      "../projects/refind-light/src/**/*.spec.ts",
+      "node_modules"
+    ]
+  }

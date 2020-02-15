@@ -1,0 +1,11 @@
+div.welcome-container {
+    padding: 10px 20px;
+}
+
+::ng-deep .mat-horizontal-stepper-header-container {
+    display: none !important;
+  }
+  
+  ::ng-deep .mat-horizontal-content-container {
+    padding: 12px !important;
+  }

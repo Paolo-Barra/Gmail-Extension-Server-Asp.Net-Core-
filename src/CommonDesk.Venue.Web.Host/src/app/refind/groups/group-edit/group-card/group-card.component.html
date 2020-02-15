@@ -1,0 +1,10 @@
+<div class="card {{isCardInOperation ? 'card-operation' : ''}}
+  {{isCardOperationSuccessful ? 'card-successful' : '' }} {{active ? 'card-multiselect-active' : ''}}">
+  <p class="email">{{mail.PersonName}}</p>
+  <p class="email">{{mail.Value}}</p>
+  <p class="status">
+    <span title="Recieved Count">{{mail.ReceivedCount}}&dArr;</span> 
+    <span title="Sent Count">{{mail.SentCount}}&uArr;</span> 
+    <span title="Opened Count">{{mail.OpenCount}}&#128449;</span> 
+  </p>
+</div>

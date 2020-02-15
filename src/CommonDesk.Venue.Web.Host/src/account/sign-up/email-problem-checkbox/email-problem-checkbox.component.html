@@ -1,0 +1,19 @@
+<form [formGroup]="emailProblemForm">
+
+    <!-- <div formArrayName="emailProblems">
+        <div [formGroup]="emailProblems" *ngFor="let problem of emailProblems">
+            <mat-checkbox [formControl]="problem.get('selected')">
+                asdfasdfafd
+            </mat-checkbox>
+        </div>
+    </div> -->
+
+    <div formArrayName="emailProblems">
+        <div *ngFor="let problem of emailProblemsFormArray.controls; let i = index;" [formGroupName]="i">
+            <mat-checkbox [formControl]="problem.get('selected')">
+                {{problem.get('name').value}}
+            </mat-checkbox>
+        </div>
+    </div>
+
+</form>

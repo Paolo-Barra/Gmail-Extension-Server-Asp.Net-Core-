@@ -1,0 +1,48 @@
+.recipe-groups-container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.CustomBorder {
+  margin-left: 20px;
+}
+
+.displaylabel{
+  display: inline-block;   
+  width: 150px;
+  height: 30px;
+  border: 1px solid #eee;
+  line-height: 30px;
+}
+
+/* https://stackblitz.com/edit/angular-scrolling-window-or-element */
+div.scroll {
+  height: 500px;
+  overflow-y: scroll;
+}
+
+
+/* label:hover {
+cursor: pointer;
+  background: #eee;
+} */
+
+.cbIncCat{
+  width: 150px;
+}
+.cbIncDesc{
+  width: 800px;
+}
+
+.dbborder1 {
+  border:red solid 1px !important;
+}
+.dbborder2 {
+  border:green solid 1px !important;
+}
+.dbborder3 {
+  width: 150px;
+  border: purple solid 1px !important
+}

@@ -1,0 +1,176 @@
+#HostDashboard {
+    @chartHeight: 260;
+
+    div.chart {
+        height: @chartHeight*1px;
+        width: 100%;
+
+        h3 {
+            small {
+                padding-left: 0px !important;
+            }
+        }
+    }
+
+    .primeNgDataTableTheme(@backgroundColor) {
+        thead th {
+            background-color: @backgroundColor !important;
+            color: white;
+        }
+    }
+
+    .expiring-tenants-table {
+        .primeNgDataTableTheme(#E08283);
+    }
+
+    .recent-tenants-table {
+        .primeNgDataTableTheme(#8877a9);
+    }
+
+    .expiring-tenants-table {
+        color: green
+    }
+
+    div.pie-chart-label {
+        border: 1px solid grey;
+        font-size: 8pt;
+        text-align: center;
+        padding: 5px;
+        color: white;
+    }
+
+    div.portlet {
+        div.portlet-title {
+            div.caption {
+                div.caption-helper {
+                    margin-top: 5px;
+                }
+            }
+
+            div.actions {
+                padding: 0;
+            }
+        }
+
+        div.portlet-body {
+            min-height: (@chartHeight + 70)*1px;
+        }
+    }
+
+    div.flot-x-axis > div {
+        white-space: nowrap;
+        transform: translate(0px, 0) rotate(-25deg);
+        text-indent: -6%;
+        transform-origin: bottom;
+    }
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    .portlet > .portlet-title > .caption > .caption-helper {
+        font-size: 11px;
+    }
+}
+
+bs-daterangepicker-container {
+    top: 120px !important;
+}
+
+.income-statistics {
+    svg.ngx-charts {
+        margin-left: -40px;
+        margin-top: -20px;
+    }
+}
+
+.edition-statistics {
+    svg.ngx-charts {
+        margin-left: -40px;
+        margin-top: -30px;
+    }
+}
+
+.dashboard-report-range{
+    margin-left: 5px;
+}
+
+
+@media only screen and (max-device-width: 480px) {
+    .customPadding {
+        padding: 0px !important;
+        /*font-size: 9px !important;*/
+    }
+
+    .customchartheaderContainer {
+        padding: 1px !important;
+    }
+
+    .underlineCustom {
+        padding: 5px;
+    }
+
+    .subunderlineCustom {
+        margin: 10px 5px 0px 5px;
+        font-size: 12px !important;
+        padding: 0px !important;
+    }
+
+    .paddingCustomforsubheader {
+        padding: 0px 0px 0px 5em !important;
+    }
+}
+
+.underlineCustom {
+    border: none !important;
+    cursor: pointer !important;
+    font-weight: 600 !important;
+    color: #5867dd !important;
+    font-size: 18px !important;
+}
+
+.subunderlineCustom {
+    font-size: 14px;
+    border: none !important;
+    cursor: pointer !important;
+    padding: 0px 0px 0px 10px;
+}
+
+.subsubunderlineCustom {
+    font-size: 12px;
+    border: none !important;
+    cursor: pointer !important;
+}
+
+li.subsubunderlineCustom.active {
+    font-size: 12px;
+    border: none !important;
+    border-bottom: 2px solid #5867dd !important;
+}
+
+li.active {
+    font-size: 14px;
+    border: none !important;
+    border-bottom: 2px solid #5867dd !important;
+}
+
+tr.template-row:hover {
+    background-color: #f2f3f8;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.analysis-button {
+    /*text-align: center;*/
+    margin-top: 30px;
+}
+
+.dashboard-stat-row:hover {
+    cursor: pointer;
+}
+
+.accountStatus {
+    font-weight: 600;
+    color: #5867dd;
+    font-size: 1.25rem !important;
+}

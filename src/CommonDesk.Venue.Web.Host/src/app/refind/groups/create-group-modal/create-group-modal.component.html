@@ -1,0 +1,23 @@
+<div bsModal #modal="bs-modal">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create a new group</h4>
+    <button type="button" class="close" aria-label="Close" (click)="hideModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="createGroupForm">
+      <input class="form-control m-input" type="text" autocomplete="off" placeholder="Group Name"
+        formControlName="groupName" />
+      <div *ngIf="submitted && createGroupForm.controls['groupName'].invalid" class="alert alert-danger">
+        <div *ngIf="createGroupForm.controls['groupName'].errors.required">
+          Group Name is required
+        </div>
+      </div>
+    </form>
+    <div style="float:right; margin: 20px 0;">
+      <button class="btn btn-primary m-btn m-btn--custom m-btn--air" (click)="onSubmit()">Create</button>
+      <button class="btn btn-primary m-btn m-btn--custom m-btn--air" (click)="hideModal()">Cancel</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,142 @@
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto col-xs-6">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Status
+            </h3>
+            <span class="m-section__sub">
+                Your account Status
+            </span>
+        </div>
+    </div>
+</div>
+
+
+
+<ng-container *ngIf="logic.hasNoElements()">
+    No recomendations at this time
+</ng-container>
+<ng-container *ngIf="logic.hasElements()">
+    <table>
+        <tbody>
+            <!-- recomendationList is a RefindTypes.UserDataRecord[] -->
+            <!-- row = UserDataRecord -->
+            <mat-accordion *ngFor="let row of logic.recomendationList" [ngSwitch]="row.Type" [displayMode] c='default' class="mat-elevation-z11">
+                <h4>{{row.Message}}:Type={{row.Type}}:SubType={{row.SubType }}:Visible={{row.Visible}}</h4>
+                <ng-container *ngIf="logic.isRecommendationDismissed(row)==false">
+
+                    <mat-expansion-panel *ngSwitchCase="logic.userTypes.UserDashboard" [expanded]="logic.isExpanded(row)" (opened)="logic.rowExpandedEvent(row)" (closed)="logic.rowCollapsedEvent(row)">
+
+                        <mat-expansion-panel-header class="right-aligned-header" [collapsedHeight]="'30px'" [expandedHeight]="auto">
+                            <mat-panel-title>
+                                <B>{{ row.Message }}</B>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                {{ logic.getRecomendationDescription(row) }}
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ng-container *ngFor="let item of logic.getRecomendationFields(row)">
+                            <B>{{item.Header}}</B><br>
+                            <div [innerHTML]="item.Message"></div>
+                            <BR>
+                            <ng-container *ngFor="let action of item.Actions" [ngSwitch]="action.ActionField">
+
+                                <ng-container *ngSwitchCase="logic.actionWidget.Button">
+                                    <button class="btn btn-primary m-btn m-btn--custom m-btn--air"
+                                        [style.margin.px]="10"
+                                        (click)="logic.recommendationActionButtonClicked(row, action)">{{action.Title}}</button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="logic.actionWidget.Checkbox">
+                                    <mat-checkbox [style.margin.px]="10" checked="action.Args[0]">{{action.Title}}
+                                    </mat-checkbox>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="logic.actionWidget.Toggle">
+                                </ng-container>
+                                <ng-container *ngSwitchCase="logic.actionWidget.DropDown">
+                                </ng-container>
+
+                            </ng-container>
+
+                        </ng-container>
+
+                    </mat-expansion-panel>
+                </ng-container>
+
+                <!-- [expanded]="row.Minimized === false"> -->
+                <mat-expansion-panel *ngSwitchCase="logic.userTypes.ProgressDialogState">
+                    <mat-expansion-panel-header class="right-aligned-header">
+                        <mat-panel-title>
+                            <B>{{ row.Message }}</B>
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            {{ logic.getRecomendationDescription(row) }}
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <ng-container *ngFor="let item of logic.getRecomendationFields(row)">
+                        <p><B>{{item.Header}}</B></p>
+                        <div [innerHTML]="item.Message"></div>
+                        <p>{{item.Actions}}</p>
+                    </ng-container>
+                </mat-expansion-panel>
+
+                <ng-container *ngIf="logic.isRecommendationDismissed(row)==false">
+                    <mat-expansion-panel *ngSwitchCase="logic.userTypes.RecommendationBlock"
+                        [expanded]="logic.isExpanded(row)" (opened)="logic.rowExpandedEvent(row)"
+                        (closed)="logic.rowCollapsedEvent(row)">
+
+                        <mat-expansion-panel-header class="right-aligned-header" [collapsedHeight]="'30px'"
+                            [expandedHeight]="auto">
+                            <mat-panel-title>
+                                <B>{{ row.Message }}</B>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                {{ logic.getRecomendationDescription(row) }}
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ng-container *ngFor="let item of logic.getRecomendationFields(row)">
+                            <B>{{item.Header}}</B><br>
+                            <div [innerHTML]="item.Message"></div>
+                            <BR>
+                            <ng-container *ngFor="let action of item.Actions" [ngSwitch]="action.ActionField">
+
+                                <ng-container *ngSwitchCase="logic.actionWidget.Button">
+                                    <button class="btn btn-primary m-btn m-btn--custom m-btn--air"
+                                        [style.margin.px]="10"
+                                        (click)="logic.recommendationActionButtonClicked(row, action)">{{action.Title}}</button>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="logic.actionWidget.Checkbox">
+                                    <mat-checkbox [style.margin.px]="10" checked="action.Args[0]">{{action.Title}}
+                                    </mat-checkbox>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="logic.actionWidget.Toggle">
+                                </ng-container>
+                                <ng-container *ngSwitchCase="logic.actionWidget.DropDown">
+                                </ng-container>
+
+                            </ng-container>
+
+                        </ng-container>
+
+                    </mat-expansion-panel>
+                </ng-container>
+                <!-- [expanded]="row.Minimized === false"> -->
+                <mat-expansion-panel *ngSwitchCase="logic.userTypes.AccountCreationAnalysis">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <B>{{ row.Message }}</B>
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            {{ logic.getRecomendationDescription(row) }}
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <ng-container *ngFor="let item of logic.getRecomendationFields(row)">
+                        <p><B>{{item.Header}}</B></p>
+                        <div [innerHTML]="item.Message"></div>
+                        <p>{{item.Actions}}</p>
+                    </ng-container>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </tbody>
+    </table>
+    <BR><BR><BR><BR><BR><BR>
+</ng-container>

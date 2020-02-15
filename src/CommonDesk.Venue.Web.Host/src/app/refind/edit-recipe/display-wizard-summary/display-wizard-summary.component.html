@@ -1,0 +1,175 @@
+<!--
+  Notes on styleing and tables
+  https://stackoverflow.com/questions/15115052/how-to-set-up-fixed-width-for-div
+
+-->
+<ng-container *ngIf="aComponent.Widget == RecipeTypeEnum.TextInput && aComponent.Name=='Recipe Name'">
+  <div class="row">
+    <div class="row-gap"></div>
+    <div class="h5 row-field">Recipe Title</div>
+    <div class="row-data">{{logic.WizardData.DataValues.Name}}</div>
+    <BR><BR>
+
+  </div>
+</ng-container>
+
+
+<ng-container
+  *ngIf="aComponent.Widget== RecipeTypeEnum.ListEditor_RemoteOptions && aComponent.Name=='Custom Domain List'&&logic.CustomDomainList.length>0">
+  <div class="row">
+    <div class="row-gap"></div>
+    <div class="row-field">Custom Domain List</div>
+    <div class="row-data">
+      <p style="float:left" *ngFor="let data of logic.CustomDomainList">{{data}},</p>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container
+  *ngIf="aComponent.Widget==RecipeTypeEnum.ListEditor_RemoteOptions && aComponent.Name=='Custom Domain List'&&(logic.CustomDomainList.length==0||logic.CustomDomainList.length==undefined)">
+  <div class="row">
+    <div class="row-gap"></div>
+    <div class="row-field">Custom Domain List</div>
+    <div class="row-data">Not Set</div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="aComponent.Widget==RecipeTypeEnum.TextInput && aComponent.Name=='Value To Match'">
+  <div class="row">
+    <div class="row-gap"></div>
+    <div class="row-field">Value To Match</div>
+    <div class="row-data">{{logic.WizardData.DataValues.ValueToMatch}}</div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="aComponent.Widget==RecipeTypeEnum.TextInput  && aComponent.Name=='Field To Match'">
+  <div class="row">
+    <div class="row-gap"></div>
+    <div class="row-field">Field To Match</div>
+    <div class="row-data">{{logic.WizardData.DataValues.FieldToMatch}}</div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="aComponent.Widget==RecipeTypeEnum.SingleSelect_Enum && aComponent.Name=='TimeFrame Style'">
+  <div class="row">
+    <div class="row-gap"></div>
+    <div class="row-field">Time Frame Style</div>
+    <div class="row-data">{{logic.WizardData.DataValues.VenueTreeByTime}}</div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="aComponent.Widget==RecipeTypeEnum.Switch && aComponent.Name=='Display Sent Folders'">
+  <div class="row">
+    <div class="row-gap"></div>
+    <div class="row-field">Display Sent Folders</div>
+    <div class="row-data">{{logic.WizardData.DataValues.FPC_DisplaySent}}</div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="aComponent.Widget==RecipeTypeEnum.Switch && aComponent.Name=='Messages by Industry in one venue'">
+  <div class="row">
+    <div class="row-gap"></div>
+    <div class="row-field">Messages by Industry By One Venue</div>
+    <div class="row-data">{{logic.WizardData.DataValues.FPC_GroupByCategory}}</div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="aComponent.Widget==RecipeTypeEnum.Switch && aComponent.Name=='Group by Category'">
+  <div class="row">
+    <div class="row-gap"></div>
+    <div class="row-field">Group By Category</div>
+    <div class="row-data">{{logic.WizardData.DataValues.FPC_GroupByCategory}}</div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="aComponent.Widget==RecipeTypeEnum.Switch && aComponent.Name=='Use Full Names'">
+  <div class="row">
+    <div class="row-gap"></div>
+    <div class="row-field">Use Full Names</div>
+    <div class="row-data">{{logic.WizardData.DataValues.FPC_UseFullNames}}</div>
+  </div>
+</ng-container>
+
+
+<ng-container *ngIf="aComponent.Widget==RecipeTypeEnum.SingleSelect_RemoteOptions && aComponent.Name=='Accounts'">
+  <div class="row">
+    <div class="row-gap"></div>
+    <div class="row-field">Matches in folders</div>
+    <div class="row-data">Inbox</div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="aComponent.Widget==RecipeTypeEnum.SingleSelect_RemoteOptions && aComponent.Name=='Accounts'">
+  <p>
+  <div class="row">
+    <div class="row-gap"></div>
+    <div class="row-field">Mail Accounts:</div>
+    <div class="row-data">{{ splitWant(logic.WizardData.CollectionData.MailAccount,0) }}</div>
+  </div>
+</ng-container>
+
+
+<ng-container
+  *ngIf="aComponent.Widget==RecipeTypeEnum.ListEditor_RemoteOptions && aComponent.Name=='Included User Categories'">
+  <ng-container *ngIf="logic.IsIncludedTabVisible">
+    <ng-container *ngIf="logic.CategoriesRecipeIncluded.length>0&&logic.CategoriesRecipeIncluded.length!=0">
+      <div class="row">
+        <div class="row-gap"></div>
+        <div class="row-field">Display messages from groups : </div>
+        <div class="row-data">
+          <!--  <div style="padding-left:20px">-->
+          <!-- <p style="float:left"> </p>  style="float:left;padding-left:5px" -->
+          <ul>
+            <ng-container *ngFor="let rawGroup of logic.CategoriesRecipeIncluded">
+              <li>{{ splitGroup(rawGroup) }}</li>
+            </ng-container>
+          </ul>
+          <!-- </div> -->
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+
+  <ng-container *ngIf="logic.CategoriesRecipeIncluded.length==0 || logic.CategoriesRecipeIncluded.length < 0">
+    <div class="row">
+      <div class="row-gap"></div>
+      <div class="row-field">Include only messages from the following groups:</div>
+      <div class="row-data">
+        <p style="float:left"> &#x25cf; </p>
+        <p style="float:left;padding-left:5px">No filter set (all messages included)</p>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+
+<ng-container
+  *ngIf="aComponent.Widget==RecipeTypeEnum.ListEditor_RemoteOptions && aComponent.Name=='Excluded User Categories'">
+  <ng-container *ngIf="logic.IsExcludedTabVisible">
+    <ng-container *ngIf="logic.CategoriesRecipeExcluded.length>0 && logic.CategoriesRecipeExcluded.length!=0">
+      <div class="row">
+        <div class="row-gap"></div>
+        <div class="row-field">Exclude only messages from the following groups : </div>
+        <div class="row-data">
+          <div style="padding-left:20px">
+            <p style="float:left"> &#x25cf; </p>
+            <p style="float:left;padding-left:5px" *ngFor="let data of logic.CategoriesRecipeExcluded"> {{data}},</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="logic.CategoriesRecipeExcluded.length==0 || logic.CategoriesRecipeExcluded.length < 0">
+      <div class="row-gap"></div>
+      <div class="row-field">Include only messages from the following groups:</div>
+      <div class="row-data">
+        <div style="padding-left:20px">
+          <p style="float:left"> &#x25cf; </p>
+          <p style="float:left;padding-left:5px">No filter set (all messages included)</p>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+</ng-container>

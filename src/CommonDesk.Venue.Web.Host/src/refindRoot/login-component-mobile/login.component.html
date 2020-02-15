@@ -1,0 +1,21 @@
+<div class="m-login__signin" [@routerTransition]>
+    <div class="m-login__head">
+        <h3 class="m-login__title">
+            {{ 'LogIn' }}
+        </h3>
+    </div>
+    <div class="login-options" *ngIf="loginService.externalLoginProviders.length > 0">
+        <h4>{{"LoginWith" | localize}}</h4>
+             <div style="float: middle;" >
+           <div style="float: middle;" >
+        <div class="login-options" *ngIf="loginService.externalLoginProviders.length > 0">
+            <div *ngFor="let provider of loginService.externalLoginProviders">
+              <p>
+                <button mat-button class="btn btn-primary m-btn align-middle" (click)="externalLoginAccount(provider)">{{provider.name}}</button>
+              </p>
+            </div>
+        </div>
+      </div>
+      </div>
+    </div>
+</div>

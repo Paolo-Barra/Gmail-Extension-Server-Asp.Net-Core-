@@ -1,0 +1,142 @@
+﻿<!-- 
+
+Displays a list of inuse recipes and cookbooks and alows user to click on the details of each recipes
+
+-->
+<style>
+    .underlineCustom {
+        font-size: 18px;
+        border: none !important;
+        cursor: pointer !important;
+    }
+
+    li.active {
+        font-size: 18px;
+        border: none !important;
+        border-bottom: 2px solid #5867dd !important;
+        color: #5867dd !important;
+    }
+
+    .btn-primary {
+        padding: 6px !important;
+    }
+</style>
+
+<div [@routerTransition]>
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-xs-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    Installed {{logic.viewMode}}
+                </h3>
+                <span class="m-section__sub">
+                    {{logic.viewMode}} that currently customize your inbox
+                </span>
+            </div>
+            <div *ngIf="logic.anyAccountsInstalled() == true">
+                <div class="col-xs-6 text-right">
+                    <button class="btn btn-primary" (click)="logic.addButtonClick(logic.viewMode)">
+                        <i class="fa fa-plus"></i>Add {{logic.viewAddText}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+
+            <!-- Cookbooks are not used 
+            <ul class="nav nav-tabs">
+                <li class="nav-link m-tabs__link underlineCustom active" [class.active]="logic.viewMode == 'Recipes'"
+                    rel="Recipes" (click)="logic.selectRecipesTab()">
+                    Recipes</li>
+                <li class="nav-link m-tabs__link underlineCustom" rel="Cookbooks"
+                    [class.active]="logic.viewMode == 'Cookbooks'" (click)="logic.selectCookbooksTab()">Cookbooks
+                </li>
+            </ul>
+            -->
+            <div class="tab-content" [ngSwitch]="logic.viewMode">
+
+                <div id="tab1" class="tab-slider--body" *ngSwitchCase="'Recipes'">
+
+                    <div *ngIf="logic.anyAccountsInstalled() == false">
+                        <h4 style="text-align:center">
+                            <BR>
+                            Please import your account before visiting this screen.
+                        </h4>
+                    </div>
+
+                    <div *ngIf="logic.anyRecipesInstalled() == false && logic.anyAccountsInstalled() == true">
+                        <h4 style="text-align:center">
+                            No Recipes are installed
+                        </h4>
+                    </div>
+                    <div *ngIf="logic.anyRecipesInstalled() == true && logic.anyAccountsInstalled() == true"
+                        class="table-scrollable table-scrollable-borderless">
+                        <table class="table table-hover table-light">
+                            <thead>
+                                <tr class="uppercase">
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of logic.RecipeList" (click)='logic.recipeDetailsButtonClicked(row)' >
+                                    <td>
+                                        <div class="stat-name">{{ row.Name }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="stat-name">{{ row.Values['TemplateName']}}</div>
+                                    </td>
+                                    <td>
+                                        <div class="form-inline" style="justify-content: flex-end;">
+                                            <button class="btn btn-primary"
+                                                (click)='logic.recipeDetailsButtonClicked(row)'>Details</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="tab2" class="tab-slider--body" *ngSwitchCase="'Cookbooks'">
+                    <div *ngIf="logic.anyCookbooksInstalled() == false">
+                        <h4 style="text-align:center">
+                            No Cookbooks are installed
+                        </h4>
+                    </div>
+                    <div *ngIf="logic.anyCookbooksInstalled() == true"
+                        class="table-scrollable table-scrollable-borderless">
+                        <table class="table table-hover table-light">
+                            <thead>
+                                <tr class="uppercase">
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of logic.CookbookList">
+                                    <td>
+                                        <div class="stat-name">{{ row.Name }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="stat-name">{{ row.Values['TemplateName'] }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="form-inline"><button class="btn btn-primary"
+                                                (click)="logic.cookbookDetailsButtonClicked(row)">Details</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

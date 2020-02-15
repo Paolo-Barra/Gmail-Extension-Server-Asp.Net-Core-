@@ -1,0 +1,22 @@
+{
+   "LogoutUrl": "http://localhost:4200/account/login",
+  "remoteServiceBaseUrl": "http://localhost:22742",
+  "appBaseUrl": "http://localhost:4200",
+  "refindBackendUrl": "http://localhost:5172/venue",
+
+  "localeMappings": [
+    {
+      "from": "pt-BR",
+      "to": "pt"
+    },
+    {
+      "from": "zh-CN",
+      "to": "zh"
+    },
+    {
+      "from": "he-IL",
+      "to": "he"
+    }
+  ]
+}
+

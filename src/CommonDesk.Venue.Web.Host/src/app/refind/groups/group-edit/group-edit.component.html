@@ -1,0 +1,110 @@
+<div class="m-subheader ">
+  <div class="d-flex align-items-center">
+    <div class="mr-auto col-xs-6">
+      <h3 class="m-subheader__title m-subheader__title--separator">
+        Groups
+      </h3>
+      <span class="m-section__sub">
+        Move users between groups
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="group-action-button-container">
+  <button type="button" class="btn btn-primary" (click)="handleCreateGroupModal()">Create</button>
+  <button type="button" class="btn btn-primary" (click)="handleOpenGroupModal()">Add</button>
+  <button type="button" class="btn btn-primary" (click)="saveGroupOperations()" [disabled]="!viewActions">Save</button>
+  <button type="button" class="btn btn-primary" (click)="handleCancelGroupOperations()"
+    [disabled]="groupOperationsIsSet">Cancel</button>
+</div>
+
+<div class="card-scene">
+  <smooth-dnd-container [dragHandleSelector]="'.column-drag-handle'" [orientation]="'horizontal'"
+    (drop)="onGroupColumnDrop($event)">
+    
+    <ng-container *ngFor="let column of logic.groupsData.groups; let i = index;">
+      <smooth-dnd-draggable *ngIf="column.selected && logic.isOrdered">
+        <div class="group-card-container" style="max-width: 320px;" detect-scroll [bottomOffset]="50" [topOffset]="50"  (onScroll)="handleScroll($event, column, i)">
+          <div class="card-column-header">
+            <span class="column-drag-handle">&#x2630;</span>
+            <p class="column-title">{{column.Category}}</p>
+            <span [outsideClick]="true" [popover]="columnMenuPopover" placement="bottom" class="column-menu-popover-handle" containerClass="column-menu-popover-body">&hellip;</span>
+
+            <!-- Content for column menu -->
+            <ng-template #columnMenuPopover>
+              <div class="group-option-popover-content">
+                <ul>
+                  <li (click)="selectAll(column, i)">Select All</li>
+                  <li (click)="selectAll(column, i)">Invert Selection</li>
+                  <hr />
+
+                  <li>
+                    <input class="form-control m-input" type="text" (keyup)="groupSearch($event, column)" autocomplete="off" placeholder="Search" />
+                  </li>
+                  <hr />
+                  <li (click)="selectGroup(column, i)">Change Group</li>
+                  <li (click)="removeGroup(column, i)">Remove Group</li>
+                  <hr />
+
+                  <li (click)="logic.clickOnMenuItem('JustNames', column, i)">
+                      <span [innerHTML]="logic.isMenuItemSelectedChecked('JustNames', column, i)"></span>
+                      Order by Name
+                  </li>
+
+                  <li (click)="logic.clickOnMenuItem('JustDomains', column, i)">
+                    <span [innerHTML]="logic.isMenuItemSelectedChecked('JustDomains', column, i)"></span>
+                    Order by Domain
+                  </li>
+
+                  <li (click)="logic.clickOnMenuItem('JustEmailAddress', column, i)">
+                    <span [innerHTML]="logic.isMenuItemSelectedChecked('JustEmailAddress', column, i)"></span>
+                    Order by Email
+                  </li>
+                  
+                  <li (click)="logic.clickOnMenuItem('JustFrequencys', column, i)">
+                      <span [innerHTML]="logic.isMenuItemSelectedChecked('JustFrequencys', column, i)"></span>
+                    Order by Frequency
+                  </li>
+                  
+                  <li (click)="logic.clickOnMenuItem('JustTags', column, i)">
+                      <span [innerHTML]="logic.isMenuItemSelectedChecked('JustTags', column, i)"></span>
+                    Order by New Senders
+                  </li>
+                </ul>
+                <hr />
+                <ul>
+                    <li (click)="logic.toggleMenuItemAscending(true,column, i)">
+                        <span [innerHTML]="logic.isAscendingMenuItemSelectedChecked(false, i)">&#x1F5F9;</span>
+                        Ascending
+                    </li>
+                    <li (click)="logic.toggleMenuItemAscending(false,column,i)">
+                        <span [innerHTML]="logic.isAscendingMenuItemSelectedChecked(true, i)"></span>
+                        Descending
+                    </li>
+                  </ul>
+              </div>
+            </ng-template>
+          </div>
+          X  <!-- Hack: Used to move column below header-->
+          <smooth-dnd-container [groupName]="'col'" (drop)="onGroupCardDrop(column, $event)" [getChildPayload]="getGroupCardPayload(column.CategoryId)" [dragClass]="'card-ghost'"
+            [dropClass]="'card-ghost-drop'">
+            <div *ngIf="column.error;else groupMailItems" style="position: absolute; top: 100%;">
+              <p style="text-align: center;">
+                Error when fetching data
+              </p>
+            </div>
+            <ng-template #groupMailItems>
+              <smooth-dnd-draggable *ngFor="let mail of column.Messages; let i = index;">
+                <refind-group-card [mail]='mail' [onSaveBehaviour]="logic.$onSave" [active]="isCardMultiSelect(mail)"
+                  (cardClickEvent)="cardMultiSelect($event)" (cardHoverEvent)="cardHover($event)" [column]="column"
+                  [cardIndex]="i">
+                </refind-group-card>
+              </smooth-dnd-draggable>
+            </ng-template>
+          </smooth-dnd-container>
+        </div>
+      </smooth-dnd-draggable>
+    </ng-container>
+  </smooth-dnd-container>
+</div>

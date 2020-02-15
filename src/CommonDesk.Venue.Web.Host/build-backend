@@ -1,0 +1,4 @@
+#!/bin/bash
+dotnet build CommonDesk.Venue.Web.Host.csproj $1 $2 $3
+
+

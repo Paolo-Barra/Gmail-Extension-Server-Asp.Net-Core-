@@ -1,0 +1,131 @@
+﻿<div [@routerTransition]>
+    <!-- header that shows Add a Recipe and View Recipes Button -->
+    <div class="m-subheader ">
+        <div class="d-flex align-rows-center">
+            <div class="mr-auto col-xs-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    Add a new {{logic.viewAddText}}
+                </h3>
+                <span class="m-section__sub">
+                    Customize your inbox experience by adding a {{logic.viewAddText}}
+                </span>
+            </div>
+            <div class="col-xs-6 text-right">
+                <button class="btn btn-primary" (click)="logic.viewClick(logic.viewMode)">View
+                    {{logic.viewMode}}</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body">
+                <div class="container">
+                    <!-- Show links for Recipes and Cookbooks titles.  These are clickable -->
+                    <!-- The click sets the view mode with is used in an ngSwitchCase below -->
+
+                    <!-- <ul class="nav nav-tabs">
+                        <li class="nav-link m-tabs__link underlineCustom active"
+                            [class.active]="logic.viewMode == 'Recipes'" rel="Recipes"
+                            (click)="logic.getRecipesTemplate()">Recipes</li> -->
+
+                    <!-- <li class="nav-link m-tabs__link underlineCustom" [class.active]="logic.viewMode == 'Cookbooks'"
+                            rel="Cookbooks" (click)="logic.getCookbookTemplate()">Cookbooks</li> -->
+                    <!-- </ul> -->
+                    <div class="tab-content" [ngSwitch]="logic.viewMode">
+                        <div class="table-scrollable table-scrollable-borderless">
+                            
+                            <div id="tab1" class="tab-slider--body" *ngSwitchCase="'Recipes'">
+                                <div *ngIf="!logic.anyRecipesInstalled()">
+                                    <h4 style="text-align:center">
+                                        No Recipes are available
+                                    </h4>
+                                </div>
+
+                                <div *ngIf="logic.anyRecipesInstalled()">
+                                    <!-- Display a list of recipes. Group them by CategoryName -->
+                                    <div *ngFor="let row of logic.RecipeList | groupBy: 'Category.Name'">
+                                        <h3 style="font-weight: bold">{{row.key}}</h3>
+                                        <div>
+                                            <table>
+                                                <tbody>
+                                                    <ng-container *ngFor="let template of row.value">
+                                                        <tr *ngIf="logic.isRowVisible(template)"
+                                                            (click)="logic.clickRecipeRow(template)"
+                                                            class="row">
+                                                            <td style="padding-left: 40px;">
+                                                                <table>
+                                                                    <tr style="">
+                                                                        <td class="template-icon"
+                                                                            *ngIf="template.IconPath">
+                                                                            <img src="{{ template.IconPath }}" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="template-name">
+                                                                                <strong>{{ template.Name }}</strong>
+                                                                                <span *ngIf="logic.isStatusVisible(template)" class="comingsoon">{{ logic.statusToShow(template) }}</span>
+                                                                            </div>
+                                                                            <div class="template-description">
+                                                                                {{ template.Description }}
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </ng-container>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div id="tab2" class="tab-slider--body" *ngSwitchCase="'Cookbooks'">
+                                <!-- Display a list of cookbooks. -->
+                                <div *ngIf="logic.anyCookbooksInstalled() == false">
+                                    <h4 style="text-align:center">
+                                        No Coookbooks are available
+                                    </h4>
+                                </div>
+                                <div *ngIf="logic.anyCookbooksInstalled() == true">
+                                    <!-- Display a list of cookbooks. Group them by CategoryName -->
+                                    <div *ngFor="let row of logic.CookbookList | groupBy: 'Meta.Category.Name'"
+                                        style="margin-top: 20px;">
+                                        <h3 style="font-weight: bold">{{row.key}}</h3>
+                                        <div>
+                                            <table>
+                                                <tbody>
+                                                    <tr *ngFor="let template of row.value"
+                                                        (click)="logic.clickCookbookRow(template.CookbookTemplateId)"
+                                                        class="row">
+                                                        <td style="padding:4px">
+                                                            <table>
+                                                                <tr>
+                                                                    <td class="template-icon" *ngIf="template.IconPath">
+                                                                        <img src="{{ template.IconPath }}" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="template-name">
+                                                                            <strong>{{ template.Name }}</strong></div>
+                                                                        <div class="template-description">
+                                                                            {{ template.Description }}</div>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

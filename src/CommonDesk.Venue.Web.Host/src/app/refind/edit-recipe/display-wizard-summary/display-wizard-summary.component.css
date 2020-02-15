@@ -1,0 +1,46 @@
+.container {
+    display: flex; /* or inline-flex */
+}
+
+.rowindent { 
+    /* text-indent: 20px; */
+} 
+
+.colindent { 
+    /* text-indent: 20px; */
+}
+
+ul,li {
+    /* removes indented bullets */
+    padding: 0;
+    margin-left: .7em;
+}
+
+.fullwidth {
+    width: 800px;
+    border: 1px;
+}
+.mytable {
+    border: 1px;
+    width: 800px;
+}
+.row-gap {
+    line-height: 1.2em;
+    width: 0%;
+}
+.row-field {
+    width: 40%;
+}
+.row-data {
+    width: 55%;
+}
+
+.rc10 {
+    width: 10%;
+}
+.rc30 {
+    width: 30%;
+}
+.rc60 {
+    width: 60%;
+}

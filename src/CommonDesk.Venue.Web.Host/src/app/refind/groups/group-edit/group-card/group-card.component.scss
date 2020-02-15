@@ -1,0 +1,44 @@
+.card {
+  margin: 6px 0 0 0;
+  background-color: white;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
+  padding: 5px;
+  width: 250px;
+  max-width: 250px;
+  cursor: grab;
+
+  p {
+    margin: 0 !important;
+  }
+
+  p.email {
+    font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  p.status {
+    font-weight: 0.8em;
+    font-weight: 300;
+  }
+  
+
+  p.new {
+    font-weight: 200;
+    font-size: 0.7em;
+  }
+}
+
+.card.card-operation {
+  background-color: #ffdf00 !important;
+}
+
+.card.card-successful {
+  background-color: #00b1175c !important;
+}
+
+.card-multiselect-active {
+  // background-color: #5867ddbd  !important;
+  background-color: #fff0205c;
+}

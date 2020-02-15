@@ -1,0 +1,259 @@
+﻿<div>
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-xs-12">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>Group Editor</span>
+                </h3>
+                <span class="m-section__sub">
+                    Change the members of each Group
+                </span>
+            </div>
+            <div class="col-xs-6 text-right">
+                <button class="btn btn-primary btn-sm" (click)="logic.GoBack()">Back</button>
+                <button class="btn btn-primary btn-sm" (click)="logic.GoReset()">Reset</button>
+                <button class="btn btn-primary btn-sm" (click)="logic.saveData()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="logic.isAccountLoaded() == false ">
+        <h4 style="text-align:center">
+            You have not added an account.
+            <BR><BR>
+            Visit the recommendations page to
+            <BR><BR>
+            <B>Import your account</B>
+        </h4>
+    </div>
+
+    <div *ngIf="logic.isAccountLoaded() == true">
+        <div class="m-content">
+            <div class="m-portlet m-portlet--mobile">
+                <div class="m-portlet__body" style="padding:0px">
+
+
+                    <!-- Header coltrols section  -->
+                    <div class="table-scrollable table-filter-section">
+
+
+
+                        <!-- Display dropdowns and checkboxes for Group,Search,Remove Etc -->
+                        <table class="dbborder1" width="100%">
+                            <tr class="dbborder1">
+                                <td width="30%" class="dbborder2">
+                                                <!-- Dropdown to select the group for this page -->
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text mb-2" id="basic-addon1">Group</span>
+                                                    <select #groupSelector class="form-control dropDownBorder"
+                                                        [(ngModel)]="logic.groupName"
+                                                        (change)="logic.reloadPageWithGroupNew()">
+                                                        <option [value]="item"
+                                                            *ngFor="let item of logic.loadDropDownGroupList()"
+                                                            (disabled)="logic.isDropDownSelectable(0,item)">{{item}}
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                </td>
+                                <td width="30%" class="dbborder2">
+                                                <!-- Input field for searching by keyword -->
+
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text mb-2" id="basic-addon1">Search</span>
+                                                    <input type="text" class="custom-select mb-2"
+                                                        [(ngModel)]="logic.searchTerm"
+                                                        placeholder="by name or email address"
+                                                        (input)="logic.searchChanged()" />
+                                                </div>
+                                </td>
+                                <td width="20%" class="dbborder2">
+                                                <!-- checkboxes for Remove Never Openeed -->
+                                                <div class="checkbox cbPadding">
+                                                    <label class="cbPadding" data-toggle="tooltip" title="Remove people who's messages you've not opened">
+                                                        <input 
+                                                        type="checkbox" value=""
+                                                        [checked]="logic.neverOpened"
+                                                        (click)="logic.neverOpened = !logic.neverOpened; logic.theLastGroupItemsFilteredSorted()"
+                                                    > Show Never Opened </label>
+                                                </div>
+                                                <div class="checkbox cbPadding" >
+                                                    <label class="cbPadding"  data-toggle="tooltip" title="Remove people who you have not sent a messages to">
+                                                    <input type="checkbox" value=""
+                                                    [checked]="logic.neverReplyed"
+                                                    (click)="logic.neverReplyed = !logic.neverReplyed; logic.theLastGroupItemsFilteredSorted()"
+                                                    > Show Never Sent</label>
+                                                </div>
+
+                                </td>
+                                <td width="20%" class="dbborder2">
+                                    <!-- show filterd vs non filtered counts -->
+                                    <label  
+                                        data-toggle="tooltip" title="Total number of unique senders" 
+                                        style="margin-bottom: 0px;" 
+                                        >Total: {{logic.totalPeopleInGroup()}}</label><BR>
+                                    <label 
+                                        data-toggle="tooltip" title="Number of filtered unique senders" 
+                                        style="margin-bottom: 0px;"
+                                        >Filtered: {{logic.totalFilteredPeopleInGroup()}}</label>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <!-- display Email domains tags -->
+                        <table class="dbborder1" width="100%">
+                            <tr class="dbborder1">
+                                <td width="4em"></td>
+                                <td width="12em">Email Domain</td>
+                                <td width="90%">
+                                    <tag-input 
+                                        [ngModel]="[]" 
+                                        [theme]="'bootstrap'"
+                                        [onlyFromAutocomplete]="true">
+                                        <tag-input-dropdown 
+                                            id="tagsList" 
+                                            [showDropdownIfEmpty]="true"
+                                            [focusFirstElement]="true" [displayBy]="'value'" [identifyBy]="'id'"
+                                            [autocompleteItems]="autocompleteItemsAsObjects">
+
+                                            <ng-template let-item="item" let-index="index">
+                                                <strong>{{ item.value }}</strong>
+                                            </ng-template>
+                                        </tag-input-dropdown>
+                                    </tag-input>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- display checkboxes and email address table -->
+                    <div class="table-scrollable table-scrollable-borderless table-responsive dbborder2">
+                        <table class="table table-hover table-light table-responsive dbborder3">
+
+                            <!-- Columns for the table -->
+                            <thead>
+                            
+                                <!-- Dropdowns that show the group names in the columns -->
+                                <tr class="dbborder1 noPadNoMargin">
+                                    <th class="dbborder1 noPadNoMargin" >
+                                        <label class="firstGroupColumn">{{ logic.selectedColumnList[0] }}</label>
+                                    </th>
+
+                                    <!-- << and >> button to allow for copying of selections -->
+                                    <th class="dbborder1 noPadNoMargin" width="20px" >
+                                        <div class="inner">
+                                            <button class="w3-button w3-padding-small w3-circle w3-teal" (click)="logic.copyGroup(0)">&gt;&gt;</button>
+                                            <button class="w3-button w3-padding-small w3-circle w3-teal" (click)="logic.copyGroup(1)">&lt;&lt;</button>
+                                        </div>
+                                    </th>
+                                    <th class="dbborder1 noPadNoMargin">
+                                        <span class="d-inline-block" tabindex="1" data-toggle="tooltip"
+                                            [title]="logic.selectedColumnList[1]">
+                                            <select class="smDropDn" [(ngModel)]="logic.selectedColumnList[1]"
+                                                (change)="consolelog('dropdown 1 changed')">
+                                                <option *ngFor="let item of logic.loadDropDownGroupList()"
+                                                    [value]="item" [selected]="logic.getDefaultGroupByRow(1,item)">
+                                                    {{item}}
+                                                </option>
+                                            </select>
+                                        </span>
+
+                                    </th>
+
+                                    <th class="dbborder1" nowrap (click)="logic.reverseOrder('name')" width="60%">
+                                        Contact
+                                        <span *ngIf="logic.orderBy == 'name'">
+                                            <span *ngIf="!logic.reverse">^</span>
+                                            <span *ngIf="logic.reverse">v</span>
+                                        </span>
+                                    </th>
+                                    <th class="dbborder1" nowrap (click)="logic.reverseOrder('opened')">
+                                        Open
+                                        <span *ngIf="logic.orderBy == 'opened'">
+                                            <span *ngIf="!logic.reverse">^</span>
+                                            <span *ngIf="logic.reverse">v</span>
+                                        </span>
+                                    </th>
+                                    <th class="dbborder1" nowrap (click)="logic.reverseOrder('sent')">
+                                        Sent
+                                        <span *ngIf="logic.orderBy == 'sent'">
+                                            <span *ngIf="!logic.reverse">^</span>
+                                            <span *ngIf="logic.reverse">v</span>
+                                        </span>
+                                    </th>
+                                    <th class="dbborder1" nowrap (click)="logic.reverseOrder('received')">
+                                        Recv
+                                        <span *ngIf="logic.orderBy == 'received'">
+                                            <span *ngIf="!logic.reverse">^</span>
+                                            <span *ngIf="logic.reverse">v</span>
+                                        </span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Display a row for each email address in the group -->
+                                <tr
+                                    *ngFor="let groupsdata of logic.theLastGroupItemsFilteredSortedCached(); let cbrow = index">
+                                    <!-- with name field set to the same value, you cant select more than one in this field -->
+                                    <td class="dbborder2 cbTdColWidth center">
+                                        <ng-container *ngIf="logic.isColumnValid(0)">
+                                            <label id="cbButtonGroup">
+                                                <input id="rbSize" type="radio"
+                                                    (click)="logic.cbModelSetter(0,groupsdata)"
+                                                    [checked]="logic.cbModelTester(0,groupsdata)" name="{{groupsdata.emailAddress}}">
+                                            </label>
+                                        </ng-container>
+                                    </td>
+                                    <td></td>
+                                    <td class="dbborder2 cbTdColWidth center">
+                                        <ng-container *ngIf="logic.isColumnValid(1)">
+                                            <label id="cbButtonGroup">
+                                                <input id="rbSize" type="radio"
+                                                    (click)="logic.cbModelSetter(1,groupsdata)"
+                                                    [checked]="logic.cbModelTester(1,groupsdata)" name="{{groupsdata.emailAddress}}">
+                                            </label>
+                                        </ng-container>
+                                    </td>
+                                    <ng-template #popTitle><B>Sender Details</B>
+                                        <hr>
+                                        <p class="popContentStyle">
+                                            Message Received: {{ groupsdata.receivedMessagesCount }} <br>
+                                            Message Sent: {{ groupsdata.sendMessagesCount }} <br>
+                                            Loaded Group: {{ groupsdata.loadedGroup }}  <br>
+                                            DetectedAs: {{ groupsdata.detectedAs }} <br>
+                                            Rule Name: {{ groupsdata.ruleName }} <br>
+                                        </p>
+                                        <hr>
+                                        <p class="popContentStyle">
+                                            First Message Date: {{ groupsdata.firstMessageDate }} <br>
+                                            Last Message Date: {{ groupsdata.lastMessageDate }} <br>
+                                        </p>
+                                        <hr>
+                                        <p class="popContentStyle">
+                                            <a target="gmail" [href]="groupsdata.viewEmailUrl">View Messages</a>
+                                        </p>
+                                    </ng-template>
+                                    <ng-template #popContent></ng-template>
+
+
+                                    <td class="dbborder2" width="80%" id="maxWidth">
+                                        <div class="stat-name dbborder1">
+                                            <span data-title="Address Information" data-placement="right"
+                                                [ngbPopover]="popContent" [popoverTitle]="popTitle">
+                                                <strong> {{groupsdata.personName}}</strong> {{ groupsdata.emailAddress }}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="dbborder2 center">{{ groupsdata.openedMessagesCount }}</td>
+                                    <td class="dbborder2 center">{{ groupsdata.sendMessagesCount }}</td>
+                                    <td class="dbborder2 center">{{ groupsdata.receivedMessagesCount }}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

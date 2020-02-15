@@ -1,0 +1,26 @@
+<div bsModal #modal="bs-modal">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Select new group</h4>
+    <button type="button" class="close" aria-label="Close" (click)="hideModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="select-group-modal">
+
+      <select class="form-control" [(ngModel)]="group" (change)="onChange($event)" aria-placeholder="Select a group...">
+        <ng-container *ngFor="let row of groupsArray; let index = i;">
+          <option [value]="row.Category" selected="selected"
+            *ngIf="row.Category === groupData.Category || !row.selected">
+            {{row.Category}}</option>
+        </ng-container>
+
+      </select>
+
+      <div style="float:right; margin: 20px 0;">
+        <button class="btn btn-primary m-btn m-btn--custom m-btn--air" (click)="onSave()">Save</button>
+        <button class="btn btn-primary m-btn m-btn--custom m-btn--air" (click)="hideModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

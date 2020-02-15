@@ -1,0 +1,101 @@
+﻿<div>
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-xs-6">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>Groups</span>
+                </h3>
+                <span class="m-section__sub">
+                    Manage your Groups
+                </span>
+            </div>
+            <div class="col-xs-6 text-right">
+                <button class="btn btn-primary btn-sm" (click)="logic.openPopup()">Add Group</button>
+
+                
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <!-- nothing to to -->
+    <div *ngIf="isAccountLoaded() == false">
+        <h4 style="text-align:center">
+            You have not added an account.
+            <BR><BR>
+            Visit the recommendations page to
+            <BR><BR>
+            <B>Import your account</B>
+        </h4>
+    </div>
+
+    <div *ngIf="isAccountLoaded() == true">
+        <div class="m-content">
+            <div class="m-portlet m-portlet--mobile">
+                <div class="m-portlet__body" style="padding:0px">
+                    <!-- show the groups -->
+                    <div class="table-scrollable table-scrollable-borderless">
+                        <table class="table table-hover table-light table-responsive">
+                            <thead>
+                                <tr class="uppercase">
+                                    <th style="white-space: nowrap;width:20px">
+                                        Title
+                                    </th>
+
+                                    <th style="width:100%">
+                                        Description
+                                    </th>
+                                    <th>
+                                        Type
+                                    </th>
+                                    <th>
+                                        Members
+                                    </th>
+                                    <th>
+                                        Expand
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let groupsdata of logic.getGroupsRecords()"
+                                    (click)="logic.loadGroupDetailsPage(groupsdata.CategoryId)">
+                                    <td style="white-space: nowrap;width:20px"><B>{{ groupsdata.Category }}</B></td>
+                                    <td>{{ groupsdata.Description }}</td>
+                                    <td>{{ groupsdata.Type }}</td>
+                                    <td>{{ groupsdata.Count }}</td>
+                                    <td> <button class="btn btn-primary btn-sm"
+                                            (click)="logic.loadGroupDetailsPage(groupsdata.CategoryId)">Review</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Not sure but class fade is not supported. I assume there is a conflict with ngStyle-->
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':logic.display}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Group Title</h4>
+                <button type="button" class="close" aria-label="Close" (click)="logic.onCloseHandled()"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline" #inputForm="ngForm">
+                    <input class="form-control" placeholder="Enter Title Here" [(ngModel)]="logic.input.category" id="customText" name="first" />
+                    <label *ngIf="logic.fieldRequired" style="width:100%"><p style="color:orangered">Field is Required</p><br /></label>
+                    <label *ngIf="logic.showUnAcceptable" style="width:100%"><p style="color:orangered">Field cannot accept special Character "_".</p><br /></label>
+                    <label *ngIf="logic.groupAlreadyExists" style="width:100%"><p style="color:orangered">That group name has already been used</p><br /></label>
+                    <button class="btn btn-primary" (click)="logic.add_Gropus()">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

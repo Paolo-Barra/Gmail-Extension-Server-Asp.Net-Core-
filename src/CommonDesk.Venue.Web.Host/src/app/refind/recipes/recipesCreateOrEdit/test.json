@@ -1,0 +1,243 @@
+{
+	Template: 
+	{
+		Id: 12,
+		TemplateId: I_Industry,
+		CdCookbookTemplateId: 0,
+		CdRecipeTemplateCategoryId: 1,
+		Category: 
+		{
+			Id: 0,
+			Name: Uncategorized,
+			Rank: -1,
+			Templates: []
+		},
+		Name: Organize By Industry,
+		Description: Organize your contacts by the industry of the companys the person works for.,
+		IconPath: "https://venue-static-files.s3.us-east-2.amazonaws.com/staticfiles/RecipeTemplateIcons/OrganizeByIndustry.png",
+		Pages: 
+		[
+			{
+				Title: Organize By Industry,
+				Components: 
+				[
+					{
+						Value: Organize your contacts into venues depending on the industry they work in. They are categorized automatically based on industry standard groups.,
+						DataType: ,
+						Widget: Text,
+						ArgumentType: Static,
+						ValidationRules: [],
+						Icon: "https://venue-static-files.s3.us-east-2.amazonaws.com/staticfiles/RecipeTemplateIcons/OrganizeByIndustry.png",
+						ArgumentType2: Static,
+						HideInCookbook: False,
+						HideNotInCookbook: False
+					},
+					{
+						Name: Recipe Name,
+						Key: Values.Name,
+						Value: Industry,
+						DataType: String,
+						Widget: TextInput,
+						ArgumentType: Static,
+						ValidationRules: 
+						[
+							{
+								Id: 0,
+								Style: Required,
+								ListStyle: 0,
+								Disposition: All
+							},
+							{
+								Id: 0,
+								Style: Remote,
+								ListStyle: 0,
+								Field: 
+								{
+									Key: RecipeName,
+									DisplayName: Recipe Name
+								},
+								Disposition: AddOnly
+							}
+						],
+						ArgumentType2: Static,
+						HideInCookbook: False,
+						HideNotInCookbook: False
+					},
+					{
+						Name: Folder Per Contact,
+						Key: Values.FolderPerContactSource,
+						Value: """ByIndustry""",
+						DataType: FolderPerContactSource,
+						Widget: Hidden,
+						ArgumentType: Static,
+						ValidationRules: [],
+						ArgumentType2: Static,
+						HideInCookbook: False,
+						HideNotInCookbook: False
+					},
+					{
+						Name: Display Sent Folders,
+						Key: Values.FPC_DisplaySent,
+						Value: false,
+						DataType: Bool,
+						Widget: Switch,
+						ArgumentType: Static,
+						ValidationRules: [],
+						ArgumentType2: Static,
+						Name2: "",
+						HideInCookbook: False,
+						HideNotInCookbook: False
+					},
+					{
+						Name: Messages by Industry in one venue,
+						Key: Values.FPC_GroupByCategory,
+						Value: false,
+						DataType: Bool,
+						Widget: Switch,
+						ArgumentType: Static,
+						ValidationRules: [],
+						ArgumentType2: Static,
+						Name2: "",
+						HideInCookbook: False,
+						HideNotInCookbook: False
+					},
+					{
+						Name: Use Full Names,
+						Key: Values.FPC_UseFullNames,
+						Value: true,
+						DataType: Bool,
+						Widget: Switch,
+						ArgumentType: Static,
+						ValidationRules: [],
+						ArgumentType2: Static,
+						Name2: "",
+						HideInCookbook: False,
+						HideNotInCookbook: False
+					}
+				],
+				HideInCookbook: False,
+				HideNotInCookbook: False,
+				CanSkip: True
+			},
+			{
+				Title: Accounts,
+				Components: 
+				[
+					{
+						Name: Accounts,
+						Description: Please select mail accounts to search for messages in.,
+						Key: Collections.MailAccounts,
+						DataType: List,
+						Widget: SingleSelect_RemoteOptions,
+						ArgumentType: Static,
+						OptionsPath: MailAccounts,
+						OptionsArgument: "",
+						ValidationRules: 
+						[
+							{
+								Id: 0,
+								Style: Required,
+								ListStyle: 0,
+								Disposition: All
+							}
+						],
+						ArgumentType2: Static,
+						HideInCookbook: False,
+						HideNotInCookbook: False
+					},
+					{
+						Name: Folders To Search,
+						Description: Select which folders to search in.,
+						Key: Values.MailFoldersBasic,
+						Value: """Inbox""",
+						DataType: FolderSearch,
+						Widget: SingleSelect_Enum,
+						ArgumentType: Static,
+						ValidationRules: [],
+						ArgumentType2: Static,
+						HideInCookbook: False,
+						HideNotInCookbook: False
+					},
+					{
+						Name: Folders,
+						Description: Please selct a mail folder to get messages from.,
+						Key: Collections.MailFolders,
+						DataType: List,
+						Widget: ListEditor_RemoteOptions,
+						ArgumentType: Dynamic,
+						OptionsPath: MailFolders,
+						OptionsArgument: Collections.MailAccounts,
+						ValidationRules: 
+						[
+							{
+								Id: 0,
+								Style: Required,
+								ListStyle: 0,
+								Disposition: All
+							}
+						],
+						Enabled: "Recipe:Values.MailFoldersBasic:Other",
+						ArgumentType2: Static,
+						HideInCookbook: False,
+						HideNotInCookbook: False
+					},
+					{
+						Name: Search Time Frame,
+						Key: Values.SearchTimeFrame,
+						Value: """Everything""",
+						DataType: SearchTimeFrame,
+						Widget: Hidden,
+						ArgumentType: Static,
+						ValidationRules: [],
+						ArgumentType2: Static,
+						HideInCookbook: False,
+						HideNotInCookbook: False
+					}
+				],
+				SummaryTemplate: "Matches all messages 
+ - in the folders *{
+					{
+						Collections.MailFolders||Values.MailFoldersBasic
+					}
+				}* 
+ - from the accounts *{
+					{
+						Collections.MailAccounts
+					}
+				}*",
+				HideInCookbook: True,
+				HideNotInCookbook: False,
+				CanSkip: False
+			},
+			{
+				Title: Select Your Industrys,
+				Components: 
+				[
+					{
+						Name: Industry Group,
+						Key: Collections.IndustryGroup,
+						Value: "[
+							""Accounting"",""Arts"",""Agriculture"",""Broadcasting"",""Construction"",""Entertainment"",""Education"",""Finance"",""Government"",""Law"",""Marketing & Sales"",""Medicine"",""Misc"",""Real-Estate"",""Science"",""Technology"",""Transportation""
+						]",
+						DataType: List,
+						Widget: ListEditor_RemoteOptions,
+						ArgumentType: Static,
+						OptionsPath: IndustryGroupId,
+						OptionsArgument: AllCatList,
+						ValidationRules: [],
+						ArgumentType2: Static,
+						HideInCookbook: False,
+						HideNotInCookbook: False
+					}
+				],
+				HideInCookbook: False,
+				HideNotInCookbook: False,
+				CanSkip: True
+			}
+		],
+		Type: VenueTree,
+		Keywords: []
+	},
+	Cached: False,
+	Success: True
+}

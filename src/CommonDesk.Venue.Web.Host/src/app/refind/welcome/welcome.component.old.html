@@ -1,0 +1,152 @@
+<div class="welcome-container">
+
+  <mat-horizontal-stepper [linear]="true" #stepper [@.disabled]="true">
+
+    <mat-step [stepControl]="" class="material-step">
+      <ng-template matStepLabel>Adding a new Email account</ng-template>
+      <div class="stepHeader">Adding a new Email account</div>
+      <BR>
+      <div *ngIf="UseProgressGauge">
+        <stepper-progress [steps]="ProgressGuageSteps" [activeIndex]="WizardPageNumber" [currentPage]="CurrentPage">
+        </stepper-progress>
+      </div>
+      <ng-template [ngIf]="logic.AccountAlreadyExists === true">
+
+        <div class="alert alert-warning" role="alert">This account has already been added!</div>
+        <button class="btn btn-primary m-btn m-btn--custom m-btn--air" (click)="navigateToDashboard()">Cancel</button>
+      </ng-template>
+
+      <ng-template [ngIf]="logic.AccountAlreadyExists === false">
+
+        <p>
+          Refind for Email can monitor muiple email accounts.
+        </p>
+        <p>
+          We will now access your primary email accound and download several days of messages.
+          This will allow us to make some basic recomendations about your account.
+        </p>
+        <p>
+          After this initial process is comopleted, we will analize your entire account. Depending on the size, this
+          might 6 to 12 hours.
+          You will be notified by email when the process has completed. In addition a messages will appear int he
+          recomendations tab.
+        </p>
+
+        <div style="float:right;">
+          <button matStepperNext (click)='nextWizardPage()'
+            class="btn btn-primary m-btn m-btn--custom m-btn--air">Next</button>
+        </div>
+      </ng-template>
+    </mat-step>
+
+    <mat-step [stepControl]="" class="material-step">
+      <ng-template matStepLabel>Privacy and Agreement</ng-template>
+      <div class="stepHeader">Getting to know each other</div>
+      <BR>
+      <div *ngIf="UseProgressGauge">
+        <stepper-progress [steps]="ProgressGuageSteps" [activeIndex]="WizardPageNumber" [currentPage]="CurrentPage">
+        </stepper-progress>
+      </div>
+
+      <BR>
+
+      <p>
+        Before we help solve your email problems, we need to get to know each other better.
+      </p>
+
+      <h5>1 - We need your approval to access your email</h5>
+      <p>
+        Using the login you provided during the sign-in process, with your approval we can start reviewing your Inbox.
+        <a href="">Learn More</a>
+      </p>
+
+      <h5>2 - Why does Refind need access to your email?</h5>
+      <p>
+        Refind helps you process your mail by understsanding all of the people who send you email.
+        To do this, we need to review your past messages.
+        We also proiorities your current messages using this information.
+        <a href="">Learn More</a>
+      </p>
+
+      <h5>3 - Does ReFind know my password?</h5>
+      <p>
+        Because of the way gmail works, we will never know your password.
+        But we will have an access token that can only be used by our service to access your email.
+        This is totally sescure and users the best practices establsihed by the Gmail team.
+        <a href="">Learn More</a>
+      </p>
+
+      <h5>4 - What will we do with your password?</h5>
+      <p>
+        As this process proceeds we will learn a lot about the challenges you have with email.
+        Our entire privacy policy can be reviewed
+        <a href=""> Here</a>
+      </p>
+
+      <h5>If you agree to the above?</h5>
+      <p>
+        <input type="checkbox" checked [(ngModel)]="PrivacyPolicyAgreement">
+        If you agree with our privacy policy and want to proceed please check this box
+      </p>
+
+      <div style="float:right;">
+        <button matStepperPrevious class="btn btn-primary m-btn m-btn--custom m-btn--air"
+          (click)='backWizardPage()'>Back</button>
+        <button matStepperNext class="btn btn-primary m-btn m-btn--custom m-btn--air" (click)='nextWizardPage()'
+          [disabled]="!PrivacyPolicyAgreement">Next</button>
+      </div>
+
+    </mat-step>
+
+    <mat-step [stepControl]="" class="material-step">
+      <ng-template matStepLabel>Accessing Your inbox</ng-template>
+      <div class="stepHeader">Accessing Your inbox</div>
+      <BR>
+
+      <div *ngIf="UseProgressGauge">
+        <stepper-progress [steps]="ProgressGuageSteps" [activeIndex]="WizardPageNumber" [currentPage]="CurrentPage">
+        </stepper-progress>
+      </div>
+      <p>
+        Our servers will now download the headers from one month of your email. In general this takes 1-2 minutes.
+      </p>
+      <!-- <BR>
+        <mat-slider [(ngModel)]="logic.percentComplete"></mat-slider> -->
+      <BR>
+
+      <mat-progress-bar class="my-progress-bar" color="primary" mode="query" [value]="">
+      </mat-progress-bar>
+
+      <h4>{{logic.statusMessages}}</h4>
+
+
+      <div style="float:right;">
+        <button matStepperPrevious class="btn btn-primary m-btn m-btn--custom m-btn--air"
+          (click)='backWizardPage()'>Back</button>
+        <button matStepperNext class="btn btn-primary m-btn m-btn--custom m-btn--air"
+          (click)='nextWizardPage()'>Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="" class="material-step">
+      <ng-template matStepLabel>Start</ng-template>
+      <div class="stepHeader">Preliminary Analysis complete!</div>
+      <BR>
+      <div *ngIf="UseProgressGauge">
+        <stepper-progress [steps]="ProgressGuageSteps" [activeIndex]="WizardPageNumber" [currentPage]="CurrentPage">
+        </stepper-progress>
+      </div>
+      <p>
+        We have accessed one month of your email. Please click the next button to review our findings in the
+        Recommendsations page.
+      </p>
+      <div style="float:right;">
+        <button matStepperPrevious (click)='backWizardPage()'
+          class="btn btn-primary m-btn m-btn--custom m-btn--air">Back</button>
+        <button matStepperNext (click)='navigateToRecommendation()'
+          class="btn btn-primary m-btn m-btn--custom m-btn--air" style="background-color: red;">Next</button>
+      </div>
+    </mat-step>
+
+  </mat-horizontal-stepper>
+</div>

@@ -1,0 +1,118 @@
+
+.dbborder1 {
+    /* border:red solid 1px !important; */
+}
+.dbborder2 {
+    /* border:green solid 1px !important; */
+}
+.dbborder3 {
+    /* border: purple solid 1px !important */
+}
+
+.dropDownBorder {
+    border: gray solid 1px !important
+}
+.noPadding { 
+    padding: 0px 0px 0px 0px !important;
+}
+.smDropDn {
+    /* groups select dropdown */
+    width:150px;
+    padding: 0px 0px 0px 0px !important;
+    margin: 0px 0px 0px 0px !important;
+}
+
+.firstGroupColumnHeader
+{
+    width:150px;
+    height: 1em  !important;
+}
+.firstGroupColumn 
+{
+    /* groups select dropdown */
+    width:150px;
+    height: 1.6em  !important;
+    padding: 0px 0px 0px 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    text-align: center;
+    border: gray solid 1px !important
+}
+.inline {
+    display:inline-block;
+}
+/* 
+.smDropDn option{
+    width:100px;   
+    padding: 0px 0px 0px 0px !important;
+    margin: 0px 0px 0px 0px !important;
+} */
+
+.tagTheme{
+    border: purple solid 1px !important
+}
+
+.popContentStyle 
+{
+    width:300px;
+}
+
+.dropDownWidth{
+    white-space: nowrap !important;
+    width:175px !important;
+    padding: 5px 5px 0px 5px;
+}
+.noPadNoMargin{
+    /* top,right,buttom,left */
+    padding: 0px 0px 0px 0px !important;
+    margin: 0px 0px 0px 0px !important;
+}
+.cbTdColWidth {
+    width: 150px;
+    padding: 5px 5px 0px 0px;
+}
+.inner
+{
+    margin: 0px 3px 0px 3px !important;
+    white-space: nowrap;
+}
+
+.cbPadding 
+{
+     margin: 0px 10px 0px 10px !important;
+}
+.center
+{
+    text-align:center;
+}
+.hvCenter
+{
+    text-align:center;
+}
+
+#rbSize {
+    /* size of radio button */
+    height:18px;
+    width:18px;
+}
+#maxWidth{
+    max-width: 15em;
+}
+
+
+#cbButtonGroup {
+    /* gives radio buttons larger click target */
+    padding:5px 20px 5px 20px;
+    margin:0px 5px 0px 5px;
+    cursor:pointer;
+}
+
+#cbButtonGroup:hover {
+    /* background: #eeeeee;   */
+    /* border:red solid 1px !important;  */
+}
+
+#outer
+{
+    width:100%;
+    text-align: center;
+}

@@ -1,0 +1,38 @@
+div.welcome-container {
+    padding: 10px 20px;
+}
+p {
+  font-size: 14px;
+}
+
+.stepHeader {
+  font-size: 24px;
+  text-align: center;
+}
+
+.colmini {
+  width: 10px;
+}
+
+p {
+  font-size: 16px;
+}
+
+li {
+  font-size: 16px;
+}
+
+.my-progress-bar{
+  width: 800px;
+  background-color: red;
+  color: black;
+ }
+
+
+::ng-deep .mat-horizontal-stepper-header-container {
+    display: none !important;
+  }
+  
+  ::ng-deep .mat-horizontal-content-container {
+    padding: 12px !important;
+  }

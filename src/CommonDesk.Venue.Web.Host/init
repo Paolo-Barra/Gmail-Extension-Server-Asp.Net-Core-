@@ -1,0 +1,2 @@
+#!/bin/bash
+dotnet run CommonDesk.Venue.Web.Host.csproj --launch-profile=linuxdev

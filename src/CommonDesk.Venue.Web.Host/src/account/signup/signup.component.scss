@@ -1,0 +1,80 @@
+.sign-up-container {
+  form {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    // align-content: center;
+    align-items: flex-start;
+
+    .account-type {
+      mat-radio-group {
+        flex-direction: column;
+        display: flex;
+      }
+      margin-bottom: 15px;
+    }
+
+    .account-details {
+      width: 100%;
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+
+      input {
+        border-color: #cccccc;
+      }
+
+      .form-fields {
+        display: flex;
+        justify-content: space-between;
+
+        label.important-field {
+          padding-top: 8px;
+        }
+        
+        .important-field {
+          &::after {
+            content: "*";
+            color: red;
+          }
+        }
+
+        .form-group .m-form__group {
+          flex-grow: 0.8;
+        }
+      }
+    }
+  }
+}
+
+.social-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.signup-code-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: space-between;
+
+  label {
+    margin-right: 20px;
+  }
+
+  input {
+    margin: 0 15px;
+  }
+
+  button {
+    margin-left: 20px;
+  }
+}
+
+.alert-danger {
+  margin: 5px;
+}

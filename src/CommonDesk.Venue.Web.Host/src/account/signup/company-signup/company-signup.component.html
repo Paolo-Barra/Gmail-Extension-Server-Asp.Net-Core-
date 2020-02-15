@@ -1,0 +1,65 @@
+<div class="company-create-container">
+
+  <p>At this time we are not accepting requests for our individual and company accounts.</p>
+
+  <p>Please enter your information below and we will contact you when there are offerings available.</p>
+
+
+  <div class="company-create-form-container">
+    <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+      <label>
+        Name:
+        <div class="form-group m-form__group">
+          <input autoFocus class="form-control m-input" type="text" autocomplete="off" placeholder="Your Name"
+            formControlName="name" />
+          <div *ngIf="submitted && registerForm.controls['name'].invalid" class="alert alert-danger error-message">
+            <div *ngIf="registerForm.controls['name'].errors.required">
+              Name is required.
+            </div>
+          </div>
+        </div>
+      </label>
+
+
+      <label>
+        Email:
+        <div class="form-group m-form__group">
+          <input autoFocus class="form-control m-input" type="text" autocomplete="off" placeholder="Your Email"
+            formControlName="email" />
+          <div *ngIf="submitted && registerForm.controls['email'].invalid" class="alert alert-danger error-message">
+            <div *ngIf="registerForm.controls['email'].errors.required">
+              Email is required
+            </div>
+            <div *ngIf="registerForm.controls['email'].errors.email">
+              Email is not valid
+            </div>
+          </div>
+        </div>
+      </label>
+
+
+      <label>
+        Phone Number (Optional):
+        <div class="form-group m-form__group">
+          <input autoFocus class="form-control m-input" type="text" autocomplete="off" placeholder="Phone Number"
+            formControlName="phone" />
+        </div>
+      </label>
+
+
+      <label>
+        Company (Optional):
+        <div class="form-group m-form__group">
+          <input autoFocus class="form-control m-input" type="text" autocomplete="off" placeholder="Company"
+            formControlName="company" />
+        </div>
+      </label>
+
+      <div class="m-login__form-action" style="float:right;">
+        <button type="submit" class="btn btn-primary m-btn m-btn--pill m-btn--custom m-btn--air">Submit</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,62 @@
+.social-button-container {
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.social-button-container > li {
+  list-style: none;
+}
+
+.social-login-icon,
+.social-button-container > button {
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+::ng-deep .mat-horizontal-stepper-header-container {
+  display: none !important;
+}
+
+::ng-deep .mat-horizontal-content-container {
+  padding: 5pxs !important;
+}
+
+.refind-signup-info {
+  h4 {
+    margin: 20px 17%;
+  }
+
+  ol {
+    padding-inline-start: 15px !important;
+  }
+
+  p.signup-title {
+    font-weight: 400;
+  }
+}
+
+ul.social-login-icons {
+  margin-top: 20px;
+  display: flex;
+  list-style: none;
+  list-style-type: none;
+  justify-content: space-between;
+  padding-inline-start: 0px !important;
+
+  a {
+    cursor: pointer;
+  }
+
+  li {
+    box-shadow: 2px 2px 2px 0px rgba(0, 0, 0, 0.52);
+    border-radius: 50px;
+    margin: 0 10%;
+
+    &:hover {
+      box-shadow: 4px 6px 8px 0px rgba(0, 0, 0, 0.52);
+      transition: box-shadow 400ms ease-in-out;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+    "editor.mouseWheelZoom": true,
+    "workbench.editor.revealIfOpen": true,
+    "workbench.editor.enablePreview": false ,
+    "terminal.integrated.scrollback": 5000,
+    "git.autorefresh": false,
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wrappingIndent": "same",
+    "editor.wordWrapColumn": 350,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "node_modules": false,
+        "bin": true,
+        "obj": true,
+        "dist": true,
+        "Properties": true,
+        ".vs": true,
+        "*.csproj": true,
+        "*.sln": true,
+        "*.csproj.user": true,
+        "*.suo": true
+    },
+    "files.watcherExclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "node_modules": false,
+        "bin": true,
+        "obj": true,
+        "dist": true,
+        "Properties": true,
+        ".vs": true,
+        "*.csproj": true,
+        "*.sln": true,
+        "*.csproj.user": true,
+        "*.suo": true
+    }
+}

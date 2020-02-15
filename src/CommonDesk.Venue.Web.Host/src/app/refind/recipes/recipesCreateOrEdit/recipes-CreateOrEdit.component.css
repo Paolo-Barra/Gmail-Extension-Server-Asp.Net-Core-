@@ -1,0 +1,40 @@
+    .underlineCustom {
+        font-size: 18px;
+        border: none !important;
+        cursor: pointer !important;
+    }
+
+    li.active {
+        font-size: 18px;
+        border: none !important;
+        border-bottom: 2px solid #5867dd !important;
+    }
+
+    .summary-explanation {
+        padding: 10px;
+        background-color: #fff9da;
+        border: 1px solid #fcdd38;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .m-form__help {
+        color: red;
+    }
+    .CustomBorder {
+        border: 1px solid #ebedf2;
+        padding: 10px;
+        border-radius: 3px;
+    }
+
+    .customFont {
+        margin-bottom: 10px;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .customFont > b {
+       font-size: 18px;
+       font-weight: 600;
+    }
+

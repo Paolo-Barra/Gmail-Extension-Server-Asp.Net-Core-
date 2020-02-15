@@ -1,0 +1,79 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:22742/",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    
+    "CommonDesk.Venue.Web.Host": {
+      "commandName": "Project",
+      "launchUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "cddevweb1"
+      },
+      "applicationUrl": "http://10.1.1.56:22742"
+    },
+    "cddevweb1": {
+      "commandName": "Project",
+      "launchUrl": "http://cddevweb1.ngrok.io",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "cddevweb1"
+      },
+      "applicationUrl": "http://localhost:22742"
+    },
+    "cddevweb2": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "cddevweb2"
+      },
+      "applicationUrl": "http://localhost:22742"
+    },
+    "linuxdev": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "linuxdev"
+      },
+      "applicationUrl": "http://0.0.0.0:22742"
+    },
+
+    "juanlocal": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "juanlocal"
+      },
+      "applicationUrl": "http://0.0.0.0:22742"
+    },
+    "juanmobile": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "juanmobile"
+      },
+      "applicationUrl": "http://192.168.0.101:22742"
+    },
+    "mitchmobile": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "mitchmobile"
+      },
+      "applicationUrl": "http://10.1.1.160:22742"
+    },
+    "juandev": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "juandev"
+      },
+      "applicationUrl": "http://0.0.0.0:22742"
+    }
+  }
+}

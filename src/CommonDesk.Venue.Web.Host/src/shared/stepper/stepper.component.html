@@ -1,0 +1,12 @@
+<div class="separator">
+  <ul class="progress-tracker progress-tracker--text progress-center progress-tracker--center anim--path">
+    <li *ngFor="let step of steps; index as i"
+      class="progress-step {{ currentPage === 'Summary' || activeIndex === i ? 'is-active' : ''}} {{activeIndex - i > 0 ? 'is-complete' : '' }}">
+      <div class="progress-marker"></div>
+      <div *ngIf="step.title" c lass="progress-text">
+        <h4>{{step.title}}</h4>
+        <p *ngIf="step.description">{{step.description}}</p>
+      </div>
+    </li>
+  </ul>
+</div>

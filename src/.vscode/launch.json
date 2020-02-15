@@ -1,0 +1,22 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "AspBackend JuanLocal",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/CommonDesk.Venue.Web.Host/bin/Debug/netcoreapp2.2/CommonDesk.Venue.Web.Host.dll",
+            "args": ["-t", "email"],
+            "cwd": "${workspaceFolder}/CommonDesk.Venue.Web.Host",
+            "console": "integratedTerminal",
+            "stopAtEntry": false,
+            "env": {
+              "ASPNETCORE_ENVIRONMENT": "juanlocal"
+            },
+          },
+    ]
+}

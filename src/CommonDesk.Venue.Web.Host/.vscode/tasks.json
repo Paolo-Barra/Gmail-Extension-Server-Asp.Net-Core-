@@ -1,0 +1,108 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "start",
+      "isBackground": true,
+      "presentation": {
+        "focus": true,
+        "panel": "dedicated"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": {
+        "owner": "typescript",
+        "source": "ts",
+        "applyTo": "closedDocuments",
+        "fileLocation": [
+          "relative",
+          "${cwd}"
+        ],
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "Compiled |Failed to compile."
+          }
+        }
+      }
+    },
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+          "build"
+      ],
+      "options": {
+          "cwd": "${workspaceRoot}"
+      },
+      "group": {
+          "kind": "build",
+          "isDefault": true
+      },
+      "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+      },
+      "problemMatcher": "$msCompile"
+  },
+    {
+      "type": "npm",
+      "script": "install",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "linuxdev",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "mitchmobile",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "juanlocal",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "juanmobile",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "linuxdev:mb",
+      "isBackground": true,
+      "presentation": {
+        "focus": true,
+        "panel": "dedicated"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+        "pattern": "$tsc",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": {
+            "regexp": "(.*?)"
+          },
+          "endsPattern": {
+            "regexp": "Compiled |Failed to compile."
+          }
+        }
+      }
+    }
+  ]
+}

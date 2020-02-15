@@ -1,0 +1,134 @@
+<!-- <div>
+  <div id="HostDashboard"> 
+      <div class="m-content">
+          <div class="m-portlet m-portlet--mobile">
+              <!--<div class="m-portlet__body">-->
+                   <!-- <div class="mr-auto col-xs-6">
+                          <h3 class="m-subheader__title m-subheader__title--separator">
+                              <span>Test Component</span>
+                          </h3>
+                  </div> 
+                  <hr />
+                  <div *ngIf="!logic.account">
+                      <h3>No accounts</h3>
+                      <p>Please wait while we create your Venue Account.</p>
+                  </div>
+                  <div *ngIf="logic.account" class="table-scrollable table-scrollable-borderless">
+                      <table class="table table-hover table-light">
+                          <tr>
+                              <td style="vertical-align: top">Email Account</td>
+                              <td width="80%">
+                                  <select class="form-control" [(ngModel)]="logic.account_id" (change)="change_filter()">
+                                      <option *ngFor="let acc of logic.accounts" value="{{ acc.MailAccountId }}">{{ acc.Email }}</option>
+                                  </select>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td style="vertical-align: top">Import Status</td>
+                              <td width="80%">
+                                   <div class="progress m-progress--md">
+                                      <div class="progress-bar m--bg-fill-primary" role="progressbar" [ngStyle]="get_account_progress_style()" aria-valuemin="0" aria-valuemax="100"></div>
+                                      {{      get_account_progress_percent() }}
+                                  </div>
+                                  <div class="status_message">
+                                      {{ status_message }}
+                                  </div>
+                              </td>
+                          </tr>
+                      </table>
+                  </div>
+
+
+
+                  <div *ngIf="logic.account" class="container customchartheaderContainer">
+                      <ul class="nav nav-tabs">
+                          <li class="nav-link m-tabs__link underlineCustom">Categories</li>
+                          <li class="nav-link m-tabs__link subunderlineCustom active" [class.active]="logic.viewMode == 'messages'" rel="messages" (click)="ByMessage()">By messages</li>
+                          <li class="nav-link m-tabs__link subunderlineCustom" [class.active]="logic.viewMode == 'person'" rel="person" (click)="ByPerson()">By person</li>
+                      </ul>
+                      <div class="tab-content" [ngSwitch]="logic.viewMode">
+                          <div id="tab1" class="tab-slider--body" *ngSwitchCase="'messages'">
+                              <div class="container customPadding">
+                                  <ul class="nav nav-tabs paddingCustomforsubheader">
+                                      <li class="nav-link m-tabs__link subsubunderlineCustom active" [class.active]="logic.SubviewMode == 'Summary'" rel="Summary" (click)="getSummary()">Summary</li>
+                                      <li class="nav-link m-tabs__link subsubunderlineCustom" [class.active]="logic.SubviewMode == 'Details'" rel="Details" (click)="logic.getDetails()">Details</li>
+                                  </ul>
+                                  <div class="tab-content" [ngSwitch]="logic.SubviewMode">
+                                      <div id="tab1" class="tab-slider--body" *ngSwitchCase="'Summary'">
+                                          
+                                          <plotly-plot *ngIf="logic.plotly_data" [data]="logic.plotly_data" [layout]="logic.plotly_layout" [config]="logic.plot_options"></plotly-plot>
+                                      </div>
+                                      <div id="tab2" class="tab-slider--body" *ngSwitchCase="'Details'">
+                                          <div class="table-scrollable table-scrollable-borderless">
+                                              <table class="table table-hover table-light table-responsive-sm">
+                                                  <thead>
+                                                      <tr>
+                                                          <th>Title</th>
+                                                          <th>Total Messages</th>
+                                                          <th>%</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tr (click)="gofromMessageDetails(group)" class="dashboard-stat-row" title="Go to {{group.label}}" *ngFor="let group of logic.categoriesData">
+                                                      <td>{{ group.label }}</td>
+                                                      <td>{{ group.message_count }}</td>
+                                                      <td>{{ logic.get_percentFromMessage(group) }}</td>
+                                                  </tr>
+                                                  <tr>
+                                                      <th>Total</th>
+                                                      <th>{{ logic.get_total_messages() }}</th>
+                                                      <th>100%</th>
+                                                  </tr>
+                                              </table>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div id="tab2" class="tab-slider--body" *ngSwitchCase="'person'">
+                              <div class="container customPadding">
+                                  <ul class="nav nav-tabs paddingCustomforsubheader">
+                                      <li class="nav-link m-tabs__link subsubunderlineCustom active" [class.active]="logic.SubviewMode == 'Summary'" rel="Summary" (click)="logic.getSummary()">Summary</li>
+                                      <li class="nav-link m-tabs__link subsubunderlineCustom" [class.active]="logic.SubviewMode == 'Details'" rel="Details" (click)="logic.getDetails()">Details</li>
+                                  </ul>
+                                  <div class="tab-content" [ngSwitch]="logic.SubviewMode">
+                                      <div id="tab1" class="tab-slider--body" *ngSwitchCase="'Summary'">
+                                          
+                                          <plotly-plot *ngIf="logic.plotly_data" [data]="logic.plotly_data" [layout]="logic.plotly_layout" [config]="logic.plot_options"></plotly-plot>
+                                      </div>
+                                      <div id="tab2" class="tab-slider--body" *ngSwitchCase="'Details'">
+                                          <div class="table-scrollable table-scrollable-borderless">
+                                              <table class="table table-hover table-light  table-responsive-sm">
+                                                  <thead>
+                                                      <tr>
+                                                          <th>Title</th>
+                                                          <th>People</th>
+                                                          <th>%</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tr (click)="gofromPeopleDetails(group)" class="dashboard-stat-row" title="Go to {{group.label}}" *ngFor="let group of logic.categoriesData">
+                                                      <td>{{ group.label }}</td>
+                                                      <td>{{ group.value }}</td>
+                                                      <td>{{ logic.get_percentFromPeople(group) }}</td>
+                                                  </tr>
+                                                  <tr>
+                                                      <th>Total</th>
+                                                      <th>{{ logic.get_total_people() }}</th>
+                                                      <th>100%</th>
+                                                  </tr>
+                                              </table>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      
+                  </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var n = window.webkit.message
+</script> -->

@@ -1,0 +1,555 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "refind-full": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "wwwroot/dist-full/refind-full",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "tsConfig": "src/tsconfig.json",
+            "polyfills": "src/polyfills.ts",
+            "assets": [
+              "src/assets",
+              "src/metronic",
+              "src/favicon.ico",
+              {
+                "glob": "abp.signalr-client.js",
+                "input": "node_modules/abp-web-resources/Abp/Framework/scripts/libs",
+                "output": "/assets/abp"
+              }
+            ],
+            "styles": [
+              "node_modules/animate.css/animate.min.css",
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.snow.css",
+              "node_modules/famfamfam-flags/dist/sprite/famfamfam-flags.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeng/resources/themes/nova-light/theme.css",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/sweetalert2/dist/sweetalert2.css",
+              "node_modules/cookieconsent/build/cookieconsent.min.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/assets/FreezeUI/freeze-ui.min.css",
+              "src/assets/primeng/file-upload/css/primeng.file-upload.css",
+              "src/assets/primeng/autocomplete/css/primeng.autocomplete.css",
+              "src/assets/primeng/tree/css/primeng.tree.css",
+              "src/assets/primeng/context-menu/css/primeng.context-menu.css",
+              "src/assets/fonts/fonts-poppins.css",
+              "src/assets/fonts/fonts-roboto.css",
+              "src/assets/ngx-bootstrap/bs-datepicker.css",
+              "src/assets/metronic/assets/vendors/base/vendors.bundle.css",
+              "src/app/shared/core.less",
+              "src/app/shared/layout/layout.less",
+              "src/styles.css",
+              "src/theme.scss"
+            ],
+            "scripts": [
+              "node_modules/@aspnet/signalr/dist/browser/signalr.min.js",
+              "node_modules/localforage/dist/localforage.js",
+              "node_modules/moment/min/moment-with-locales.js",
+              "node_modules/moment-timezone/builds/moment-timezone-with-data.js",
+              "node_modules/push.js/bin/push.js",
+              "node_modules/quill/dist/quill.js",
+              "node_modules/sweetalert2/dist/sweetalert2.js",
+              "node_modules/cookieconsent/build/cookieconsent.min.js",
+              "src/assets/FreezeUI/freeze-ui.js",
+              "src/assets/abp-web-resources/abp.js",
+              "src/assets/abp-web-resources/abp.sweet-alert.js",
+              "src/assets/abp-web-resources/abp.notify.js",
+              "src/assets/abp-web-resources/abp.freeze-ui.js",
+              "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js",
+              "src/assets/metronic/assets/vendors/base/vendors.bundle.js",
+              "src/assets/metronic/assets/demo/default/base/scripts.bundle.js",
+              "src/assets/sendDataToMobile.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
+          },
+          "configurations": {
+            "hmr": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hmr.ts"
+                }
+              ]
+            },
+            "cddevweb1": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.cddevweb1.ts"
+                }
+              ]
+            },
+            "cddevweb2": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.cddevweb2.ts"
+                }
+              ]
+            },
+            "linuxdev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.linuxdev.ts"
+                }
+              ]
+            },
+            "mitchmobile": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mitchmobile.ts"
+                }
+              ]
+            },
+            "juanlocal": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.juanlocal.ts"
+                }
+              ]
+            },
+            "juanmobile": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.juanmobile.ts"
+                }
+              ]
+            },
+            "juandev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.juandev.ts"
+                }
+              ]
+            },
+            "production": {
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "optimization": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "refind-full:build"
+          },
+          "configurations": {
+            "hmr": {
+              "browserTarget": "refind-full:build:hmr"
+            },
+            "production": {
+              "browserTarget": "refind-full:build:production"
+            },
+            "cddevweb1": {
+              "browserTarget": "refind-full:build:cddevweb1"
+            },
+            "cddevweb2": {
+              "browserTarget": "refind-full:build:cddevweb2"
+            },
+            "juandev": {
+              "browserTarget": "refind-full:build:juandev"
+            },
+            "mitchmobile": {
+              "browserTarget": "refind-full:build:mitchmobile"
+            },
+            "juanlocal": {
+              "browserTarget": "refind-full:build:juanlocal"
+            },
+            "juanmobile": {
+              "browserTarget": "refind-full:build:juanmobile"
+            },
+            "linuxdev": {
+              "browserTarget": "refind-full:build:linuxdev"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "refind-full:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "src/tsconfig.json",
+            "main": "src/test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "src/polyfills.ts",
+            "styles": [
+              "node_modules/animate.css/animate.min.css",
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.snow.css",
+              "node_modules/famfamfam-flags/dist/sprite/famfamfam-flags.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeng/resources/themes/nova-light/theme.css",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/sweetalert2/dist/sweetalert2.css",
+              "node_modules/cookieconsent/build/cookieconsent.min.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "src/assets/FreezeUI/freeze-ui.min.css",
+              "src/assets/primeng/file-upload/css/primeng.file-upload.css",
+              "src/assets/primeng/autocomplete/css/primeng.autocomplete.css",
+              "src/assets/primeng/tree/css/primeng.tree.css",
+              "src/assets/primeng/context-menu/css/primeng.context-menu.css",
+              "src/assets/fonts/fonts-poppins.css",
+              "src/assets/fonts/fonts-roboto.css",
+              "src/assets/ngx-bootstrap/bs-datepicker.css",
+              "src/assets/metronic/assets/vendors/base/vendors.bundle.css",
+              "src/app/shared/core.less",
+              "src/app/shared/layout/layout.less",
+              "src/styles.css"
+            ],
+            "scripts": [
+              "node_modules/@aspnet/signalr/dist/browser/signalr.min.js",
+              "node_modules/localforage/dist/localforage.js",
+              "node_modules/moment/min/moment-with-locales.js",
+              "node_modules/moment-timezone/builds/moment-timezone-with-data.js",
+              "node_modules/push.js/bin/push.js",
+              "node_modules/quill/dist/quill.js",
+              "node_modules/sweetalert2/dist/sweetalert2.js",
+              "node_modules/cookieconsent/build/cookieconsent.min.js",
+              "src/assets/FreezeUI/freeze-ui.js",
+              "src/assets/abp-web-resources/abp.js",
+              "src/assets/abp-web-resources/abp.sweet-alert.js",
+              "src/assets/abp-web-resources/abp.notify.js",
+              "src/assets/abp-web-resources/abp.freeze-ui.js",
+              "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js",
+              "src/assets/metronic/assets/vendors/base/vendors.bundle.js",
+              "src/assets/metronic/assets/demo/default/base/scripts.bundle.js"
+            ],
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              {
+                "glob": "abp.signalr-client.js",
+                "input": "node_modules/abp-web-resources/Abp/Framework/scripts/libs",
+                "output": "/assets/abp"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "src/tsconfig.json"
+            ],
+            "exclude": []
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/server",
+            "main": "src/main.server.ts",
+            "tsConfig": "src/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "refind-light": {
+      "root": "projects/refind-light/",
+      "sourceRoot": "projects/refind-light/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "wwwroot/dist-light/refind-light",
+            "index": "projects/refind-light/src/index.html",
+            "main": "projects/refind-light/src/main.ts",
+            "polyfills": "projects/refind-light/src/polyfills.ts",
+            "tsConfig": "src/tsconfig.light.json",
+            "assets": [
+              "projects/refind-light/src/assets",
+              "projects/refind-light/src/metronic",
+              "projects/refind-light/src/favicon.ico"
+            ],
+            "styles": [
+              "node_modules/sweetalert2/dist/sweetalert2.css",
+              "projects/refind-light/src/assets/metronic/assets/vendors/base/vendors.bundle.css",
+              "projects/refind-light/src/assets/metronic/assets/demo/default/base/style.bundle.css",
+              "projects/refind-light/src/app/shared/core.less",
+              "projects/refind-light/src/app/shared/layout/layout.less",
+              "projects/refind-light/src/styles.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "projects/refind-light/src/assets/fonts/fonts-poppins.css",
+              "projects/refind-light/src/assets/fonts/fonts-roboto.css"
+            ],
+            "scripts": [
+              "node_modules/localforage/dist/localforage.js",
+              "node_modules/moment/min/moment-with-locales.js",
+              "node_modules/sweetalert2/dist/sweetalert2.js",
+              "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js",
+              "projects/refind-light/src/assets/FreezeUI/freeze-ui.js",
+              "projects/refind-light/src/assets/abp-web-resources/abp.js",
+              "projects/refind-light/src/assets/abp-web-resources/abp.sweet-alert.js",
+              "projects/refind-light/src/assets/abp-web-resources/abp.notify.js",
+              "projects/refind-light/src/assets/abp-web-resources/abp.freeze-ui.js",
+              "projects/refind-light/src/assets/metronic/assets/vendors/base/vendors.bundle.js",
+              "projects/refind-light/src/assets/metronic/assets/demo/default/base/scripts.bundle.js"
+            ],
+            "es5BrowserSupport": true
+          },
+          "configurations": {
+            "cddevweb1": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/refind-light/src/environments/environment.ts",
+                  "with": "src/environments/environment.cddevweb1.ts"
+                },
+                {
+                  "replace": "projects/refind-light/src/assets/appconfig.json",
+                  "with": "src/assets/appconfig.cddevweb1.json"
+                }
+              ]
+            },
+            "cddevweb2": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/refind-light/src/environments/environment.ts",
+                  "with": "src/environments/environment.cddevweb2.ts"
+                },
+                {
+                  "replace": "projects/refind-light/src/assets/appconfig.json",
+                  "with": "src/assets/appconfig.cddevweb2.json"
+                }
+              ]
+            },
+            "linuxdev": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/refind-light/src/environments/environment.ts",
+                  "with": "src/environments/environment.linuxdev.ts"
+                },
+                {
+                  "replace": "projects/refind-light/src/assets/appconfig.json",
+                  "with": "src/assets/appconfig.linuxdev.json"
+                }
+              ]
+            },
+            "juanlocal": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/refind-light/src/environments/environment.ts",
+                  "with": "src/environments/environment.juanlocal.ts"
+                },
+                {
+                  "replace": "projects/refind-light/src/assets/appconfig.json",
+                  "with": "src/assets/appconfig.juanlocal.json"
+                }
+              ]
+            },
+            "juanmobile": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/refind-light/src/environments/environment.ts",
+                  "with": "src/environments/environment.juanmobile.ts"
+                },
+                {
+                  "replace": "projects/refind-light/src/assets/appconfig.json",
+                  "with": "src/assets/appconfig.juanmobile.json"
+                }
+              ]
+            },
+            "mitchmobile": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/refind-light/src/environments/environment.ts",
+                  "with": "src/environments/environment.mitchmobile.ts"
+                },
+                {
+                  "replace": "projects/refind-light/src/assets/appconfig.json",
+                  "with": "src/assets/appconfig.mitchmobile.json"
+                }
+              ]
+            },
+            "juandev": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/refind-light/src/environments/environment.ts",
+                  "with": "src/environments/environment.juandev.ts"
+                },
+                {
+                  "replace": "projects/refind-light/src/assets/appconfig.json",
+                  "with": "src/assets/appconfig.juandev.json"
+                }
+              ]
+            },
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/refind-light/src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "4mb",
+                  "maximumError": "6mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "refind-light:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "refind-light:build:production"
+            },
+            "cddevweb1": {
+              "browserTarget": "refind-light:build:cddevweb1"
+            },
+            "cddevweb2": {
+              "browserTarget": "refind-light:build:cddevweb2"
+            },
+            "juandev": {
+              "browserTarget": "refind-light:build:juandev"
+            },
+            "juanlocal": {
+              "browserTarget": "refind-light:build:juanlocal"
+            },
+            "juanmobile": {
+              "browserTarget": "refind-light:build:juanmobile"
+            },
+            "mitchmobile": {
+              "browserTarget": "refind-light:build:mitchmobile"
+            },
+            "linuxdev": {
+              "browserTarget": "refind-light:build:linuxdev"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "refind-light:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/refind-light/src/test.ts",
+            "polyfills": "projects/refind-light/src/polyfills.ts",
+            "tsConfig": "projects/refind-light/tsconfig.spec.json",
+            "karmaConfig": "projects/refind-light/karma.conf.js",
+            "styles": [],
+            "scripts": [],
+            "assets": [
+              "projects/refind-light/src/favicon.ico",
+              "projects/refind-light/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/refind-light/tsconfig.json",
+              "projects/refind-light/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "abp-zero-template-e2e": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "./protractor.conf.js",
+            "devServerTarget": "refind-full:serve"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "e2e/tsconfig.json"
+            ],
+            "exclude": []
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "refind-full",
+  "schematics": {
+    "@schematics/angular:component": {
+      "prefix": "app",
+      "styleext": "css"
+    },
+    "@schematics/angular:directive": {
+      "prefix": "app"
+    }
+  },
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false
+    }
+  }
+}

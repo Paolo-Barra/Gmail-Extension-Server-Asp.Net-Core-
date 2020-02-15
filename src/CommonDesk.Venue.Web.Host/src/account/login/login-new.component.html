@@ -1,0 +1,77 @@
+<div class="login-container">
+    <div class="social-login">
+        <a class="button button--social-login button--googleplus" (click)="authenticate(googleProviderId)">
+            <fa-icon [icon]="faGooglePlus" style="border-right: 1px solid #c23321;"class="icon"></fa-icon>
+            {{isFreeAccount ? "Register" : "Login"}} With Google
+        </a>
+
+        <a class="button button--social-login button--microsoft" (click)="authenticate(openIdProviderId)">
+            <fa-icon [icon]="faWindows" style="border-right: 1px solid #0081bc;" class="icon"></fa-icon>
+            {{isFreeAccount ? "Register" : "Login"}} With Microsoft
+        </a>
+    </div>
+
+
+    <div class="wrap">
+        <div class="links">
+            <div class="dot">
+                <p style="width: 100%; font-size: 1.4em; font-weight: 400">or</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-form-container">
+
+        <form #loginForm="ngForm" class="m-login__form m-form login-form" method="post" novalidate (ngSubmit)="login()">
+
+            <div class="form-group m-form__group">
+                <input #userNameOrEmailAddressInput="ngModel"
+                    [(ngModel)]="loginService.authenticateModel.userNameOrEmailAddress" autoFocus
+                    class="form-control m-input" type="text" autocomplete="off"
+                    placeholder="{{'UserNameOrEmail' | localize}} *" name="userNameOrEmailAddress" required
+                    [disabled]="isFreeAccount || !isCompanyAccount" />
+                <validation-messages [formCtrl]="userNameOrEmailAddressInput"
+                    *ngIf="!userNameOrEmailAddressInput.touched">
+                </validation-messages>
+            </div>
+
+            <div class="form-group m-form__group">
+                <input #passwordInput="ngModel" [(ngModel)]="loginService.authenticateModel.password"
+                    class="form-control m-input" type="password" autocomplete="off" 
+                    placeholder="{{'Password' | localize}} *" name="password" required maxlength="32"
+                    [disabled]="(isFreeAccount || !isCompanyAccount)" />
+                <validation-messages [formCtrl]="passwordInput" *ngIf="!passwordInput.touched"></validation-messages>
+            </div>
+
+            <div class="m-login__form-sub">
+                <div>
+                    <label class="m-checkbox m-checkbox--primary">
+                        <input class="form-control form-control-checkbox" [(ngModel)]="loginService.rememberMe"
+                            type="checkbox" name="rememberMe" value="true"
+                            [disabled]="(isFreeAccount || !isCompanyAccount)" />{{"RememberMe" | localize}}
+                        <span></span>
+                    </label>
+                </div>
+                <div>
+                    <a routerLink="/account/forgot-password" id="forget-password"
+                        class="m-link forget-password">{{"ForgotPassword" | localize}}</a>
+                </div>
+            </div>
+
+            <div style="margin: 5px; font-weight: 400;">
+                <label class="m-checkbox m-checkbox--primary">
+                    <input class="form-control form-control-checkbox" (change)="handleCompanyAccounCheckbox($event)"
+                        type="checkbox" [checked]="isCompanyAccount" name="rememberMe" value="true"
+                        [disabled]="isFreeAccount " />Company Account?
+                    <span></span>
+                </label>
+            </div>
+
+            <div class="m-login__form-action">
+                <button type="submit" class="btn btn-primary m-btn m-btn--custom m-btn--air"
+                    [disabled]="(!loginForm.valid)">{{"LogIn" | localize}}</button>
+            </div>
+        </form>
+
+    </div>
+</div>

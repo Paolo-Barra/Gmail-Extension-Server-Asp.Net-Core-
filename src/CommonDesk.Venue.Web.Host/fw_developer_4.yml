@@ -1,0 +1,28 @@
+authtoken: 7cXxTGrCRE5rUtFkXF4eP_uzkr5fsZSz1EohAsFHwB
+region: us
+
+#log_level: debug
+#log_format: term
+#log: stdout
+
+tunnels:
+  web:
+    proto: http
+    addr: 4200
+    hostname: cddevweb4.ngrok.io
+    host_header: localhost:4200
+    bind_tls: true
+  service:
+    proto: http
+    hostname: cddevservice4.ngrok.io
+    addr: 5172
+    host_header: localhost:5172
+    bind_tls: true
+  back:
+    proto: http
+    addr: 22742
+    hostname: cddevback4.ngrok.io 
+    host_header: localhost:22742
+    bind_tls: true
+
+

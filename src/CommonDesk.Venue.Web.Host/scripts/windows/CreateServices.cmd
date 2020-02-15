@@ -1,0 +1,3 @@
+﻿sc create VenueEmailListener   binPath= "\"d:\VenueSyncService\bin\VenueSyncService.exe\" -s -q messagelistener:LocalHost_0Listener_Debug" 
+sc create VenueRulesListener   binPath= "\"d:\VenueSyncService\bin\VenueSyncService.exe\" -s -q rulelistener:LocalHost_RuleListener"
+sc create VenueHistoryListener binPath= "\"d:\VenueSyncService\bin\VenueSyncService.exe\" -s -q historylistener:LocalHost_HistoryListener"

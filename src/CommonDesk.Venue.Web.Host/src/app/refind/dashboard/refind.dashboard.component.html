@@ -1,0 +1,126 @@
+<div>
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-xs-12">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>Dashboard</span>
+                </h3>
+                <span class="m-section__sub">
+                    Learn more about refind for Email
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isAccountCreated() == false">
+            <h4 style="text-align:center">
+                <BR>
+                Please import your account before visiting this screen.
+            </h4>
+    </div>
+
+
+    <div class="m-content" *ngIf="isAccountCreated() == true">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body" style="padding: 0px;">
+                <div class="table-scrollable table-scrollable-borderless">
+                    <h4>For the account <B>{{getEmailAddress()}}</B> we found <B>{{ data.TotalMessagsCount }}</B> messages during <B>{{ data.StartDateRange }}</B> to <B>{{ data.EndDateRange }}</B></h4>
+                    <BR><BR>
+                    <table>
+                        <tr>
+                            <td width="%">
+                                <h5 style="text-align:center;">Sent/Recieved - percentage</h5>
+                            </td>
+                            <td>
+                                <h5 style="text-align:center;">Recived message count - over time </h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <Td width="40%">
+                                <ngx-charts-pie-chart [view]="[400, 250]" [scheme]="colorScheme" [results]="messagesSentVsRecieved"
+
+                                    [gradient]="gradient" [legend]="false" [legendPosition]="legendPosition"
+                                    [maxLabelLength]="15" [trimLabels]="false" [labels]="showLabels"
+                                    [doughnut]="isDoughnut" (select)="onSelect($event)" (activate)="onActivate($event)"
+                                    (deactivate)="onDeactivate($event)">
+                                </ngx-charts-pie-chart>
+                            </Td>
+ 
+                            <Td>
+                                <ngx-charts-bar-vertical [view]="[600, 225]" [scheme]="colorScheme" [results]="messagesPerDay"
+                                    [gradient]="gradient" [legend]="false" [xAxis]="showXAxis" [yAxis]="showYAxis"
+                                    [legend]="showLegend" [showXAxisLabel]="false" [showYAxisLabel]="false"
+                                    [xAxisLabel]="" (select)="onSelect($event)">
+                                </ngx-charts-bar-vertical>
+                            </Td> 
+                        </tr>
+                    </table>
+
+
+                </div>
+                <div class="table-scrollable table-scrollable-borderless">
+
+                        <h4>Of the {{ data.TotalMessagsCount }} messages we've identifyed {{ data.TotalSenders }} unique senders</h4>
+                        <div>For those senders we've develope a way to categorise them into several groups</div>
+                        <BR>
+                            <ul>
+                                <li *ngFor="let row of downloadedGroupTitles">
+                                    <B>{{row.Category}}</B> - {{row.Description}}</li>
+                            </ul>
+
+                    <BR><BR>
+                    <table >
+                        <tr>
+                            <td width="60%">
+                                <h5>Messages per group</h5>
+                            </td>
+                            <td>
+                                <h5>Explanation </h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <Td width="60%">
+                                <ngx-charts-bar-horizontal [view]="[675, 175]" [scheme]="colorScheme" [results]="messagesPerGroupJson"
+                                    [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegendh"
+                                    [showXAxisLabel]="false" [showYAxisLabel]="false" [xAxisLabel]=""
+                                    [yAxisLabel]="yAxisLabel" [showDataLabel]="showDataLabel"
+                                    (select)="onSelect($event)" (activate)="onActivate($event)"
+                                    (deactivate)="onDeactivate($event)">
+                                </ngx-charts-bar-horizontal>                                
+                            </Td>
+                            <td valign="top">
+                                This chart show the number of messages that would be categorized in each of our groups.
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <table>
+                        <tr>
+                            <td width="60%">
+                                <h5>Unique senders per group</h5>
+                            </td>
+                            <td>
+                                <h5>Explanation</h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <Td width="60%">
+                                <ngx-charts-bar-horizontal [view]="[675, 175]" [scheme]="colorScheme" [results]="uniqueSendersPerGroup"
+                                    [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegendh"
+                                    [showXAxisLabel]="false" [showYAxisLabel]="false" [xAxisLabel]=""
+                                    [yAxisLabel]="yAxisLabel" [showDataLabel]="showDataLabel"
+                                    (select)="onSelect($event)" (activate)="onActivate($event)"
+                                    (deactivate)="onDeactivate($event)">
+                                </ngx-charts-bar-horizontal>                                
+                            </Td>
+                            <Td valign="top">
+                                This chart show the number of messages that would be categorized in each of our groups.
+                            </Td>
+                        </tr>
+                    </table>
+
+            </div>
+        </div>
+    </div>
+</div>

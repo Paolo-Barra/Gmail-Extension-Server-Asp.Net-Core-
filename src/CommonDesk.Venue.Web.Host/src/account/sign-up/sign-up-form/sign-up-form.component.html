@@ -1,0 +1,93 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+    <label>
+        Name:
+        <div class="form-group m-form__group">
+            <input autoFocus class="form-control m-input" type="text" autocomplete="off" placeholder="First"
+                formControlName="firstName" />
+            <div *ngIf="submitted && registerForm.controls['firstName'].invalid" class="alert alert-danger">
+                <div *ngIf="registerForm.controls['firstName'].errors.required">
+                    First Name is required.
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group m-form__group">
+            <input class="form-control m-input" type="text" autocomplete="off" placeholder="Last"
+                formControlName="lastName" />
+            <div *ngIf="submitted && registerForm.controls['lastName'].invalid" class="alert alert-danger">
+                <div *ngIf="registerForm.controls['lastName'].errors.required">
+                    Last Name is required.
+                </div>
+            </div>
+        </div>
+
+    </label>
+
+    <br />
+
+    <label>
+        Account Type:
+    </label>
+
+    <br />
+
+    <mat-radio-group class="tp-radio-group" formControlName="accountType">
+        <mat-radio-button class="tp-radio-button" style="padding: 10px;" *ngFor="let type of accountTypes"
+            [value]="type">
+            {{type}}
+        </mat-radio-button>
+        <div *ngIf="submitted && registerForm.controls['accountType'].invalid" class="alert alert-danger">
+            <div *ngIf="registerForm.controls['accountType'].errors.required">
+                Account types is required
+            </div>
+        </div>
+    </mat-radio-group>
+    <!-- 
+    <div class="row" style="padding: 12px;">
+        <div style="float: left; width: 50%;">
+            <label>
+                Number of email accounts:
+            </label>
+            <p style="font-size: 0.8em;">
+                Note: For our beta launch, Refind supports one email account.
+                A future release will support more accoun
+            </p>
+        </div>
+        <div class="float: right; width: 50%; margin-left: 10px;">
+            <mat-form-field>
+                <mat-select placeholder="Number of email address" formControlName="numberOfEmailAccounts">
+                    <mat-option [value]="number" *ngFor="let number of numberOfAccounts" selected>{{number}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+    </div>
+
+     <mat-step [stepControl]="">
+    <ng-template matStepLabel>Details</ng-template>
+    <div>
+      <p>This is a list of email problems that many users experience</p>
+      <p>Please check the options that apply to your experience</p>
+      <app-email-problem-checkbox></app-email-problem-checkbox>
+      <div style="float:right;">
+        <button mat-button matStepperPrevious class="btn btn-primary m-btn m-btn--custom m-btn--air">Back</button>
+        <button (click)="saveFormData()"      class="btn btn-primary m-btn m-btn--custom m-btn--air">Next</button>
+      </div>
+    </div>
+  </mat-step> -->
+<!-- 
+      <mat-radio-group class="tp-radio-group" formControlName="accountType">
+        <mat-radio-button class="tp-radio-button" style="padding: 10px;" *ngFor="let type of accountTypes"
+          [value]="type">
+          {{type}}
+        </mat-radio-button>
+        <div *ngIf="submitted && registerForm.controls['accountType'].invalid" class="alert alert-danger">
+          <div *ngIf="registerForm.controls['accountType'].errors.required">
+            Account types is required
+          </div>
+        </div>
+      </mat-radio-group> 
+    
+        -->
+</form>

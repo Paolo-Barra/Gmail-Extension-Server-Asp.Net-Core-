@@ -1,0 +1,106 @@
+<!-- 
+
+Displays a list of inuse recipes and cookbooks and alows user to click on the details of each recipes
+
+-->
+<div>
+    <div class="m-3 row" >
+        <div class="col-sm">
+             <h5>Inuse {{logic.viewMode}} that customize your inbox</h5>
+        </div>
+        <div class="col-sm text-right">
+            <button class="btn btn-primary" (click)="logic.addButtonClick(logic.viewMode)">
+                Add a new {{logic.viewAddText}}
+            </button>
+        </div>
+    </div>
+
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="container">
+                <!-- <ul class="nav nav-tabs">
+                    <li class="nav-link m-tabs__link underlineCustom active"
+                        [class.active]="logic.viewMode == 'Recipes'" rel="Recipes" (click)="logic.selectRecipesTab()">
+                        Recipes</li>
+                    <li class="nav-link m-tabs__link underlineCustom" rel="Cookbooks"
+                        [class.active]="logic.viewMode == 'Cookbooks'" (click)="logic.selectCookbooksTab()">Cookbooks
+                    </li>
+
+                </ul> -->
+                <div class="tab-content" [ngSwitch]="logic.viewMode">
+
+                    <div id="tab1" class="tab-slider--body" *ngSwitchCase="'Recipes'">
+                        <div *ngIf="logic.anyRecipesInstalled() == false">
+                            <h4 style="text-align:center">
+                                No Recipes are installed
+                            </h4>
+                        </div>
+                        <div *ngIf="logic.anyRecipesInstalled() == true"
+                            class="table-scrollable table-scrollable-borderless">
+                            <table class="table table-hover table-light">
+                                <thead>
+                                    <tr class="uppercase">
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let row of logic.RecipeList">
+                                        <td>
+                                            <div class="stat-name">{{ row.Name }}</div>
+                                        </td>
+                                        <td>
+                                            <div class="stat-name">{{ row.Values['TemplateName']}}</div>
+                                        </td>
+                                        <td>
+                                            <div class="form-inline">
+                                                <button class="btn btn-primary"
+                                                    (click)='logic.recipeDetailsButtonClicked(row)'>Details</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="tab2" class="tab-slider--body" *ngSwitchCase="'Cookbooks'">
+                        <div *ngIf="logic.anyCookbooksInstalled() == false">
+                            <h4 style="text-align:center">
+                                No Cookbooks are installed
+                            </h4>
+                        </div>
+                        <div *ngIf="logic.anyCookbooksInstalled() == true"
+                            class="table-scrollable table-scrollable-borderless">
+                            <table class="table table-hover table-light">
+                                <thead>
+                                    <tr class="uppercase">
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let row of logic.CookbookList">
+                                        <td>
+                                            <div class="stat-name">{{ row.Name }}</div>
+                                        </td>
+                                        <td>
+                                            <div class="stat-name">{{ row.Values['TemplateName'] }}</div>
+                                        </td>
+                                        <td>
+                                            <div class="form-inline"><button class="btn btn-primary"
+                                                    (click)="logic.cookbookDetailsButtonClicked(row)">Details</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

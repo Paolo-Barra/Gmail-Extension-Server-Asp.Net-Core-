@@ -1,0 +1,19 @@
+{
+  "remoteServiceBaseUrl": "http://10.1.1.56:22742",
+  "appBaseUrl": "http://10.1.1.56:4200",
+  "refindBackendUrl": "http://localhost:5172/venue",
+  "localeMappings": [
+    {
+      "from": "pt-BR",
+      "to": "pt"
+    },
+    {
+      "from": "zh-CN",
+      "to": "zh"
+    },
+	{
+		"from": "he-IL",
+		"to": "he"
+	}
+  ]
+}

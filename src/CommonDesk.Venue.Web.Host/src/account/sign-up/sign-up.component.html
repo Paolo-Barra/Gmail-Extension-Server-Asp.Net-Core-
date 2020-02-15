@@ -1,0 +1,60 @@
+<mat-horizontal-stepper [linear]="true" #stepper [@.disabled]="true">
+
+  <mat-step [stepControl]="">
+    <ng-template matStepLabel>Register</ng-template>
+    <div class="refind-signup-info">
+
+      <h4 class="signup-title">Signup for ReFind</h4>
+
+      <p>Congratualtions on your decision to use reFind for Email.</p>
+      <p>The process of creating your account requires ReFind to access your email account using OAuth credentials.<p>
+
+          <p>Refind uses your Oauth login for several reasons.</p>
+          <ol>
+            <li>We will your Gmail or Microsoft Auth Login as the primary login for the ReFind Website</li>
+            <li>Using your credentials we will monitor all the messages you recieve</li>
+            <li>We will scan your email history to determine the best ways for you to manage your email.</li>
+          </ol>
+
+          <p>We have a strict security policy and will never disclose or sell any information we learn about you.</p>
+
+          <p>More information on our security policies can be found <a href="#">HERE</a></p>
+
+          <mat-checkbox [checked]="confirmed" (change)="onCheckboxChanged($event)">
+            Please check this box to confirm that you understand and agree with out policys.
+          </mat-checkbox>
+    </div>
+    <BR><BR>
+
+
+    <div style="float: right;">
+      <button mat-button matStepperNext class="btn btn-primary m-btn m-btn--custom m-btn--air">Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step>
+    <div class="refind-signup-info">
+      <h4 class="signup-title">Select account type</h4>
+      <p>Please select the account type you would like to use as your prmimary account</p>
+
+    </div>
+    <BR><BR>
+
+      <ng-container *ngIf="this.error !== ''">
+      <p style="color: red">{{this.error}}</p>
+    </ng-container>
+
+    <ng-template matStepLabel>Done</ng-template>
+    <!-- show the oauth icons and allow user to select one -->
+    <div class="login-options" *ngIf="loginService.externalLoginProviders.length > 0">
+      <ul class="social-login-icons">
+        <li *ngFor="let provider of loginService.externalLoginProviders">
+          <a class="social-login-icon social-icon-color {{provider.icon}}" (click)="externalCreateAccount(provider)"
+            title="{{provider.name}}">
+            <img src="assets/common/images/social/{{provider.name}}.login.png" height="70" width="70" />
+          </a>
+        </li>
+      </ul>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

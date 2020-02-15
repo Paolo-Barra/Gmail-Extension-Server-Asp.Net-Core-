@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [      
+      {
+        "label": "build",
+        "command": "dotnet",
+        "type": "shell",
+        "args": [
+            "build"
+        ],
+        "options": {
+            "cwd": "${workspaceRoot}/CommonDesk.Venue.Web.Host"
+        },
+        "group": {
+            "kind": "build",
+            "isDefault": true
+        },
+        "presentation": {
+            "echo": true,
+            "reveal": "always",
+            "focus": false,
+            "panel": "shared"
+        },
+        "problemMatcher": "$msCompile"
+      }      
+    ]
+  }

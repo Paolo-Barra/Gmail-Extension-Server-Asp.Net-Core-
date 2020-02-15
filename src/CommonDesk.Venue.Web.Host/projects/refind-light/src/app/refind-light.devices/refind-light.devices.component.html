@@ -1,0 +1,50 @@
+﻿<div>
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto col-xs-12">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    <span>Devices</span>
+                </h3>
+                <span class="m-section__sub">
+                    Manage your Devices
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-content">
+        <div class="m-portlet m-portlet--mobile">
+            <div class="m-portlet__body" style="padding: 0px;"> 
+                <div class="table-scrollable table-scrollable-borderless">
+                    <table class="table table-hover table-light table-responsive">
+                        <thead>
+                            <tr class="uppercase">
+                                <th> 
+                                    Device Name 
+                                </th>
+                                <th>
+                                    Device Model 
+                                </th>
+                                <th>
+                                    Last Contact Date 
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let devicedata of logic.getDevicerecords">
+                                <td> {{devicedata.DeviceName}}</td>
+                                <td>{{ devicedata.DeviceModel }}</td>
+                                <td>{{ devicedata.LastContactDate }}</td>
+                            </tr>
+
+                            <tr *ngIf="logic.getDevicerecords==undefined || logic.getDevicerecords==null" style="text-align: center;font-weight: 600;">
+                                <td> Nothing To display</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> 
+            </div>
+        </div>
+    </div>
+
+</div>

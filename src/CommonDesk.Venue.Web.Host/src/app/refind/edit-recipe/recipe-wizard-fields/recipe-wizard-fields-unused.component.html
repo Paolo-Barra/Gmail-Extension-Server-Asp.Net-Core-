@@ -1,0 +1,142 @@
+
+<!-- 
+    Non Working 
+    Input Field that displays a Use All Categories 
+    R/W: logic.DataValues.FieldToMatch
+-->
+<div *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Use All Categories'">
+    <div class="form-group m-form__group">
+        <label for="Use_All_Categories" class="m-checkbox">
+            <input id="Use_All_Categories" class="m-check" type="checkbox" name="Use_All_Categories"
+                [(ngModel)]="logic.DataValues.FPC_UseAllCategories">
+            <h6>Use All Categories</h6>
+            <span></span>
+        </label>
+    </div>
+</div>
+<!-- 
+    Checkbox Field that displays - Use Full Names 
+    R/W: logic.DataValues.FPC_UseFullNames
+-->
+<div *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Use Full Names'">
+    <div class="form-group m-form__group">
+        <label for="Use_Full_Names" class="m-checkbox">
+            <input id="Use_Full_Names" class="m-check" type="checkbox" name="Use_Full_Names"
+                [(ngModel)]="logic.DataValues.FPC_UseFullNames">
+            <h6>Use Full Names</h6>
+            <span></span>
+        </label>
+    </div>
+</div>
+<!-- 
+    Checkbox Field that displays - Group by Category
+    R/W: logic.DataValues.FPC_GroupByCategory
+-->
+<div *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Group by Category'">
+    <div class="form-group m-form__group">
+        <label for="Group_by_Category" class="m-checkbox">
+            <input id="Group_by_Category" class="m-check" type="checkbox" name="Group_by_Category"
+                [(ngModel)]="logic.DataValues.FPC_GroupByCategory">
+            <h6> Group by Category</h6>
+            <span></span>
+        </label>
+    </div>
+</div>
+
+<!-- 
+    Checkbox Field that displays - Messages by Industry in one venue
+    R/W: logic.DataValues.FPC_GroupByCategory
+-->
+<div *ngIf="aComponent.Widget=='Switch' && aComponent.Name=='Messages by Industry in one venue'">
+    <div class="form-group m-form__group">
+        <label for="Messages_by_Industry_in_one_venue" class="m-checkbox">
+            <input id="Messages_by_Industry_in_one_venue" class="m-check" type="checkbox"
+                name="Messages_by_Industry_in_one_venue" [(ngModel)]="logic.DataValues.FPC_GroupByCategory">
+            <h6>Messages by Industry in one venue</h6>
+            <span></span>
+        </label>
+    </div>
+</div>
+
+<!-- 
+    Checkbox Field that displays - Meetup Groups 
+    Used in the Meetup Groups template 
+    R/W: logic.DataValues.FolderSearch
+-->
+<div class="form-group m-form__group"
+    *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Meetup Groups'">
+    <h6>Meetup Groups</h6>
+    <div class="CustomBorder">
+        <div *ngFor="let row of logic.CheckboxDataSet">
+            <label for="Meetup_Groups{{row.Category}}" class="m-checkbox">
+                <input id="Meetup_Groups{{row.Category}}" class="m-check" type="checkbox"
+                    checked="{{row.IsCustomListChecked}}" name="Meetup_GroupsCheck"
+                    (change)="logic.onListChange('MeetupGroup',row.Category,$event.target.checked)">
+                <p>{{row.Category}}-User Category</p>
+                <span></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- 
+    Checkbox Field that displays - Facebook  Groups 
+    Used in the Facebook Groups template 
+    R/W: logic.DataValues.FolderSearch
+-->
+<div *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Facebook Groups'">
+    <div class="form-group m-form__group">
+        <h6>Facebook Groups</h6>
+        <div class="CustomBorder">
+            <div *ngFor="let row of logic.CheckboxDataSet">
+                <label for="Facebook_Groups{{row.Category}}" class="m-checkbox">
+                    <input id="Facebook_Groups{{row.Category}}" class="m-check" type="checkbox"
+                        checked="{{row.IsCustomListChecked}}" name="Facebook_GroupsCheck"
+                        (change)="logic.onListChange('FaceBookGroup',row.Category,$event.target.checked)">
+                    <p>{{row.Category}}-User Category</p>
+                    <span></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 
+    Checkbox Field that displays - Google Alerts 
+    Used in the Facebook Groups template 
+    R/W: logic.DataValues.FolderSearch
+-->
+<div *ngIf="aComponent.Widget=='ListEditor_RemoteOptions' && aComponent.Name=='Google Alerts'">
+    <div class="form-group m-form__group">
+        <h6>Google Alerts</h6>
+        <div class="CustomBorder">
+            <div *ngFor="let row of logic.CheckboxDataSet">
+                <label for="Google_Alerts{{row.Category}}" class="m-checkbox">
+                    <input id="Google_Alerts{{row.Category}}" class="m-check" type="checkbox"
+                        checked="{{row.IsCustomListChecked}}" name="Google_AlertsCheck"
+                        (change)="logic.onListChange('GoogleGroup',row.Category,$event.target.checked)">
+                    <p>{{row.Category}}-User Category</p>
+                    <span></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 
+    Dropdown Field that displays a list of broker types
+    Used in the Facebook Groups template 
+    R/W: logic.DataValues.FolderSearch
+-->
+<div *ngIf="aComponent.Widget=='SingleSelect_RemoteOptions' && aComponent.Name=='Categories'">
+    <div class="form-group m-form__group">
+        <h6 for="Categories">Categories</h6>
+        <select id="Categories" name="Categories" class="form-control" [(ngModel)]="logic.DataValues.VenueTreeByTime">
+            <option value="DateRangeByWeek">Exclusive,Co-Broker,Closing,Complete-</option>
+            <option value="DateRangeByMonth">Active,Closing,Complete-</option>
+            <option value="DateRangeByMonth">No Categories-</option>
+        </select>
+        <small id="emailHelp" class="form-text text-muted">Pick from a list of built-in categories to use.</small>
+    </div>
+</div>

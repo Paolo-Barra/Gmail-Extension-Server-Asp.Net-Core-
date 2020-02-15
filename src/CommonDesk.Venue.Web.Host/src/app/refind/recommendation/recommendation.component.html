@@ -1,0 +1,196 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto col-xs-6">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                Recommendations
+            </h3>
+            <span class="m-section__sub">
+                Recommendations on your Account
+            </span>
+        </div>
+    </div>
+</div>
+
+<ng-container *ngIf="logic.hasNoElements()">
+    <BR><BR>
+    <h4 style="text-align:center">
+        No Recommendations at this time
+    </h4>
+</ng-container>
+<ng-container *ngIf="logic.hasElements()">
+    <table class="recommendation-content">
+        <tbody>
+            <mat-accordion *ngFor="let rBlock of logic.getVisibleRecommentations()" [ngSwitch]="rBlock.Type"
+                [displayMode] c='default' class="mat-elevation-z11">
+
+                <ng-container *ngIf="logic.isRecommendationDismissed(rBlock)==false">
+                    <!-- Display the Recommendation Header row -->
+                    <mat-expansion-panel [expanded]="logic.isExpanded(rBlock)" (opened)="logic.rowExpandedEvent(rBlock)"
+                        (closed)="logic.rowCollapsedEvent(rBlock)">
+                        <!-- show the recommendation header -->
+                        <mat-expansion-panel-header class="right-aligned-header" [collapsedHeight]="'40px'"
+                            expandedHeight="auto">
+
+                            <ng-container *ngIf="rBlock.Type == logic.rTypes.ProgressBlock">
+                                <mat-panel-title>
+                                    <h3>{{ rBlock.Message }}</h3>
+                                </mat-panel-title>
+                                <mat-panel-description>{{ rBlock.SubMessage }}</mat-panel-description>
+                            </ng-container>
+
+                            <ng-container *ngIf="rBlock.Type == logic.rTypes.RecommendationBlock">
+                                <mat-panel-title>
+                                    <h3>{{ rBlock.Message }}</h3>
+                                </mat-panel-title>
+                                <mat-panel-description>{{ rBlock.SubMessage }}
+                                </mat-panel-description>
+                            </ng-container>
+
+                            <!-- show the tags on the right side of the header -->
+                            <div class="recommendation-badge">
+                                <ng-container *ngFor="let tag of logic.getRecDisplayTags(rBlock)"
+                                    class="recommendation-badge">
+                                    <span [ngClass]="logic.getStyleForTag(tag)">{{ tag.Message }}</span>
+                                </ng-container>
+                            </div>
+                        </mat-expansion-panel-header>
+
+                        <!-- Show the X button to remove the row and dismiss this recommendation -->
+                        <mat-icon class="remove-recommendation" aria-label="Remove recommendation"
+                            (click)="logic.dismissRecommendation(rBlock)" style="visibility: visible; cursor: pointer;">
+                            clear
+                        </mat-icon>
+
+
+                        <ng-container>
+                            <!-- T={{ rBlock.Type }} - ST={{ rBlock.SubType }} - Vi={{ rBlock.Visible }}  -->
+                            <!-- Display the recomendation window that shows status messages changing -->
+
+                            <ng-container *ngIf="rBlock.Type == logic.rTypes.ProgressBlock">
+
+                                <ng-container *ngFor="let rField of logic.getRecomendationFields(rBlock)">
+                                    <div>
+                                        <B>{{rField.Header}}</B>
+                                        <div [innerHTML]="rField.Message"></div>
+                                    </div>
+                                    <div>
+                                        <ng-container *ngFor="let aField of rField.ActionFields"  [ngSwitch]="aField.ActionField">
+                                            <ng-container *ngSwitchCase="logic.actionWidget.Button">
+                                                <button class="btn btn-primary btn-sm"
+                                                    (click)="logic.recommendationActionButtonClicked(rBlock, aField)">{{aField.Title}}</button>
+                                            </ng-container>
+
+                                            <ng-container *ngSwitchCase="logic.actionWidget.Checkbox">
+                                                <mat-checkbox checked="aField.Args[0]">
+                                                    {{aField.Title}}
+                                                </mat-checkbox>
+                                                <BR>
+                                            </ng-container>
+
+                                            <ng-container *ngSwitchCase="logic.actionWidget.Toggle">
+                                            </ng-container>
+
+                                            <ng-container *ngSwitchCase="logic.actionWidget.StatusBar1">
+                                                <B>Status: </B><span
+                                                    [innerHTML]="logic.welcomeListener.statusMessages"></span>
+                                                <BR>
+                                            </ng-container>
+
+                                            <ng-container *ngSwitchCase="logic.actionWidget.DropDown">
+                                                {{aField.Title}} --
+                                                {{ logic.getControlBindByAction(aField.ActionField)}}<BR>
+                                            </ng-container>
+                                            <!-- <ng-container *ngIf="aField.Footer.length > 0">
+                                            <div [innerHTML]="aField.Footer"></div>
+                                        </ng-container> -->
+
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+
+
+
+                            <!-- Display a Recommendation  without the changing recomendations  -->
+                            <ng-container *ngIf="rBlock.Type == logic.rTypes.RecommendationBlock">
+                                <ng-container *ngFor="let rField of logic.getRecomendationFields(rBlock)">
+                                    <div>
+                                        <B [innerHTML]="rField.Header"></B>
+                                        <div [innerHTML]="rField.Message"></div>
+                                    </div>
+                                    <ng-container *ngFor="let aField2 of rField.ActionFields"
+                                        [ngSwitch]="aField2.ActionField">
+                                        <ng-container *ngSwitchCase="logic.actionWidget.Button">
+                                            <button class="btn btn-primary btn-sm"
+                                                (click)="logic.recommendationActionButtonClicked(rBlock, aField2)">
+                                                {{aField2.Title}}
+                                            </button>
+                                        </ng-container>
+
+                                        <ng-container *ngSwitchCase="logic.actionWidget.Checkbox">
+                                            <mat-checkbox checked="logic.bindMap[aField2.ActionType]" value="aField2">
+                                                {{aField2.Title}}
+                                            </mat-checkbox>
+                                        </ng-container>
+
+                                        <ng-container *ngSwitchCase="logic.actionWidget.Toggle">
+                                        </ng-container>
+
+                                        <ng-container *ngSwitchCase="logic.actionWidget.StatusBar1">
+                                            <B>Status: </B><span
+                                                [innerHTML]="logic.welcomeListener.statusMessages"></span>
+                                            <BR><BR>
+                                        </ng-container>
+
+                                        <ng-container *ngSwitchCase="logic.actionWidget.DropDown">
+                                            <label class="recActionsAlign">{{aField2.Title}}</label>
+                                            <select [(ngModel)]="logic.bindMap[aField2.ActionType]">
+                                                <option *ngFor="let ddElement of aField2.DropDownList"
+                                                    [value]="ddElement.Action">
+                                                    {{ddElement.Message}}
+                                                </option>
+                                            </select>
+                                            <BR>
+                                        </ng-container>
+                                        <!-- <ng-container *ngIf="aField2.Footer.length > 0">
+                                                <div [innerHTML]="aField2.Footer"></div>
+                                            </ng-container> -->
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+
+                            <!-- Display a Recommendation  Bar -->
+                            <ng-container *ngIf="rBlock.Type == logic.rTypes.RecommendationBlockChart">
+                                <ng-container *ngFor="let rField of logic.getRecomendationFields(rBlock)">
+                                    <B>{{rField.Header}}</B><br>
+                                    <div [innerHTML]="rField.Message"></div>
+                                    <BR>
+                                    <ng-container *ngFor="let aField3 of rField.ActionFields"
+                                        [ngSwitch]="aField3.ActionField">
+                                        <ng-container *ngSwitchCase="logic.actionWidget.Button">
+                                            <button class="btn btn-primary btn-sm"
+                                                (click)="logic.recommendationActionButtonClicked(rBlock, aField3)">{{aField.Title}}</button>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="logic.actionWidget.Checkbox">
+                                            <mat-checkbox checked="aField3.Args[0]">
+                                                {{aField3.Title}}
+                                            </mat-checkbox>
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="logic.actionWidget.Toggle">
+                                        </ng-container>
+                                        <ng-container *ngSwitchCase="logic.actionWidget.DropDown">
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </mat-expansion-panel>
+
+
+                </ng-container>
+            </mat-accordion>
+        </tbody>
+    </table>
+    <BR><BR><BR><BR><BR><BR>
+</ng-container>

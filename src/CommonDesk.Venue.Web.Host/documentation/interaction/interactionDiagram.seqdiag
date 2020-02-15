@@ -1,0 +1,19 @@
+SignupForm.html->SignupForm.html: Display instructions  AccountRegisrationService
+SignupForm.html->SignupForm.ts: SaveUserDetails()
+SignupForm.html->SignupForm.ts: SendUserData()
+SignupForm.html->SignupForm.ts: externalCreateAccount()
+SignupForm.ts->RefindLoginService.ts: LoginWithExternalProvider()
+RefindLoginService.ts->RefindLoginService.ts: startLoginAccountWithGoogleOauth()
+RefindLoginService.ts->GoogleOauthService: Select Account
+GoogleOauthService->GoogleOauthService: Select Permissions
+GoogleOauthService->postCreateOauthLandingPage: processlogin()
+postCreateOauthLandingPage->ReFindLoginService.ts: completeAccountCreationWithGoogleAuth()
+ReFindLoginService.ts->ReFindLoginService.ts: getProfileFromGoogleAuthResult()
+ReFindLoginService.ts->ReFindLoginService.ts: getValueFromGoogleAuthResult()
+ReFindLoginService.ts->AccountRegistration.ts: CreateOAuthToken()
+AccountRegistration.ts->RefineServiceProxy.ts: CreateOAuthToken()
+ReFindLoginService.ts->AccountRegistration.ts: Login()
+
+AccountRegistration.ts->ReFindLoginService.ts: loginToAspNetZeroBackend()
+ReFindLoginService.ts->ReFindLoginService.ts: Login()
+AspNetZeroBackend->AspNetZeroFrontEnd: load route app/main/dashboard"

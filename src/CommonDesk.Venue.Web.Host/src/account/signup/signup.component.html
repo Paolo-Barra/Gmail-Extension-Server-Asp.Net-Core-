@@ -1,0 +1,93 @@
+<div class="sign-up-container">
+
+  <div
+    style="background-color:  #2B78E4; padding: 9px; color: white; width: 100%; border-radius: 7px; margin: 15px 0; height: 40px;">
+    <p style="margin-top: 0; margin-bottom: 0; font-size: 1.2em;">Get started with Refind in 5 minutes</p>
+  </div>
+
+
+  <form [formGroup]="registerForm" (ngSubmit)="handleSubmit($event)">
+
+
+    <div class="account-type">
+      <mat-radio-group aria-labelledby="account-type" formControlName="accountType">
+        <mat-radio-button class="example-radio-button" *ngFor="let type of accountTypeArray" [value]="type">
+          {{type}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div *ngIf="submitted && registerForm.controls['accountType'].invalid" class="alert alert-danger">
+      <div *ngIf="registerForm.controls['accountType'].errors.required">
+        Please select an account type
+      </div>
+    </div>
+
+
+
+    <div class="signup-code-container" *ngIf="!isAccessCodeCookieValidated">
+      <label for="signup-beta-code" style="width: 45%; font-size: 13px; margin-top: 0.6em;">Access Code</label>
+      <input class="form-control m-input" type="text" autocomplete="off" formControlName="accessCode" />
+      <button type="button" class="btn btn-primary" (click)="handleOnBetaSignUpCode()">Validate</button>
+    </div>
+    <div #accessCodeValidation></div>
+
+    <div class="account-details">
+      <p style="width: 100%; display: table;">
+        <span style="display: table-cell; width: 100%; border-bottom: 1px solid #00000059;">Account Details </span>
+      </p>
+      <div class="form-fields">
+        <label class="important-field">
+          Name
+        </label>
+        <div class="form-group m-form__group" style="width: 73%">
+          <input autoFocus class="form-control m-input" type="text" autocomplete="off" formControlName="name" />
+          <div *ngIf="submitted && registerForm.controls['name'].invalid" class="alert alert-danger">
+            <div *ngIf="registerForm.controls['name'].errors.required">
+              Name is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-fields">
+        <label class="important-field">
+          Email Address
+        </label>
+
+        <div class="form-group m-form__group" style="width: 73%">
+          <input autoFocus class="form-control m-input" type="text" autocomplete="off" formControlName="email" />
+          <div *ngIf="submitted && registerForm.controls['email'].invalid" class="alert alert-danger">
+            <div *ngIf="registerForm.controls['email'].errors.required">
+              Email address is required.
+            </div>
+
+            <div *ngIf="registerForm.controls['email'].errors.email">
+              Email address is not valid.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-right: 20px; padding: 5px;">
+
+      <mat-checkbox (change)="handleCheckbox($event)" [checked]="agreeCheckbox">
+        I agree to the refind <a href="https://www.refind.email/TermsOfService.html">Terms of Usage</a> & <a
+          href="https://www.refind.email/PrivacyPolicy.html">Privacy Agreement</a>
+      </mat-checkbox>
+
+    </div>
+
+
+    <button type="submit" class="btn btn-primary"
+      [disabled]="!(isAccessCodeValid && agreeCheckbox && registerForm.valid)">Sign
+      Up</button>
+
+  </form>
+
+
+
+
+</div>

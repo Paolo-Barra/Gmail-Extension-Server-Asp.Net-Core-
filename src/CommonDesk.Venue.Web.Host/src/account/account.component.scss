@@ -1,0 +1,42 @@
+div.account-container {
+  position: absolute;
+  left: 200px;
+  right: 200px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+
+  border: 1px solid grey;
+
+  .refind-logo {
+    height: 100px;
+    width: 120px;
+    background: url("/assets/common/images/reFind-Logo.png");
+    background-repeat: no-repeat;
+  }
+}
+
+p {
+  color: red;
+}
+div {
+  margin-top: 50px;
+  position: absolute;
+  left: 100px;
+  right: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+
+  .refind-logo {
+    height: 100px;
+    width: 120px;
+    background: url("/assets/common/images/reFind-Logo.png");
+    background-repeat: no-repeat;
+  }
+}

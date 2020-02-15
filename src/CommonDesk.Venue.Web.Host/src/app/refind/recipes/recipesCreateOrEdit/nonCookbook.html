@@ -1,0 +1,170 @@
+<style>
+    div.scroll {
+        height: 800px;
+        overflow-y: auto;
+    }
+
+</style>
+<div class="scroll">
+
+    <div *ngIf="logic.isNotCookBookMode()">
+        <div [@routerTransition]>
+            <div class="m-subheader ">
+
+                <div class="d-flex align-items-center">
+                    <div class="mr-auto col-xs-6">
+                        <h3 class="m-subheader__title m-subheader__title--separator">
+                            <span>Edit Recipe</span>
+                        </h3>
+                        <span class="m-section__sub">
+                            Creates or updates a Recipe to process your messages
+                        </span>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <div *ngIf="logic.isSummaryPage() && logic.ShowButtons.includes('s') === false">
+                            <button class="btn btn-primary" (click)="logic.deleteRecipe()">Delete Recipe</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="logic.isFieldDebugMode()">
+                    <span style="white-space: nowrap;">
+                        PageName=[{{logic.CurrentPage}}]
+                        EditMode=[{{logic.EditMode}}]
+                        WizardPageNumber=[{{logic.WizardPageNumber}}]
+                        ShowButtons=[{{logic.ShowButtons}}]
+                        UseProgressGauge=[{{logic.UseProgressGauge}}]
+                    </span>
+                    <div class="m-portlet__body">
+                        <!-- *ngIf="logic.isNotSummaryPage()" -->
+                        <div class="form-group">
+                            <div *ngFor="let aComponent of logic.CurrentTemplatePage?.Components">
+                                <span style="white-space: nowrap;">
+                                    Name=[{{aComponent.Name}}] - Widget=[{{aComponent.Widget}}] <br>
+                                    Key=[{{aComponent.Key}}] - Value=[{{aComponent.Value}}]
+                                </span>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Show the receipe title and the delete  recipe button  -->
+                <div class="row" style="margin-top: 2em; ">
+                    <div class="col-10">
+                        <h4>{{logic.Template.Name}}</h4>
+                        {{logic.Template.Description}}
+                    </div>
+                </div>
+
+                <!-- show the progress indicator stepper-->
+                <div *ngIf="logic.UseProgressGauge">
+                    <BR>
+                    <stepper-progress [steps]="logic.ProgressGuageSteps" [activeIndex]="logic.WizardPageNumber"
+                        [currentPage]="logic.CurrentPage">
+                    </stepper-progress>
+                </div>
+
+                <recipe-wizard-page-leadin></recipe-wizard-page-leadin>
+
+                <!-- Display informational messages in blue bars etc. -->
+                <div *ngIf="logic.ShowButtons.includes('s') === true" class="alert alert-warning">
+                    Please review your choices and press SAVE if they are correct.
+                </div>
+
+                <div class="m-content">
+                    <!-- When NOT summary Mode. Show all of the fields -->
+                    <div *ngIf="logic.isNotSummaryPage()">
+                        <div *ngIf="logic.isDisplayPageValueValid()">
+                            <div *ngFor="let aComponent of logic.CurrentTemplatePage?.Components">
+                                <recipe-wizard-fields [aComponent]="aComponent"></recipe-wizard-fields>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- When displaying the summary page. Show the results in tabular format -->
+                    <ng-container *ngIf="logic.isSummaryPage() ">
+                        <ng-container *ngFor="let aPage of logic.Template.Pages">
+                            <!-- Display no section fields-->
+                            <ng-container *ngFor="let aComponent of aPage?.Components">
+                                <p>
+                                    <display-wizard-summary [aComponent]="aComponent"></display-wizard-summary>
+                                </p>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="logic.isCookBookMode()">
+            <div [@routerTransition]>
+                <recipe-wizard-headers></recipe-wizard-headers>
+                <div class="m-content">
+
+                    <div class="m-portlet m-portlet--mobile">
+                        <recipe-wizard-page-leadin></recipe-wizard-page-leadin>
+
+                        <div *ngIf="logic.isFieldDebugMode()">
+                            <span style="white-space: nowrap;">
+                                PageName=[{{logic.CurrentPage}}],CookbookMode=[{{logic.CookbookMode}}]
+                            </span>
+                            <span style="white-space: nowrap;">
+                                WizardPageNumber=[{{logic.WizardPageNumber}}],
+                            </span>
+
+
+                            <div class="m-portlet__body">
+                                <div *ngIf="logic.isNotSummaryPage()" class="form-group">
+                                    <div *ngFor="let aComponent of logic.CurrentTemplatePage?.Components">
+                                        <span style="white-space: nowrap;">
+                                            name= [{{aComponent.Name}}]
+                                            widget= [{{aComponent.Widget}}]
+                                            key= [{{aComponent.Key}}]
+                                            value= [{{aComponent.Value}}]
+                                        </span>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--for non Cookbook DisplayRecipeWizardFields-->
+                        <div *ngIf="logic.isNotSummaryPage()">
+                            <div *ngIf="logic.isDisplayPageValueValid()">
+                                <div *ngFor="let aComponent of logic.CurrentTemplatePage?.Components">
+                                    <div class="m-container">
+                                        <cookbook-wizard-fields [aComponent]="aComponent">
+                                        </cookbook-wizard-fields>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="logic.isSummaryPage() " class="form-group">
+                        <p>Summary page</p>
+
+                        <!-- <wizard-summary-table></wizard-summary-table> -->
+                        <!-- <div *ngFor="let aPage of logic.Template.Pages" style="border:1px solid lightgray;padding:10px">
+                    <div class="customFont"><b>{{aPage.Title}}</b></div>
+                    <div>{{logic.CookBookTemplate.Description}}</div>
+                    <div *ngFor="let aPage of logic.CookBookTemplate.Meta.Pages"
+                        style="border:1px solid lightgray;padding:10px">
+                        <div class="customFont"><b>{{aPage.Title}}</b></div>
+                        <div *ngFor="let aComponent of aPage.Components">
+                            <div class="m-container">
+
+                                <display-wizard-summary [aComponent]="aComponent"></display-wizard-summary>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                    </div>
+                    <recipe-wizard-page-footer></recipe-wizard-page-footer>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<recipe-wizard-page-footer></recipe-wizard-page-footer>
